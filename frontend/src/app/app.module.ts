@@ -13,6 +13,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     ToastrModule.forRoot(),
     FooterModule,
     FixedPluginModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

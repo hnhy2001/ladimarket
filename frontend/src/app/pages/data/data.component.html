@@ -1,0 +1,25 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"> Kiện hàng bom</h4>
+        <div>
+          <button type="submit" class="btn btn-primary" (click)="showData()">Giao việc</button>
+          <button type="submit" class="btn btn-warning" (click)="showData()">Delay</button>
+          <button type="submit" class="btn btn-danger" (click)="showData()">Huỷ</button>
+          <button type="submit" class="btn btn-success" (click)="showData()">Hoàn thành</button>
+          <button type="submit" class="btn btn-info" (click)="showData()">Gửi giao hàng</button>
+        </div>
+      </div>
+      <div class="card-body">
+          <jqxGrid #gridReference
+          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
+          [pageable]="true" [autoheight]="true" [autorowheight]="true" [sortable]="true" 
+          [filterable]="true" [showfilterbar]="true" [showfilterrow]="true" [filterbarmode]="'simple'"
+          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'">
+          </jqxGrid>
+      </div>
+    </div>
+  </div>
+</div>

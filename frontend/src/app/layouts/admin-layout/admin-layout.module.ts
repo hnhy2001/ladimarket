@@ -8,20 +8,23 @@ import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
 import { UserComponent }            from '../../pages/user/user.component';
 import { TableComponent }           from '../../pages/table/table.component';
+import { DataComponent }           from '../../pages/data/data.component';
 import { TypographyComponent }      from '../../pages/typography/typography.component';
 import { IconsComponent }           from '../../pages/icons/icons.component';
 import { MapsComponent }            from '../../pages/maps/maps.component';
 import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
 import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component';
-
+import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DanhMucService } from 'app/danhmuc.service';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
-    NgbModule
+    NgbModule,
+    jqxGridModule
   ],
   declarations: [
     DashboardComponent,
@@ -32,6 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     IconsComponent,
     MapsComponent,
     NotificationsComponent,
+    DataComponent
   ]
 })
 
