@@ -12,7 +12,11 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 export class DataComponent implements OnInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
-    source: any 
+    source: any
+    listStatus = [
+        {id: 0,label:"Chờ xử lý"},
+        {id: 1,label:"Đang xử lý"},
+    ];
 	getWidth() : any {
 		if (document.body.offsetWidth < 850) {
 			return '90%';
@@ -41,6 +45,10 @@ export class DataComponent implements OnInit{
         { text: 'Tỉnh', editable: false, datafield: 'state' , 'width':'80'},
         { 
             text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
+            filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
+            createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
+                editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
+            },
             cellsrenderer: (row: number, column: any, value: number): string => {
                 if(value === 0)
                 {

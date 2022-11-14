@@ -4,12 +4,17 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title"> Kiện hàng bom</h4>
-        <div>
-          <button type="submit" class="btn btn-primary" (click)="showData()">Giao việc</button>
-          <button type="submit" class="btn btn-warning" (click)="showData()">Delay</button>
-          <button type="submit" class="btn btn-danger" (click)="showData()">Huỷ</button>
-          <button type="submit" class="btn btn-success" (click)="showData()">Hoàn thành</button>
-          <button type="submit" class="btn btn-info" (click)="showData()">Gửi giao hàng</button>
+        <div class="row">
+          <div class="col-8">
+            <button type="" class="btn btn-primary" (click)="showData()">Giao việc</button>
+            <button type="" class="btn btn-warning" (click)="showData()">Delay</button>
+            <button type="" class="btn btn-danger" (click)="showData()">Huỷ</button>
+            <button type="" class="btn btn-success" (click)="showData()">Hoàn thành</button>
+            <button type="" class="btn btn-info" (click)="showData()">Gửi giao hàng</button>
+          </div>
+          <div class="col-4">
+            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+          </div>
         </div>
       </div>
       <div class="card-body">
@@ -21,5 +26,5 @@
           </jqxGrid>
       </div>
     </div>
-  </div>
+  </div> 
 </div>
