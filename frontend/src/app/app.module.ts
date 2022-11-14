@@ -14,12 +14,15 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClientModule } from "@angular/common/http";
+import { QRCodeModule } from "angularx-qrcode";
+import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    XuLyDuLieuPopupComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -32,9 +35,11 @@ import { HttpClientModule } from "@angular/common/http";
     FooterModule,
     FixedPluginModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [XuLyDuLieuPopupComponent]
 })
 export class AppModule { }

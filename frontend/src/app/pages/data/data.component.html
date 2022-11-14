@@ -3,10 +3,11 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title"> Kiện hàng bom</h4>
+        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
           <div class="col-8">
             <button type="" class="btn btn-primary" (click)="showData()">Giao việc</button>
+            <button type="" class="btn btn-primary" (click)="onProcessData($event)">Xử lý</button>
             <button type="" class="btn btn-warning" (click)="showData()">Delay</button>
             <button type="" class="btn btn-danger" (click)="showData()">Huỷ</button>
             <button type="" class="btn btn-success" (click)="showData()">Hoàn thành</button>
@@ -22,7 +23,9 @@
           [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
           [pageable]="true" [autoheight]="true" [autorowheight]="true" [sortable]="true" 
           [filterable]="true" [showfilterbar]="true" [showfilterrow]="true" [filterbarmode]="'simple'"
-          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'">
+          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
+          (onRowselect)="onRowSelect($event)"
+          >
           </jqxGrid>
       </div>
     </div>

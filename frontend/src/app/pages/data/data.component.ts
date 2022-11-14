@@ -1,8 +1,10 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 @Component({
@@ -64,10 +66,13 @@ export class DataComponent implements OnInit{
 
     listEntity = [];
 
+    selectedEntity:any;
+
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
-        private confirmDialogService: ConfirmationDialogService
+        private confirmDialogService: ConfirmationDialogService,
+        private modalService: NgbModal
     ){
         this.source =
         {
@@ -111,14 +116,23 @@ export class DataComponent implements OnInit{
           );
     }
     public showData(){
-        this.confirmDialogService.confirm("Xác nhận","Xác nhận xoá?")
-        .then((confirmed: any) => {
-            if (confirmed){
-                alert("Xoá thành công!");
-            }
-        })
-        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
-        return;
-        this.notificationService.showSuccess("Giao việc cho: " + this.myGrid.getselectedrowindexes().join("; "),"Success message")
+
+    }
+    public onProcessData(event:any):void{
+        if(!this.selectedEntity) {
+            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!")
+        }
+        const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
+    }
+    public onRowSelect(event:any):void{
+        this.selectedEntity = event.args.row;
     }
 }

@@ -1,0 +1,44 @@
+
+<div class="modal-body">
+  <div style="font-size: 18px;">
+    <b >Xử lý thông tin khách hàng</b>
+    <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+  </div>
+  <table class="table table-bordered" style="width:100%">
+    <tbody>
+      <tr>
+        <td colspan="2" class="text-center text-bold">Thông tin khách hàng: </td>
+      </tr>
+      <tr>
+        <td class="text-right" style="width:30%">Khách hàng:</td>
+        <td class="text-bold">{{data?data.name:''}}</td>
+      </tr>
+      <tr>
+        <td class="text-right">SĐT:</td>
+        <td class="text-bold">{{data?data.phone:''}}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Địa chỉ:</td>
+        <td>{{data?data.street:''}}</td>
+      </tr>
+      <tr>
+        <td class="text-right">Sản phẩm:</td>
+        <td>{{data?data.formcolor:''}}</td>
+      </tr>
+      <tr>
+        <td colspan="2" class="text-center">
+          <qrcode [qrdata]="data.phone" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button type="" class="btn btn-warning">Delay</button>
+  <button type="" class="btn btn-danger">Huỷ</button>
+  <button type="" class="btn btn-success">Hoàn thành</button>
+  <button type="" class="btn btn-info" (click)="onGiveShip()">Gửi giao hàng</button>
+  <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-success" (click)="accept()"><i class="fa fa-check-circle-o mr-1"></i> {{ btnOkText }}</button>
+  <button type="button" class="btn btn-danger" (click)="decline()"><i class="fa fa-times-circle "></i> {{ btnCancelText }}</button> -->
+</div>
