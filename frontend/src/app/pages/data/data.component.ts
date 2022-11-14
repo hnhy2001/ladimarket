@@ -1,6 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DanhMucService } from 'app/danhmuc.service';
+import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
+import { NotificationService } from 'app/notification.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 @Component({
@@ -37,7 +39,15 @@ export class DataComponent implements OnInit{
         { text: 'Xã', editable: false, datafield: 'ward' , 'width':'80'},
         { text: 'Huyện', editable: false, datafield: 'district' , 'width':'80'},
         { text: 'Tỉnh', editable: false, datafield: 'state' , 'width':'80'},
-        { text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80'},
+        { 
+            text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
+            cellsrenderer: (row: number, column: any, value: number): string => {
+                if(value === 0)
+                {
+                    return '<div style="background-color:aqua;color:white; padding: 5px; width:100%; height:20px">Đang xử lý</div>'
+                }
+            }
+        },
         { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'100'},
 
     ];
@@ -47,7 +57,9 @@ export class DataComponent implements OnInit{
     listEntity = [];
 
     constructor(
-        private dmService: DanhMucService
+        private dmService: DanhMucService,
+        private notificationService: NotificationService,
+        private confirmDialogService: ConfirmationDialogService
     ){
         this.source =
         {
@@ -64,6 +76,7 @@ export class DataComponent implements OnInit{
                 { name: 'status', type: 'number' },
                 { name: 'nhanvien', type: 'string' },
                 { name: 'date', type: 'string' },
+                { name: 'formcolor', type: 'string' },
             ],
             id:'id',
             datatype: 'array'
@@ -90,6 +103,14 @@ export class DataComponent implements OnInit{
           );
     }
     public showData(){
-        alert("Giao việc cho: " + this.myGrid.getselectedrowindexes().join("; "))
+        this.confirmDialogService.confirm("Xác nhận","Xác nhận xoá?")
+        .then((confirmed: any) => {
+            if (confirmed){
+                alert("Xoá thành công!");
+            }
+        })
+        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+        return;
+        this.notificationService.showSuccess("Giao việc cho: " + this.myGrid.getselectedrowindexes().join("; "),"Success message")
     }
 }

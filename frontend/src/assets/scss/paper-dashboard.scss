@@ -59,3 +59,12 @@
 @import "paper-dashboard/angular/fixed-plugin";
 
 @import "paper-dashboard/responsive";
+
+.toast-custom {
+    top: 20px;
+    right: 0px;
+    left: 75%;
+}
+.modal-open .modal {
+    z-index: 9999;
+}
