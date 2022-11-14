@@ -18,13 +18,15 @@ import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     NgbModule,
-    jqxGridModule
+    jqxGridModule,
+
   ],
   declarations: [
     DashboardComponent,
@@ -35,7 +37,8 @@ import { DanhMucService } from 'app/danhmuc.service';
     IconsComponent,
     MapsComponent,
     NotificationsComponent,
-    DataComponent
+    DataComponent,
+    
   ]
 })
 
