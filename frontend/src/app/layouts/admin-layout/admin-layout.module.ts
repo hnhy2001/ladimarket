@@ -16,8 +16,7 @@ import { NotificationsComponent }   from '../../pages/notifications/notification
 import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DanhMucService } from 'app/danhmuc.service';
-
+import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 
 @NgModule({
   imports: [
@@ -26,7 +25,7 @@ import { DanhMucService } from 'app/danhmuc.service';
     FormsModule,
     NgbModule,
     jqxGridModule,
-
+    jqxDateTimeInputModule
   ],
   declarations: [
     DashboardComponent,

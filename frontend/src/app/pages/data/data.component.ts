@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { TongKetDuLieuPopupComponent } from 'app/shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
@@ -120,7 +121,8 @@ export class DataComponent implements OnInit{
     }
     public onProcessData(event:any):void{
         if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!")
+            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+            return;
         }
         const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
         modalRef.componentInstance.data = this.selectedEntity;
@@ -128,6 +130,16 @@ export class DataComponent implements OnInit{
             () => {
               this.loadData();
              
+            },
+            () => {}
+          );
+    }
+    public onExportData():void{
+        const modalRef = this.modalService.open(TongKetDuLieuPopupComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.listEntity;
+        modalRef.result.then(
+            () => {
+              this.loadData();
             },
             () => {}
           );

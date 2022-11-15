@@ -16,13 +16,16 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClientModule } from "@angular/common/http";
 import { QRCodeModule } from "angularx-qrcode";
 import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component";
+import { TongKetDuLieuPopupComponent } from "./shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component";
+import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    XuLyDuLieuPopupComponent
+    XuLyDuLieuPopupComponent,
+    TongKetDuLieuPopupComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,10 +39,11 @@ import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuL
     FixedPluginModule,
     NgbModule,
     HttpClientModule,
-    QRCodeModule
+    QRCodeModule,
+    jqxDateTimeInputModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [XuLyDuLieuPopupComponent]
+  exports: [XuLyDuLieuPopupComponent,TongKetDuLieuPopupComponent]
 })
 export class AppModule { }
