@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/data")
+@CrossOrigin
 public class DataController extends BaseController<Data>{
 
     @Autowired

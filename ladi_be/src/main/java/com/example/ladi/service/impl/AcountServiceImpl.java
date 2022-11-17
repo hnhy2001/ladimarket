@@ -2,11 +2,16 @@ package com.example.ladi.service.impl;
 
 import com.example.ladi.config.AccountDetails;
 import com.example.ladi.config.JwtTokenProvider;
+import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.model.Account;
 import com.example.ladi.repository.AccountRepository;
 import com.example.ladi.repository.BaseRepository;
 import com.example.ladi.service.AcountService;
 import org.springframework.stereotype.Service;
+
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class AcountServiceImpl extends BaseServiceImpl<Account> implements AcountService {
@@ -21,15 +26,20 @@ public class AcountServiceImpl extends BaseServiceImpl<Account> implements Acoun
     }
 
     @Override
-    public String login(String userName, String password) {
+    public BaseResponse login(String userName, String password) throws NoSuchAlgorithmException {
         Account account = acountRepository.findByUserName(userName);
         if (account == null){
-            return "Account không tồn tại!";
+            return new BaseResponse(500, "Account không tồn tại", null);
         }
-        if (!account.getPassWord().equals(password)){
-            return "Mật khẩu không chính xác!";
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
+        if (!account.getPassWord().equals(myChecksum)){
+            return new BaseResponse(500, "Mật khẩu không chính xác", null);
         }
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
-        return jwtTokenProvider.generateToken(new AccountDetails(account));
+        return new BaseResponse(200, "OK", jwtTokenProvider.generateToken(new AccountDetails(account)));
     }
 }
