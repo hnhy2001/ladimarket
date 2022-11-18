@@ -10,6 +10,7 @@ import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
+import { FormsModule } from "@angular/forms";
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -18,6 +19,9 @@ import { QRCodeModule } from "angularx-qrcode";
 import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component";
 import { TongKetDuLieuPopupComponent } from "./shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component";
 import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
+import { LogiinComponent } from './pages/logiin/logiin.component';
+import { RegisterComponent } from './pages/register/register.component';
+
 
 
 @NgModule({
@@ -25,10 +29,10 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
     AppComponent,
     AdminLayoutComponent,
     XuLyDuLieuPopupComponent,
-    TongKetDuLieuPopupComponent
+    LogiinComponent,
+    RegisterComponent
   ],
   imports: [
-    BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),
@@ -40,7 +44,8 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
     NgbModule,
     HttpClientModule,
     QRCodeModule,
-    jqxDateTimeInputModule
+    jqxDateTimeInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

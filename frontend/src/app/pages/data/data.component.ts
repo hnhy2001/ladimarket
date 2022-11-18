@@ -24,13 +24,13 @@ export class DataComponent implements OnInit{
         {id: 0,label:"Chờ xử lý"},
         {id: 1,label:"Đang xử lý"},
     ];
-	getWidth() : any {
-		if (document.body.offsetWidth < 850) {
-			return '90%';
-		}
+	// getWidth() : any {
+	// 	if (document.body.offsetWidth < 850) {
+	// 		return '90%';
+	// 	}
 		
-		return 850;
-	}
+	// 	return 850;
+	// }
     dataAdapter: any;
     columns: any[] =
     [
@@ -63,7 +63,7 @@ export class DataComponent implements OnInit{
                 }
             }
         },
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'100'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'120'},
 
     ];
 
