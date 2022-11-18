@@ -1,10 +1,19 @@
 package com.example.ladi.controller;
 
+import com.example.ladi.controller.reponse.BaseResponse;
+import com.example.ladi.dto.DataDto;
 import com.example.ladi.model.Data;
 import com.example.ladi.service.BaseService;
 import com.example.ladi.service.DataService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.util.List;
 
 @RestController
 @RequestMapping("/data")
@@ -13,28 +22,24 @@ public class DataController extends BaseController<Data>{
 
     @Autowired
     DataService dataService;
+
+//    @Autowired
+//    ModelMapper mapper;
+    
     @Override
     protected BaseService<Data> getService() {
         return dataService;
     }
 
-    @CrossOrigin
-    @PostMapping
-    public ResponseEntity<Data> createData(@RequestBody CreateDataRequest createDataRequest){
-        return new ResponseEntity<Data>(dataService.createData(createDataRequest), HttpStatus.OK);
+    @PostMapping("create")
+    public BaseResponse create(@RequestBody Data obj) throws NoSuchAlgorithmException {
+//        Data data = mapper.map(entity, Data.class);
+
+        long unixTime = Instant.now().getEpochSecond();
+        obj.setDate(Long.toString(unixTime));
+        return new BaseResponse(200, "Tạo thành công!", this.getService().create(obj));
     }
 
-    @CrossOrigin
-    @PutMapping
-    public ResponseEntity<String> updateData(@RequestParam(name = "id", required = false) Integer id, @RequestBody UpdateDataRequest updateDataRequest){
-        return new ResponseEntity<String>(dataService.updateDataById(id, updateDataRequest), HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @DeleteMapping
-    public ResponseEntity<String> deleteData(@RequestParam(name = "id", required = false) Integer id){
-        return new ResponseEntity<String>(dataService.deleteDataById(id), HttpStatus.OK);
-    }
 
     @CrossOrigin
     @GetMapping("/getByStatus")

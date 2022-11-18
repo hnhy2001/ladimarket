@@ -1,7 +1,7 @@
 package com.example.ladi.service.impl;
 
-import com.example.ladi.config.AccountDetails;
-import com.example.ladi.config.JwtTokenProvider;
+import com.example.ladi.configurations.AccountDetails;
+import com.example.ladi.configurations.JwtTokenProvider;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.reponse.LoginResponse;
 import com.example.ladi.model.Account;

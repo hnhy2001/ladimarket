@@ -1,4 +1,4 @@
-package com.example.ladi.config;
+package com.example.ladi.configurations;
 
 import com.example.ladi.model.Account;
 import lombok.AllArgsConstructor;

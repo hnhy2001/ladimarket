@@ -1,6 +1,6 @@
 package com.example.ladi.service;
 
-import com.example.ladi.config.AccountDetails;
+import com.example.ladi.configurations.AccountDetails;
 import com.example.ladi.model.Account;
 import com.example.ladi.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;

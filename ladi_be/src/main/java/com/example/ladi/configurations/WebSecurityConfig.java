@@ -1,4 +1,4 @@
-package com.example.ladi.config;
+package com.example.ladi.configurations;
 
 import com.example.ladi.exceptions.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
