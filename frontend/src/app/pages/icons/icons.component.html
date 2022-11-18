@@ -1,34 +1,27 @@
 <div class="row">
+
   <div class="col-md-12">
-    <div class="card demo-icons">
-      <div class="table-responsive-vertical shadow-z-1">
-      
-        <table id="table" class="table table-hover table-mc-light-blue">
-            <thead>
-              <tr>
-                <th>Account</th>
-                <th>FullName</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <tr *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> -->
-                <tr>
-                
-                <td data-title="Name">Account</td>
-                <td data-title="Name">FullName</td>
-                <td data-title="Name">Phone</td>
-                <td data-title="Name">Email</td>
-                <td data-title="Name">Password</td>
-                <td data-title="Name">Note</td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="card">
+      <div class="card-header">
+        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+        <div class="row">
+          <div class="col-8">
+          </div>
+          <div class="col-4">
+            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+          </div>
         </div>
-      
+      </div>
+      <div class="card-body">
+          <jqxGrid #gridReference
+          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
+          [pageable]="true" [autoheight]="true" [autorowheight]="true" [sortable]="true" 
+          [filterable]="true" [showfilterbar]="true" [showfilterrow]="true" [filterbarmode]="'simple'"
+          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
+          (onRowselect)="onRowSelect($event)"
+          >
+          </jqxGrid>
+      </div>
     </div>
-  </div>
+  </div> 
 </div>

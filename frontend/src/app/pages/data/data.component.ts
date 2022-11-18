@@ -1,11 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { TongKetDuLieuPopupComponent } from 'app/shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
+import * as XLSX from 'xlsx';  
+
 
 @Component({
     selector: 'data-cmp',
@@ -14,6 +17,8 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 export class DataComponent implements OnInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
+    @ViewChild('TABLE', { static: false }) TABLE: ElementRef;  
+
     source: any
     listStatus = [
         {id: 0,label:"Chờ xử lý"},
@@ -40,7 +45,7 @@ export class DataComponent implements OnInit{
         { text: 'Ngày', editable: false, datafield: 'date'},
         { text: 'Tên KH', editable: false, datafield: 'name', 'width':'160'},
         { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , 'width':'200'},
-        { text: 'SDT', editable: false, datafield: 'phone' , 'width':'100'},
+        { text: 'SĐT', editable: false, datafield: 'phone' , 'width':'100'},
         { text: 'Địa chỉ', editable: false, datafield: 'street' , 'width':'160'},
         { text: 'Xã', editable: false, datafield: 'ward' , 'width':'80'},
         { text: 'Huyện', editable: false, datafield: 'district' , 'width':'80'},
@@ -58,7 +63,7 @@ export class DataComponent implements OnInit{
                 }
             }
         },
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'100'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'120'},
 
     ];
 
@@ -101,12 +106,10 @@ export class DataComponent implements OnInit{
         this.loadData();
     }
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
-              this.listEntity = res.body;
               setTimeout(() => {
-                this.source.localdata = res.body;
-                console.log(this.source);
+                this.source.localdata = res.body.RESULT;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
             },
@@ -120,7 +123,8 @@ export class DataComponent implements OnInit{
     }
     public onProcessData(event:any):void{
         if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!")
+            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+            return;
         }
         const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
         modalRef.componentInstance.data = this.selectedEntity;
@@ -132,7 +136,49 @@ export class DataComponent implements OnInit{
             () => {}
           );
     }
+    public onExportData():void{
+        const modalRef = this.modalService.open(TongKetDuLieuPopupComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.listEntity;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+            },
+            () => {}
+          );
+    }
     public onRowSelect(event:any):void{
         this.selectedEntity = event.args.row;
+    }
+
+
+    public exportTOExcel() {  
+        console.log(this.listEntity);
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.TABLE.nativeElement);  
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();  
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');  
+        XLSX.writeFile(wb, `data_${this.getCurrentDate()}.xlsx`); 
+    } 
+
+    private getCurrentDate() {
+        let date = new Date();
+        let month = date.getMonth() + 1;
+
+        var m = String(month);
+        if (month < 10) {
+            m = "0" + month.toString();
+        }
+
+        let dateOfMonth = date.getDate();
+        var day = String(dateOfMonth);
+
+        if (dateOfMonth < 10) {
+            day = "0" + dateOfMonth;
+        }
+
+        let year = date.getFullYear();
+        
+        let formattedDate = year + "/" + m + "/" + day;
+        console.log(formattedDate);
+        return formattedDate;
     }
 }

@@ -2,12 +2,15 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location} from '@angular/common';
-
+import { LogiinComponent } from 'app/pages/logiin/logiin.component';
+import { left } from '@popperjs/core';
+import { LocalStorageService } from 'ngx-webstorage';
 @Component({
     moduleId: module.id,
     selector: 'navbar-cmp',
     templateUrl: 'navbar.component.html'
 })
+
 
 export class NavbarComponent implements OnInit{
     private listTitles: any[];
@@ -19,7 +22,7 @@ export class NavbarComponent implements OnInit{
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
 
-    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router) {
+    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router, private local:LocalStorageService ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -61,6 +64,9 @@ export class NavbarComponent implements OnInit{
           }, 500);
 
           html.classList.add('nav-open');
+          if(window.innerWidth < 1920){
+            mainPanel.style.width = '83%';
+          }
           if (window.innerWidth < 991) {
             mainPanel.style.position = 'fixed';
           }
@@ -69,6 +75,9 @@ export class NavbarComponent implements OnInit{
       sidebarClose() {
           const html = document.getElementsByTagName('html')[0];
           const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
+          if(window.innerWidth < 1920){
+            mainPanel.style.width = '100%';
+          }
           if (window.innerWidth < 991) {
             setTimeout(function(){
               mainPanel.style.position = '';
@@ -91,5 +100,10 @@ export class NavbarComponent implements OnInit{
         }
 
       }
-
+      logout(){
+        this.local.clear();
+        setTimeout(() => {
+          this.router.navigate(['/logiin']);
+        }, 200);
+      }
 }

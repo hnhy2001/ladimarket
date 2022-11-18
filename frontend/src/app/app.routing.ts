@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { BillComponent } from './pages/bill/bill.component';
+import { LogiinComponent } from './pages/logiin/logiin.component';
+
 
 export const AppRoutes: Routes = [
   {
@@ -20,4 +22,9 @@ export const AppRoutes: Routes = [
     path: 'bill',
     component: BillComponent
   },
+  {
+    path: 'logiin',
+    component: LogiinComponent
+  },
+ 
 ]

@@ -10,19 +10,26 @@ import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
+import { FormsModule } from "@angular/forms";
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { QRCodeModule } from "angularx-qrcode";
 import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component";
-
+import { TongKetDuLieuPopupComponent } from "./shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component";
+import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
+import { LogiinComponent } from './pages/logiin/logiin.component';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { HeadersInterceptor } from "./headers.interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    XuLyDuLieuPopupComponent
+    XuLyDuLieuPopupComponent,
+    TongKetDuLieuPopupComponent,
+    LogiinComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -36,10 +43,15 @@ import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuL
     FixedPluginModule,
     NgbModule,
     HttpClientModule,
-    QRCodeModule
+    QRCodeModule,
+    jqxDateTimeInputModule,
+    FormsModule,
+    NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
-  exports: [XuLyDuLieuPopupComponent]
+  exports: [XuLyDuLieuPopupComponent,TongKetDuLieuPopupComponent]
 })
 export class AppModule { }
