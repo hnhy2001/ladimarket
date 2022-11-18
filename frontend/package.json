@@ -41,6 +41,7 @@
     "jqwidgets-ng": "^14.1.19",
     "moment": "2.29.1",
     "ngx-toastr": "^14.3.0",
+    "ngx-webstorage": "^9.0.0",
     "rxjs": "^7.5.5",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.5"

@@ -12,12 +12,12 @@
           <form id="formLogin" #formLogin="ngForm" (ngSubmit)="onSubmit(formLogin.value)">
             <!-- User input -->
             <div class="form-group form-outline mb-4">
-              <input type="text" name="username"  ngModel placeholder=" Tên tài khoản" class="form-control form-control-lg" style="height:2.5rem ;">
+              <input type="text" name="username"  [(ngModel)]="username" placeholder=" Tên tài khoản" class="form-control form-control-lg" style="height:2.5rem ;">
             </div>
             
             <!-- Password input -->
             <div class="form-group form-outline mb-4">
-                <input type="password" name="password" ngModel  placeholder=" Mật khẩu" class="form-control form-control-lg" style="height:2.5rem ;">
+                <input type="password" name="password" [(ngModel)]="password"  placeholder=" Mật khẩu" class="form-control form-control-lg" style="height:2.5rem ;">
             </div>
   
             <div class="d-flex justify-content-between align-items-center mb-4">

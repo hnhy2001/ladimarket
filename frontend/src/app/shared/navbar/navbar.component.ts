@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Location} from '@angular/common';
 import { LogiinComponent } from 'app/pages/logiin/logiin.component';
 import { left } from '@popperjs/core';
-
+import { LocalStorageService } from 'ngx-webstorage';
 @Component({
     moduleId: module.id,
     selector: 'navbar-cmp',
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit{
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
 
-    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router) {
+    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router, private local:LocalStorageService ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -100,5 +100,10 @@ export class NavbarComponent implements OnInit{
         }
 
       }
-
+      logout(){
+        this.local.clear();
+        setTimeout(() => {
+          this.router.navigate(['/logiin']);
+        }, 200);
+      }
 }

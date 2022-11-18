@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoginService } from 'app/services/login.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DanhMucService } from 'app/danhmuc.service';
+import { HttpResponse } from '@angular/common/http';
+import { LocalStorageService } from 'ngx-webstorage';
 @Component({
   selector: 'app-logiin',
   templateUrl: './logiin.component.html',
@@ -12,36 +14,46 @@ export class LogiinComponent implements OnInit {
   @ViewChild('formLogin')
   formLogin!: NgForm;
   users: any;
-  private router:Router;
-  constructor(private userData: LoginService) {
+  username="";
+  password="";
+  
+  REQUEST_URL = '/api/v1/account/login'
+ 
+  constructor(
+    private router:Router,
+    private localStorage: LocalStorageService,
+    private dmService: DanhMucService 
+  ) {
     
-    this.userData.users().subscribe((data) => {
-      this.users = data;
-    });
+  
    }
   
   ngOnInit(): void {
 
   }
   onSubmit(data:any){
-    console.warn(data);
-    this.userData.saveUser(data).subscribe((result)=>{
-      console.warn(result);
-    });
+    const entity = {
+      userName : this.username,
+      passWord : this.password
+    }
     
-    let count = 0;
-    for ( let i=0; i<this.users.length;i++){
-      if(data.username == this.users[i].username && data.password == this.users[i].password){
-        count +=1;
+   this.dmService.postOption(entity, this.REQUEST_URL, '').subscribe(
+      (res: HttpResponse<any>) => {
+        if(res.body.CODE===200){
+          this.localStorage.store('authenticationToken', res.body.RESULT);
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 200);
+          
+        }else{
+          alert(res.body.MESSAGE)
+        }
+
+      },
+      () => {
+        console.error();
       }
-    }
-    if(count!=0){
-      alert("Đăng nhập thành công");
-      this.router.navigate(['/']);
-    }
-    else{
-      alert("Đăng nhập thất bại")
-    }
+    );
   }
 }
 

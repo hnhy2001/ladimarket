@@ -24,13 +24,13 @@ export class DataComponent implements OnInit{
         {id: 0,label:"Chờ xử lý"},
         {id: 1,label:"Đang xử lý"},
     ];
-	// getWidth() : any {
-	// 	if (document.body.offsetWidth < 850) {
-	// 		return '90%';
-	// 	}
+	getWidth() : any {
+		if (document.body.offsetWidth < 850) {
+			return '90%';
+		}
 		
-	// 	return 850;
-	// }
+		return 850;
+	}
     dataAdapter: any;
     columns: any[] =
     [
@@ -106,12 +106,11 @@ export class DataComponent implements OnInit{
         this.loadData();
     }
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
               this.listEntity = res.body;
               setTimeout(() => {
-                this.source.localdata = res.body;
-                console.log(this.source);
+                this.source.localdata = res.body.RESULT;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
             },
