@@ -108,7 +108,6 @@ export class DataComponent implements OnInit{
     public loadData(){
         this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
-              this.listEntity = res.body;
               setTimeout(() => {
                 this.source.localdata = res.body.RESULT;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
