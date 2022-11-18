@@ -3,6 +3,7 @@ package com.example.ladi.service.impl;
 import com.example.ladi.config.AccountDetails;
 import com.example.ladi.config.JwtTokenProvider;
 import com.example.ladi.controller.reponse.BaseResponse;
+import com.example.ladi.controller.reponse.LoginResponse;
 import com.example.ladi.model.Account;
 import com.example.ladi.repository.AccountRepository;
 import com.example.ladi.repository.BaseRepository;
@@ -40,6 +41,7 @@ public class AcountServiceImpl extends BaseServiceImpl<Account> implements Acoun
             return new BaseResponse(500, "Mật khẩu không chính xác", null);
         }
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
-        return new BaseResponse(200, "OK", jwtTokenProvider.generateToken(new AccountDetails(account)));
+        LoginResponse loginResponse = new LoginResponse(jwtTokenProvider.generateToken(new AccountDetails(account)), account.getId(), account.getUserName(), account.getFullName());
+        return new BaseResponse(200, "OK", loginResponse);
     }
 }
