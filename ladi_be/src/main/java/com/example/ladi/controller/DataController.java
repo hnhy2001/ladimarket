@@ -1,27 +1,21 @@
 package com.example.ladi.controller;
 
-import com.example.ladi.controller.request.CreateDataRequest;
-import com.example.ladi.controller.request.UpdateDataRequest;
 import com.example.ladi.model.Data;
+import com.example.ladi.service.BaseService;
 import com.example.ladi.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/data")
-public class DataController {
+@CrossOrigin
+public class DataController extends BaseController<Data>{
 
     @Autowired
     DataService dataService;
-
-    @CrossOrigin
-    @GetMapping
-    public ResponseEntity<List<Data>> getAll(){
-        return new ResponseEntity<List<Data>>(dataService.getAll(), HttpStatus.OK);
+    @Override
+    protected BaseService<Data> getService() {
+        return dataService;
     }
 
     @CrossOrigin
@@ -48,5 +42,6 @@ public class DataController {
         var datas = dataService.getByStatus(status);
         return new ResponseEntity<List<Data>>(datas, HttpStatus.OK);
     }
+
 
 }

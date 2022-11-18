@@ -1,8 +1,9 @@
 package com.example.ladi.service;
 
-import com.example.ladi.controller.request.CreateDataRequest;
-import com.example.ladi.controller.request.UpdateDataRequest;
 import com.example.ladi.model.Data;
+
+public interface DataService extends BaseService<Data> {
+
 import com.example.ladi.repository.DataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
