@@ -14,4 +14,7 @@ public interface DataRepository extends BaseRepository<Data> {
 
     @Query("SELECT d FROM Data d WHERE (:status is null or d.status = :status)")
     List<Data> findAllByStatus(@Param("status") int status);
+
+    @Query("SELECT d FROM Data d WHERE CONCAT(d.formcolor, d.name, d.phone, d.state, d.ward, d.street) LIKE %?1%")
+    List<Data> findAllBySearchKey(@Param("searchKey") String searchKey);
 }

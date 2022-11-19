@@ -19,6 +19,7 @@ export class DataComponent implements OnInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     @ViewChild('TABLE', { static: false }) TABLE: ElementRef;  
 
+    public searchKey = '';
     source: any
     listStatus = [
         {id: 0,label:"Chờ xử lý"},
@@ -178,7 +179,22 @@ export class DataComponent implements OnInit{
         let year = date.getFullYear();
         
         let formattedDate = year + "/" + m + "/" + day;
-        console.log(formattedDate);
         return formattedDate;
+    }
+
+    public searchData() {
+        if(this.searchKey === '') this.notificationService.showError('Vui lòng nhập từ khóa tìm kiếm',"Thông báo lỗi!");
+
+        this.dmService.getOption(null, this.REQUEST_URL,"/filterData").subscribe(
+            (res: HttpResponse<any>) => {
+              setTimeout(() => {
+                this.source.localdata = res.body.RESULT;
+                this.dataAdapter = new jqx.dataAdapter(this.source);
+              }, 100);
+            },
+            (error: HttpResponse<any>) => {
+                this.notificationService.showError(`${error.body.RESULT}`,"Thông báo lỗi!");
+            }
+          );
     }
 }

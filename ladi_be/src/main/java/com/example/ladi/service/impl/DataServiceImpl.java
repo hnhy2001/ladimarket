@@ -25,4 +25,10 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         List<Data> datas = dataRepository.findAllByStatus(status);
         return datas;
     }
+
+    @Override
+    public List<Data> getAllBySearchKey(String searchKey) {
+        List<Data> datas = dataRepository.findAllBySearchKey(searchKey);
+        return datas;
+    }
 }

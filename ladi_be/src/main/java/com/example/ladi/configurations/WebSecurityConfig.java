@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().authorizeRequests()
+                .antMatchers("/**/swagger-ui/**").permitAll()
                 .antMatchers("/**/login").permitAll()
                 .anyRequest().authenticated();
 

@@ -43,10 +43,15 @@ public class DataController extends BaseController<Data>{
 
     @CrossOrigin
     @GetMapping("/getByStatus")
-    public ResponseEntity<List<Data>> getAllByStatus(int status){
+    public ResponseEntity<List<Data>> getAllByStatus(@RequestParam int status){
         var datas = dataService.getByStatus(status);
         return new ResponseEntity<List<Data>>(datas, HttpStatus.OK);
     }
 
-
+    @CrossOrigin
+    @GetMapping("/filterData")
+    public ResponseEntity<List<Data>> getdAllBySearchKey( @RequestParam String searchKey){
+        var datas = dataService.getAllBySearchKey(searchKey);
+        return new ResponseEntity<List<Data>>(datas, HttpStatus.OK);
+    }
 }

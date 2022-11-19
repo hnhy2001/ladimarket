@@ -32,14 +32,17 @@ public class AcountServiceImpl extends BaseServiceImpl<Account> implements Acoun
         if (account == null){
             return new BaseResponse(500, "Account không tồn tại", null);
         }
+        
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
         byte[] digest = md.digest();
+
         String myChecksum = DatatypeConverter
                 .printHexBinary(digest).toUpperCase();
         if (!account.getPassWord().equals(myChecksum)){
             return new BaseResponse(500, "Mật khẩu không chính xác", null);
         }
+
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
         LoginResponse loginResponse = new LoginResponse(jwtTokenProvider.generateToken(new AccountDetails(account)), account.getId(), account.getUserName(), account.getFullName());
         return new BaseResponse(200, "OK", loginResponse);

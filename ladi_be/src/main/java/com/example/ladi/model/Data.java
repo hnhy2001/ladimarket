@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "data")
 @AllArgsConstructor
@@ -55,7 +57,8 @@ public class Data {
 
     @Column(name = "datechanged")
     private String dateChanged;
-//
-//    @Column(name = "nhanvienid")
-//    private int nhanVienId;
+
+    // @JsonProperty("nhanvienid")
+    // @Column(name = "staffId")
+    // private int staffId;
 }

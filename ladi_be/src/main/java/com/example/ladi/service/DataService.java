@@ -11,4 +11,5 @@ import java.util.List;
 public interface DataService extends BaseService<Data> {
 
     public List<Data> getByStatus(int status);
+    public List<Data> getAllBySearchKey(String searchKey);
 }

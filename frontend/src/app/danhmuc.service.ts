@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OPERATIONS } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
@@ -8,7 +8,12 @@ import { Observable } from 'rxjs';
 export class DanhMucService {
   public resourceUrl = 'http://52.221.9.159:8080';
 
-  constructor(protected http: HttpClient) {}
+  //public resourceUrl = 'http://localhost:8080';
+  private token:any = JSON.parse(localStorage.getItem("authenticationtoken")).object;
+     
+
+  constructor(protected http: HttpClient, ) {
+  }
 
   create(entity: any, requestUrl: any): Observable<HttpResponse<any>> {
     return this.http.post<any>(this.resourceUrl + requestUrl + OPERATIONS.CREATE, entity, { observe: 'response' });
@@ -42,6 +47,11 @@ export class DanhMucService {
   }
 
   getOption(req: any, requestUrl: any, option: any): Observable<HttpResponse<any>> {
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: `${this.token}`,
+    // });
+
     const options = createRequestOption(req);
     return this.http.get<any>(this.resourceUrl + requestUrl + option, { params: options, observe: 'response' });
   }
