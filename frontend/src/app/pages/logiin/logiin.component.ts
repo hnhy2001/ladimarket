@@ -42,7 +42,7 @@ export class LogiinComponent implements OnInit {
         if(res.body.CODE===200){
           this.localStorage.store('authenticationToken', res.body.RESULT);
           setTimeout(() => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard']);
           }, 200);
           
         }else{

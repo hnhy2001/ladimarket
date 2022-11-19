@@ -64,9 +64,9 @@ export class NavbarComponent implements OnInit{
           }, 500);
 
           html.classList.add('nav-open');
-          if(window.innerWidth < 1920){
-            mainPanel.style.width = '83%';
-          }
+          // if(window.innerWidth < 1920){
+          //   mainPanel.style.width = '83%';
+          // }
           if (window.innerWidth < 991) {
             mainPanel.style.position = 'fixed';
           }
@@ -75,9 +75,9 @@ export class NavbarComponent implements OnInit{
       sidebarClose() {
           const html = document.getElementsByTagName('html')[0];
           const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
-          if(window.innerWidth < 1920){
-            mainPanel.style.width = '100%';
-          }
+          // if(window.innerWidth < 1920){
+          //   mainPanel.style.width = '100%';
+          // }
           if (window.innerWidth < 991) {
             setTimeout(function(){
               mainPanel.style.position = '';

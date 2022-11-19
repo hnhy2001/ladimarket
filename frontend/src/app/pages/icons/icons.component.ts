@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { ThemSuaXoaAccountComponent } from 'app/shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
@@ -37,32 +38,32 @@ export class IconsComponent implements OnInit{
                 return '<div style="margin: 4px;">' + (value + 1) + '</div>';
             }
         },
-        { text: 'Họ và Tên', editable: false, datafield: 'date'},
-        { text: 'Tài khoản', editable: false, datafield: 'name', 'width':'160'},
-        { text: 'Email',editable:false ,datafield: 'formcolor' , 'width':'200'},
-        { text: 'SDT', editable: false, datafield: 'phone' , 'width':'100'},
-        { text: 'Mât khẩu', editable: false, datafield: 'street' , 'width':'160'},
-        { text: 'Đia chỉ', editable: false, datafield: 'ward' , 'width':'240'},
+        { text: 'Họ và Tên', editable: false, datafield: 'fullName', 'width':'300'},
+        { text: 'Tài khoản', editable: false, datafield: 'userName', 'width':'170'},
+        // { text: 'Mât khẩu', editable: false, datafield: 'passWord' , 'width':'160'},
+        { text: 'Email',editable:false ,datafield: 'email' , 'width':'185'},
+        { text: 'SDT', editable: false, datafield: 'phone' , 'width':'170'},
+        { text: 'Đia chỉ', editable: false, datafield: 'address' , 'width':'300'},
         
-        { 
-            text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
-            filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
-            createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
-                editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
-            },
-            cellsrenderer: (row: number, column: any, value: number): string => {
-                if(value === 0)
-                {
-                    return '<div style="background-color:aqua;color:white; padding: 5px; width:100%; height:20px">Đang xử lý</div>'
-                }
-            }
-        },
-        { text: 'Ghi chú', editable: false, datafield: 'nhanvien' , 'width':'120'},
+        // { 
+        //     text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
+        //     filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
+        //     createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
+        //         editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
+        //     },
+        //     cellsrenderer: (row: number, column: any, value: number): string => {
+        //         if(value === 0)
+        //         {
+        //             return '<div style="background-color:aqua;color:white; padding: 5px; width:100%; height:20px">Đang xử lý</div>'
+        //         }
+        //     }
+        // },
+        { text: 'Ghi chú', editable: false, datafield: 'note' , 'width':'300'},
 
     ];
 
-    REQUEST_URL ="/api/v1/data";
-
+    REQUEST_URL ="/api/v1/account";
+    
     listEntity = [];
 
     selectedEntity:any;
@@ -79,16 +80,16 @@ export class IconsComponent implements OnInit{
             datafields:
             [
                 { name: 'id', type: 'number' },
-                { name: 'name', type: 'string' },
+                { name: 'userName', type: 'string' },
+                { name: 'passWord', type: 'string' },
+                { name: 'email', type: 'string' },
                 { name: 'phone', type: 'string' },
-                { name: 'street', type: 'string' },
-                { name: 'ward', type: 'string' },
-                { name: 'state', type: 'string' },
-                { name: 'district', type: 'string' },
-                { name: 'status', type: 'number' },
-                { name: 'nhanvien', type: 'string' },
-                { name: 'date', type: 'string' },
+                { name: 'address', type: 'string' },
+                { name: 'fullName', type: 'string' },
+                { name: 'note', type: 'string' },
+                { name: 'role', type: 'string' },
                 { name: 'formcolor', type: 'string' },
+                
             ],
             id:'id',
             datatype: 'array'
@@ -100,11 +101,11 @@ export class IconsComponent implements OnInit{
         this.loadData();
     }
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
               this.listEntity = res.body;
               setTimeout(() => {
-                this.source.localdata = res.body;
+                this.source.localdata = res.body.RESULT;
                 console.log(this.source);
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
@@ -114,8 +115,35 @@ export class IconsComponent implements OnInit{
             }
           );
     }
-    public showData(){
-
+    public UpdateData(){
+        const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
+        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.componentInstance.title = "Cập nhật tài khoản"
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
+    }
+    public CreateData(){
+        const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
+        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.componentInstance.title = "Tạo tài khoản";
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
+    }
+    public DeleteData(){
+        if(!this.selectedEntity) {
+            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+            return;
+        }
     }
     public onProcessData(event:any):void{
         if(!this.selectedEntity) {

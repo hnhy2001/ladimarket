@@ -22,6 +22,7 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 import { LogiinComponent } from './pages/logiin/logiin.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HeadersInterceptor } from "./headers.interceptor";
+import { ThemSuaXoaAccountComponent } from './shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HeadersInterceptor } from "./headers.interceptor";
     AdminLayoutComponent,
     XuLyDuLieuPopupComponent,
     TongKetDuLieuPopupComponent,
-    LogiinComponent
+    LogiinComponent,
+    ThemSuaXoaAccountComponent
   ],
   imports: [
     BrowserAnimationsModule,

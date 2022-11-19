@@ -8,7 +8,7 @@ import { LogiinComponent } from './pages/logiin/logiin.component';
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'logiin',
     pathMatch: 'full',
   }, {
     path: '',
