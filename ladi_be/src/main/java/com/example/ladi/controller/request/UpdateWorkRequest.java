@@ -12,11 +12,7 @@ import lombok.Setter;
 @Setter
 public class UpdateWorkRequest {
     private int id;
-    private int timeIn;
-    private int timeOut;
     private int donGiao;
     private int donHoanThanh;
     private String ghiChu;
-    private Account account;
-    private int nhanVienId;
 }

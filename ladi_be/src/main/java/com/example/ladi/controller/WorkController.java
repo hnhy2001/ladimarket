@@ -1,7 +1,8 @@
 package com.example.ladi.controller;
 
 import com.example.ladi.controller.reponse.BaseResponse;
-import com.example.ladi.controller.request.CheckOut;
+import com.example.ladi.controller.request.CheckOutRequest;
+import com.example.ladi.controller.request.CreateWorkRequest;
 import com.example.ladi.model.Work;
 import com.example.ladi.service.BaseService;
 import com.example.ladi.service.WorkService;
@@ -19,4 +20,18 @@ public class WorkController extends BaseController<Work>{
         return workService;
     }
 
+    @PostMapping("")
+    public BaseResponse createWork(@RequestBody CreateWorkRequest createWorkRequest){
+        return workService.createWork(createWorkRequest);
+    }
+
+    @GetMapping("")
+    public BaseResponse getAllWork(){
+        return workService.getAllWork();
+    }
+
+    @PostMapping("/checkOut")
+    public BaseResponse checkOut(@RequestBody CheckOutRequest checkOutRequest){
+        return workService.checkOut(checkOutRequest);
+    }
 }
