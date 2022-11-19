@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { BillComponent } from './pages/bill/bill.component';
 import { LogiinComponent } from './pages/logiin/logiin.component';
+import { UserRouteAccessService } from './user-route-access-service';
 
 
 export const AppRoutes: Routes = [
@@ -13,6 +14,7 @@ export const AppRoutes: Routes = [
   }, {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [UserRouteAccessService],
     children: [
         {
       path: '',
