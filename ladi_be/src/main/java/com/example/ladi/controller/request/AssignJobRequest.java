@@ -1,6 +1,8 @@
-package com.example.ladi.dto;
+package com.example.ladi.controller.request;
 
 import java.util.List;
+
+import com.example.ladi.model.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AssignJobDto {
+public class AssignJobRequest {
     public Integer staffId;
-    public List<Integer> jobId;
+    public List<Data> data;
 }

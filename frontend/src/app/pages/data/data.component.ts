@@ -1,12 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { GiaoViecPopUpComponent } from 'app/shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
 import { TongKetDuLieuPopupComponent } from 'app/shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
+import * as moment from 'moment';
 import * as XLSX from 'xlsx';  
 
 
@@ -119,9 +121,22 @@ export class DataComponent implements OnInit{
             }
           );
     }
-    public showData(){
 
+    listWork = [];
+
+    public showData(){
+        let indexs = this.myGrid.getselectedrowindexes();
+        if (indexs.length > 0 && this.listWork.length == 0)
+        {
+            for(let i = 1; i <indexs.length; i++) {
+                this.listWork.push(this.myGrid.getrowdata(indexs[i]));
+            }
+        }
+
+        const modalRef = this.modalService.open(GiaoViecPopUpComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.listWork;
     }
+
     public onProcessData(event:any):void{
         if(!this.selectedEntity) {
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
@@ -196,5 +211,43 @@ export class DataComponent implements OnInit{
                 this.notificationService.showError(`${error.body.RESULT}`,"Thông báo lỗi!");
             }
           );
+    }
+
+    public getByStatus(status: any) {
+        if(status == -1) {
+            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status`).subscribe(
+                (res: HttpResponse<any>) => {
+                    console.log(res.body);
+                  setTimeout(() => {
+                    res.body.RESULT.forEach(obj=> {
+                        moment.locale("vi"); 
+                        obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                    });
+                    this.source.localdata = res.body.RESULT;
+                    this.dataAdapter = new jqx.dataAdapter(this.source);
+                  }, 100);
+                },
+                (error: HttpResponse<any>) => {
+                    this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
+                }
+            );
+        }else {
+            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status=${status}`).subscribe(
+                (res: HttpResponse<any>) => {
+                    console.log(res.body);
+                  setTimeout(() => {
+                    res.body.RESULT.forEach(obj=> {
+                        moment.locale("vi"); 
+                        obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                    });
+                    this.source.localdata = res.body.RESULT;
+                    this.dataAdapter = new jqx.dataAdapter(this.source);
+                  }, 100);
+                },
+                (error: HttpResponse<any>) => {
+                    this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
+                }
+            );
+        }
     }
 }

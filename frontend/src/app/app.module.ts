@@ -23,6 +23,8 @@ import { LogiinComponent } from './pages/logiin/logiin.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HeadersInterceptor } from "./headers.interceptor";
 import { ThemSuaXoaAccountComponent } from './shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
+import { GiaoViecPopUpComponent } from './shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { ThemSuaXoaAccountComponent } from './shared/popup/them-sua-xoa-account/
     XuLyDuLieuPopupComponent,
     TongKetDuLieuPopupComponent,
     LogiinComponent,
-    ThemSuaXoaAccountComponent
+    ThemSuaXoaAccountComponent,
+    GiaoViecPopUpComponent
   ],
   imports: [
     BrowserAnimationsModule,

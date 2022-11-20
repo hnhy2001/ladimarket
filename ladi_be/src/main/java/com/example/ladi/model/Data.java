@@ -58,7 +58,7 @@ public class Data {
     @Column(name = "datechanged")
     private String dateChanged;
 
-    // @JsonProperty("nhanvienid")
-    // @Column(name = "staffId")
-    // private int staffId;
+    @JsonProperty("nhanvienid")
+    @Column(name = "staffId")
+    private Integer staffId;
 }

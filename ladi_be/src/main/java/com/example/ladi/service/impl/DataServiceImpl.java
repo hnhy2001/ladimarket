@@ -1,5 +1,7 @@
 package com.example.ladi.service.impl;
 
+import com.example.ladi.controller.reponse.BaseResponse;
+import com.example.ladi.controller.request.AssignJobRequest;
 import com.example.ladi.dto.DataDto;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
@@ -21,7 +23,7 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         return dataRepository;
     }
 
-    public List<Data> getByStatus(int status) {
+    public List<Data> getByStatus(Integer status) {
         List<Data> datas = dataRepository.findAllByStatus(status);
         return datas;
     }
@@ -30,5 +32,11 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     public List<Data> getAllBySearchKey(String searchKey) {
         List<Data> datas = dataRepository.findAllBySearchKey(searchKey);
         return datas;
+    }
+
+    @Override
+    public BaseResponse assignWork(AssignJobRequest request) {
+        
+        return null;
     }
 }

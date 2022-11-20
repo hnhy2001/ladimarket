@@ -1,6 +1,7 @@
 package com.example.ladi.controller;
 
 import com.example.ladi.controller.reponse.BaseResponse;
+import com.example.ladi.controller.request.AssignJobRequest;
 import com.example.ladi.dto.DataDto;
 import com.example.ladi.model.Data;
 import com.example.ladi.service.BaseService;
@@ -43,15 +44,23 @@ public class DataController extends BaseController<Data>{
 
     @CrossOrigin
     @GetMapping("/getByStatus")
-    public ResponseEntity<List<Data>> getAllByStatus(@RequestParam int status){
+    public BaseResponse getAllByStatus(@RequestParam Integer status){
         var datas = dataService.getByStatus(status);
-        return new ResponseEntity<List<Data>>(datas, HttpStatus.OK);
+        if(datas != null) return new BaseResponse(200, "Lấy dữ liệu thành công!", datas);
+        else return new BaseResponse(404, "Lấy dữ liệu thất bại!", datas);
     }
 
     @CrossOrigin
-    @GetMapping("/filterData")
-    public ResponseEntity<List<Data>> getdAllBySearchKey( @RequestParam String searchKey){
-        var datas = dataService.getAllBySearchKey(searchKey);
-        return new ResponseEntity<List<Data>>(datas, HttpStatus.OK);
+    @GetMapping("/assignWork")
+    public BaseResponse assignWork(@RequestBody AssignJobRequest request){
+        if(request != null) {
+            var staffId = request.getStaffId();
+            for (var data : request.getData()) {
+                data.setStaffId(staffId);
+                dataService.update(data);
+            }
+            return new BaseResponse(200, "Giao việc thành công", null);
+        }
+        else return new BaseResponse(404, "Giá trị rỗng!", null);
     }
 }
