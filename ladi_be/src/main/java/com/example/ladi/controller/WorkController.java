@@ -34,4 +34,9 @@ public class WorkController extends BaseController<Work>{
     public BaseResponse checkOut(@RequestBody CheckOutRequest checkOutRequest){
         return workService.checkOut(checkOutRequest);
     }
+
+    @GetMapping("getAllActive")
+    public BaseResponse getAllIsActive(){
+        return workService.getAllActive();
+    }
 }

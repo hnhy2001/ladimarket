@@ -30,6 +30,9 @@ public class Work extends BaseEntity{
     @Column(name = "ghi_chu")
     private String ghiChu;
 
+    @Column(name = "active")
+    private int isActive;
+
     @ManyToOne
     @JoinColumn(name = "nhanvienid")
     Account account;

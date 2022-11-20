@@ -37,9 +37,9 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         if (account == null){
             return new BaseResponse(500, "Account not found", "Create Fail");
         }
-        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getGhiChu(), account);
+        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getGhiChu(), 1, account);
         workRepository.save(work);
-        return new BaseResponse(200, "OK", "Create Success");
+        return new BaseResponse(200, "OK", work.getId());
     }
 
     @Override
@@ -65,7 +65,20 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         }
         work.setDonGiao(checkOutRequest.getDonGiao());
         work.setDonHoanThanh(checkOutRequest.getDonHoanThanh());
+        work.setIsActive(-1);
         workRepository.save(work);
         return new BaseResponse(200, "OK", "Checkout Success");
+    }
+
+    @Override
+    public BaseResponse getAllActive() {
+        List<Work> workList = workRepository.findAllByIsActive(1);
+        List<WorkDto> workDtoList = new ArrayList<>();
+        for (int i = 0 ; i<workList.size(); i++){
+            AccountDto accountDto = new AccountDto(workList.get(i).getAccount().getId(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getFullName());
+            WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getGhiChu(), accountDto);
+            workDtoList.add(workDto);
+        }
+        return new BaseResponse(200, "OK", workDtoList);
     }
 }
