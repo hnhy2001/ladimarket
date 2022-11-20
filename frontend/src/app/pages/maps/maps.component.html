@@ -1,35 +1,31 @@
-
 <div class="row">
+
   <div class="col-md-12">
-    <div class="card ">
-      <div class="table-responsive-vertical shadow-z-1">
-        <!-- Table starts here -->
-        <table id="table" class="table table-hover table-mc-light-blue">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Address</th>
-                <th>Price</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- <tr *ngFor="let item of collection | paginate: { itemsPerPage: 10, currentPage: p }"> -->
-                <tr>
-                
-                <td data-title="Name">1</td>
-                <td data-title="Name">1</td>
-                <td data-title="Name">1</td>
-                <td data-title="Name">1</td>
-                <td data-title="Name">1</td>
-                <td data-title="Name">1</td>
-              </tr>
-            </tbody>
-          </table>
+    <div class="card">
+      <div class="card-header">
+        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+        <div class="row">
+          <div class="col-8">
+            <!-- <button type="" class="btn btn-primary" (click)="CreateData()">Thêm</button>
+            <button type="" class="btn btn-primary" (click)="UpdateData()">Sửa</button>
+            <button type="" class="btn btn-warning" (click)="DeleteData()">Xóa</button> -->
+            
+          </div>
+          <div class="col-4">
+            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+          </div>
         </div>
-      
+      </div>
+      <div class="card-body">
+          <jqxGrid #gridReference
+          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
+          [pageable]="true" [autoheight]="true" [autorowheight]="true" [sortable]="true" 
+          [filterable]="true" [showfilterbar]="true" [showfilterrow]="true" [filterbarmode]="'simple'"
+          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
+          (onRowselect)="onRowSelect($event)"
+          >
+          </jqxGrid>
+      </div>
     </div>
-  </div>
+  </div> 
 </div>
