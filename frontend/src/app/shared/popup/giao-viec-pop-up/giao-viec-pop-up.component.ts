@@ -3,6 +3,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-giao-viec-pop-up',
@@ -13,7 +14,8 @@ import { NotificationService } from 'app/notification.service';
 export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
   REQUEST_WORK_URL ="/api/v1/work";
   @Input() data: any;
-  listUser:any = [];
+  // listUser:Observable<object[]>;
+  listUser = [];
   staffId:number = 0;
   REQUEST_DATA_URL ="/api/v1/data";
 
@@ -23,6 +25,16 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUserActive();
+    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
+      (res: HttpResponse<any>) => {
+        console.log(res.body.RESULT);
+        this.listUser = res.body.RESULT;
+      },
+      (error: any) => {
+        this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
+      }
+    );
+
     console.log(this.listUser);
   }
 
@@ -30,14 +42,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
   }
 
   public getUserActive() {
-    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
-        (res: HttpResponse<any>) => {
-          this.listUser.push(res.body.RESULT);
-        },
-        (error: any) => {
-          this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
-        }
-    );
+    
   }
 
   public dismiss(): void {
@@ -50,22 +55,22 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
   }
 
   public assignWork():void {
-    //this.staffId
-    // if(this.staffId <=0 || this.staffId == undefined) {
-    //   this.notificationService.showError(`${'Vui lòng chọn nhân sự'}`,"Thông báo lỗi!");
-    // }
+    if(this.staffId <=0 || this.staffId == undefined) {
+      this.notificationService.showError('Vui lòng chọn nhân sự',"Thông báo lỗi!");
+    }
 
     let obj  = {
-      staffId: 1,
+      staffId: this.staffId,
       data: this.data
     }
 
     this.service.postOption(obj, this.REQUEST_DATA_URL, "/assignWork").subscribe(
       (res: HttpResponse<any>) => {
-        this.notificationService.showSuccess(`${res.body.RESULT.message}`,"Thông báo!");
+        this.activeModal.dismiss();
+        this.notificationService.showSuccess(`${res.body.MESSAGE}`,"Thông báo!");
       },
       (error: any) => {
-        this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
+        this.notificationService.showError(`${error.body.MESSAGE}`,"Thông báo lỗi!");
       }
     );
   }

@@ -6,10 +6,11 @@
       </div>
 </div>
 <div class="modal-body">
-  <div class="form-control">
+  <div class="mt-2 mb-2">
     <h6>Chọn nhân sự</h6>
-    <select (change)="setStaffId($event.target.value)" class="form-control" *ngFor="let user of listUser">
-        <option [value]="user.id">{{user.userName}}</option>
+    <select (change)="setStaffId($event.target.value)" class="form-control" *ngFor="let obj of listUser">
+        <option [value]="0">--Chọn nhân sự--</option>
+        <option [value]="obj.acount.id">{{obj.acount.userName}}</option>
     </select>
   </div>
   <div class="mt-2 mb-2">
@@ -18,11 +19,11 @@
   <table class="table table-bordered" style="width:100%">
     <tbody>
       <tr>
-          <th class="text-left">Sản phẩm</th>
-          <th class="text-left">Khách hàng</th>
-          <th class="text-center">SĐT</th>
-          <th class="text-center">Ngày</th>
-          <th class="text-left">Địa chỉ</th>
+        <th class="text-left">Sản phẩm</th>
+        <th class="text-left">Khách hàng</th>
+        <th class="text-center">SĐT</th>
+        <th class="text-center">Ngày</th>
+        <th class="text-left">Địa chỉ</th>
       </tr>
       <tr *ngFor="let item of data;">
         <td class="text-left text-bold">{{item?item.formcolor:''}} </td>

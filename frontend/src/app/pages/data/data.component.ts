@@ -66,7 +66,7 @@ export class DataComponent implements OnInit{
                 }
             }
         },
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' , 'width':'120'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvienid' , 'width':'120'},
 
     ];
 
@@ -98,6 +98,7 @@ export class DataComponent implements OnInit{
                 { name: 'nhanvien', type: 'string' },
                 { name: 'date', type: 'string' },
                 { name: 'formcolor', type: 'string' },
+                { name: 'nhanvienid', type: 'number' },
             ],
             id:'id',
             datatype: 'array'
@@ -215,7 +216,7 @@ export class DataComponent implements OnInit{
 
     public getByStatus(status: any) {
         if(status == -1) {
-            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status`).subscribe(
+            this.dmService.getOption(null, this.REQUEST_URL,`/getAll`).subscribe(
                 (res: HttpResponse<any>) => {
                     console.log(res.body);
                   setTimeout(() => {
