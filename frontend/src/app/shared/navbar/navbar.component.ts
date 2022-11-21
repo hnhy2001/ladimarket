@@ -93,7 +93,7 @@ export class NavbarComponent implements OnInit {
   }
 
   checkOut(id: any) {
-    let time = moment(new Date).format('YYYYMMhms');
+    let time = moment(new Date).format('YYYYMMDDhms');
     let checkOutEntity = {
       id: id,
       timeOut: time,
