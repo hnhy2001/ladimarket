@@ -57,7 +57,7 @@ export class NavbarComponent implements OnInit {
   }
   async triggerWorkActive() {
     moment.locale("vi");
-    let time = moment(new Date).format('YYYYMMhms');
+    let time = moment(new Date).format('YYYYMMDDhms');
 
     if (this.checkWorkActive == false) {
       let checkInEntity = {
@@ -79,16 +79,14 @@ export class NavbarComponent implements OnInit {
       this.dmService.postOption({ nhanVienId: this.local.retrieve("authenticationToken").id }, "/api/v1/work/checkWorkActive", '').subscribe(
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
-            id = res.body.RESULT.acount.id;
+            id = res.body.RESULT.id;
           }
-          console.log(id)
         },
         () => {
           console.error();
         }
       );
       setTimeout(() => {
-        console.log(id);
         this.checkOut(id);
       }, 500);
     }

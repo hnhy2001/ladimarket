@@ -16,10 +16,10 @@ import javax.persistence.*;
 public class Work extends BaseEntity{
 
     @Column(name = "timeint")
-    private int timeIn;
+    private Long timeIn;
 
     @Column(name = "timeout")
-    private int timeOut;
+    private Long timeOut;
 
     @Column(name = "don_giao")
     private int donGiao;
