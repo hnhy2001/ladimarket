@@ -1,15 +1,19 @@
 
 <div class="modal-header">
     <div style="font-size: 18px;">
-        <b >Giao việc</b>
+        <h4>Giao việc</h4>
         <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
       </div>
 </div>
 <div class="modal-body">
   <div class="form-control">
-    <select class="form-control" *ngFor="let user of listUser">
+    <h6>Chọn nhân sự</h6>
+    <select (change)="setStaffId($event.target.value)" class="form-control" *ngFor="let user of listUser">
         <option [value]="user.id">{{user.userName}}</option>
     </select>
+  </div>
+  <div class="mt-2 mb-2">
+    <h6>Danh sách công việc</h6>
   </div>
   <table class="table table-bordered" style="width:100%">
     <tbody>
@@ -24,15 +28,13 @@
         <td class="text-left text-bold">{{item?item.formcolor:''}} </td>
         <td class="text-left">{{item?item.name:''}}</td>
         <td class="text-center">{{item?item.phone:''}}</td>
-        <td class="text-center">{{item?item.date:''}}</td>
+        <td class="text-center">{{item?item.date:''|date}}</td>
         <td class="text-left">{{item?item.street:''}}</td>
       </tr>
     </tbody>
   </table>
 </div>
 <div class="modal-footer">
-  <button type="" class="btn btn-warning">Delay</button>
-  <button type="" class="btn btn-danger">Huỷ</button>
-  <button type="" class="btn btn-success">Hoàn thành</button>
-  <button type="" class="btn btn-info" >Gửi giao hàng</button>
+  <button (click)="assignWork()" type="" class="btn btn-primary">Giao việc</button>
+  <button (click)="dismiss()" type="button" class="btn btn-danger" >Hủy</button>
 </div>

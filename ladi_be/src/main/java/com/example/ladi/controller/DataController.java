@@ -51,7 +51,7 @@ public class DataController extends BaseController<Data>{
     }
 
     @CrossOrigin
-    @GetMapping("/assignWork")
+    @PostMapping("/assignWork")
     public BaseResponse assignWork(@RequestBody AssignJobRequest request){
         if(request != null) {
             var staffId = request.getStaffId();

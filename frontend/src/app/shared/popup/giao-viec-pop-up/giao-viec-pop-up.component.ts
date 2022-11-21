@@ -9,18 +9,19 @@ import { NotificationService } from 'app/notification.service';
   templateUrl: './giao-viec-pop-up.component.html',
   styleUrls: ['./giao-viec-pop-up.component.scss']
 })
-export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
-  REQUEST_URL ="/api/v1/work";
-  @Input() data: any;
-  listUser = [];
 
+export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
+  REQUEST_WORK_URL ="/api/v1/work";
+  @Input() data: any;
+  listUser:any = [];
+  staffId:number = 0;
+  REQUEST_DATA_URL ="/api/v1/data";
 
   constructor(private activeModal: NgbActiveModal,
     private service: DanhMucService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.getUserActive();
     console.log(this.listUser);
   }
@@ -29,21 +30,43 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
   }
 
   public getUserActive() {
-    this.service.getOption(null, this.REQUEST_URL,"/getAllActive").subscribe(
+    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
         (res: HttpResponse<any>) => {
-          setTimeout(() => {
-            this.listUser.push(res.body.RESULT);
-          }, 100);
+          this.listUser.push(res.body.RESULT);
         },
         (error: any) => {
           this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
         }
     );
-
   }
 
   public dismiss(): void {
     this.activeModal.dismiss();
   }
 
+  public setStaffId(staffId: any) {
+    if(staffId != 0 || staffId != undefined)
+      this.staffId = staffId;
+  }
+
+  public assignWork():void {
+    //this.staffId
+    // if(this.staffId <=0 || this.staffId == undefined) {
+    //   this.notificationService.showError(`${'Vui lòng chọn nhân sự'}`,"Thông báo lỗi!");
+    // }
+
+    let obj  = {
+      staffId: 1,
+      data: this.data
+    }
+
+    this.service.postOption(obj, this.REQUEST_DATA_URL, "/assignWork").subscribe(
+      (res: HttpResponse<any>) => {
+        this.notificationService.showSuccess(`${res.body.RESULT.message}`,"Thông báo!");
+      },
+      (error: any) => {
+        this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
+      }
+    );
+  }
 }
