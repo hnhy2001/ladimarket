@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { UserComponent } from '../../pages/user/user.component';
 import { TableComponent } from '../../pages/table/table.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
 import { AccountComponent } from '../../pages/account/account.component';
@@ -12,7 +10,6 @@ import { DataComponent } from 'app/pages/data/data.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user',           component: UserComponent },
     { path: 'table',          component: TableComponent },
     { path: 'data',           component: DataComponent },
     { path: 'typography',     component: TypographyComponent },

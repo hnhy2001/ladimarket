@@ -114,7 +114,7 @@ export class AccountComponent implements OnInit{
             }
           );
     }
-    public UpdateData(){
+    public updateData(){
         if(!this.selectedEntity) {
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
             return;
@@ -130,7 +130,7 @@ export class AccountComponent implements OnInit{
             () => {}
           );
     }
-    public CreateData(){
+    public createData(){
         const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
         modalRef.componentInstance.data = this.selectedEntity;
         modalRef.componentInstance.title = "Tạo tài khoản";
@@ -141,7 +141,7 @@ export class AccountComponent implements OnInit{
             () => {}
           );
     }
-    public DeleteData(){
+    public deleteData(){
         if(!this.selectedEntity) {
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
             return;
