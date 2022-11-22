@@ -17,6 +17,8 @@ import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component'
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+
 
 @NgModule({
   imports: [
@@ -25,7 +27,8 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
     FormsModule,
     NgbModule,
     jqxGridModule,
-    jqxDateTimeInputModule
+    jqxDateTimeInputModule,
+    NgxDaterangepickerMd.forRoot()
   ],
   declarations: [
     DashboardComponent,
@@ -37,7 +40,6 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
     WorkComponent,
     NotificationsComponent,
     DataComponent,
-    
   ]
 })
 

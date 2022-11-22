@@ -139,8 +139,14 @@ export class DataComponent implements OnInit{
             }
         }
 
-        const modalRef = this.modalService.open(GiaoViecPopUpComponent, { size: 'xl' });
-        modalRef.componentInstance.data = this.listWork;
+        if(this.listWork.length > 0 ) {
+
+            console.log(this.listWork);
+
+            const modalRef = this.modalService.open(GiaoViecPopUpComponent, { size: 'xl' });
+            modalRef.componentInstance.data = this.listWork;
+        }
+        else this.notificationService.showError('Vui lòng chọn công việc',"Thông báo lỗi!");
     }
 
     public onProcessData(event:any):void{
