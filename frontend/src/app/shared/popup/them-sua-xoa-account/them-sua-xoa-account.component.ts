@@ -59,7 +59,6 @@ export class ThemSuaXoaAccountComponent implements OnInit {
     this.activeModal.dismiss();
   }
   create() {
-    console.log(this.data);
     if(this.validData()){
       let entity = {
         id: '',
@@ -70,8 +69,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
         address : this.address,
         fullName: this.fullName
       }
-      if(this.data === undefined){
-        entity.id = undefined;
+      if(!this.data){
         this.dmService.postOption(entity, "/api/v1/account/create", '').subscribe(
           (res: HttpResponse<any>) => {
             if(res.body.CODE === 200){

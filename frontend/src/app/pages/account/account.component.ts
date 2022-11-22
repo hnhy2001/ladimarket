@@ -132,7 +132,7 @@ export class AccountComponent implements OnInit{
     }
     public createData(){
         const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
-        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.componentInstance.data = null;
         modalRef.componentInstance.title = "Tạo tài khoản";
         modalRef.result.then(
             () => {

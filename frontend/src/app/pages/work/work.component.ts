@@ -80,18 +80,15 @@ export class WorkComponent implements OnInit {
         this.loadData();
     }
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
-              this.listEntity = res.body;
-              setTimeout(() => {
+                this.listEntity = res.body;
                 this.source.localdata = res.body.RESULT;
                 for(let i = 0; i< this.source.localdata.length; i++){
-                    this.source.localdata[i].userName = this.source.localdata[i].acount.userName;
-                    delete this.source.localdata[i].acount;
+                    this.source.localdata[i].userName = this.source.localdata[i].account ? this.source.localdata[i].account.userName : '';
                 }
                 console.log(this.source.localdata);
                 this.dataAdapter = new jqx.dataAdapter(this.source);
-              }, 100);
             },
             () => {
               console.error();

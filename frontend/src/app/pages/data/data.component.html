@@ -9,8 +9,15 @@
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#workModal" (click)="showData()">Giao việc</button>
             <button type="" class="btn btn-primary" (click)="onProcessData($event)">Xử lý</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()">Xuất Excel</button>
-            <div></div>
-            <select class="form-control col-md-3" (change)="getByStatus($event.target.value)">
+            <!--The content below is only a placeholder and can be replaced.-->
+          
+          </div>
+          <div class="col-4">
+            <button type="" class="btn btn-primary" (click)="onExportData()" style="float:right">Tổng kết dữ liệu</button>
+            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+          </div>
+          <div class="col-4">
+            <select class="form-control" (change)="getByStatus($event.target.value)">
               <option value="-1" selected>--Chọn trạng thái--</option>
               <option value="0">Chờ xử lý</option>
               <option value="1">Đang xử lý</option>
@@ -19,20 +26,14 @@
               <option value="4">Hủy</option>
               <option value="5">Gửi giao hàng</option>
             </select>
-            <!--The content below is only a placeholder and can be replaced.-->
-            <div>
-              <div>
-                <input class="form-control" type="text" ngxDaterangepickerMd 
-                  [(ngModel)]="dateRange" 
-                  [ranges]="ranges" 
-                  [showCustomRangeLabel]="true"
-                  (ngModelChange)="getByStatus(statusDto)"/>
-              </div> 
-            </div>
           </div>
+          <div class="col-4"></div>
           <div class="col-4">
-            <button type="" class="btn btn-primary" (click)="onExportData()" style="float:right">Tổng kết dữ liệu</button>
-            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+            <input class="form-control" type="text" ngxDaterangepickerMd 
+            [(ngModel)]="dateRange" 
+            [ranges]="ranges" 
+            [showCustomRangeLabel]="true"
+            (ngModelChange)="getByStatus(statusDto)"/>
           </div>
         </div>
       </div>
