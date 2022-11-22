@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WorkDto {
     private int id;
-    private int timeIn;
-    private int timeOut;
+    private Long timeIn;
+    private Long timeOut;
     private int donGiao;
     private int donHoanThanh;
     private String ghiChu;

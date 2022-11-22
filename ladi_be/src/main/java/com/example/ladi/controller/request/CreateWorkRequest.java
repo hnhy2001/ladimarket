@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CreateWorkRequest {
-    private int timeIn;
-    private int timeOut;
+    private Long timeIn;
+    private Long timeOut;
     private int donGiao;
     private int donHoanThanh;
     private String ghiChu;

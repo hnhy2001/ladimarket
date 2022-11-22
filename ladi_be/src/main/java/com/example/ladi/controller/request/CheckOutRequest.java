@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class CheckOutRequest {
     private int id;
-    private int timeOut;
+    private Long timeOut;
     private int donGiao;
     private int donHoanThanh;
 }
