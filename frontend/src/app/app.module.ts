@@ -24,6 +24,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HeadersInterceptor } from "./headers.interceptor";
 import { ThemSuaXoaAccountComponent } from './shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
 import { GiaoViecPopUpComponent } from './shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { GiaoViecPopUpComponent } from './shared/popup/giao-viec-pop-up/giao-vie
     QRCodeModule,
     jqxDateTimeInputModule,
     FormsModule,
+    NgxDaterangepickerMd.forRoot(),
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
   ],
   providers: [
