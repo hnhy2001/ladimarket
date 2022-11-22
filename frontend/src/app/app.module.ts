@@ -16,8 +16,8 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { QRCodeModule } from "angularx-qrcode";
-import { XuLyDuLieuPopupComponent } from "./shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component";
-import { TongKetDuLieuPopupComponent } from "./shared/popup/TongKetDuLieu/TongKetDuLieuPopup.component";
+import { XuLyDuLieuPopupComponent } from "./shared/popup/xu-ly-du-lieu/XuLyDuLieuPopup.component";
+import { TongKetDuLieuPopupComponent } from "./shared/popup/tong-ket-du-lieu/TongKetDuLieuPopup.component";
 import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 import { LogiinComponent } from './pages/logiin/logiin.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';

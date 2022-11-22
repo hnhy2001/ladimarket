@@ -10,9 +10,9 @@ export interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard',     title: 'Trang chủ',         icon:'nc-bank',       class: '' },
-    { path: '/icons',         title: 'Tài khoản',             icon:'nc-badge',    class: '' },
+    { path: '/account',         title: 'Tài khoản',             icon:'nc-badge',    class: '' },
     { path: '/data',          title: 'Kiện hàng bom',              icon:'nc-bullet-list-67',      class: '' },
-    { path: '/maps',          title: 'Công việc',              icon:'nc-single-copy-04',      class: '' },
+    { path: '/work',          title: 'Công việc',              icon:'nc-single-copy-04',      class: '' },
 ];
 
 @Component({

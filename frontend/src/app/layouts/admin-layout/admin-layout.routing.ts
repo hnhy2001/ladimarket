@@ -4,8 +4,8 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserComponent } from '../../pages/user/user.component';
 import { TableComponent } from '../../pages/table/table.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
+import { AccountComponent } from '../../pages/account/account.component';
+import { WorkComponent } from '../../pages/work/work.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { DataComponent } from 'app/pages/data/data.component';
@@ -16,8 +16,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'table',          component: TableComponent },
     { path: 'data',           component: DataComponent },
     { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
+    { path: 'account',        component: AccountComponent },
+    { path: 'work',           component: WorkComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent }
 ];

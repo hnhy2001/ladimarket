@@ -7,11 +7,11 @@ import { NotificationService } from 'app/notification.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 @Component({
     moduleId: module.id,
-    selector: 'maps-cmp',
-    templateUrl: 'maps.component.html'
+    selector: 'work-cmp',
+    templateUrl: 'work.component.html'
 })
 
-export class MapsComponent implements OnInit {
+export class WorkComponent implements OnInit {
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     source: any
     listStatus = [

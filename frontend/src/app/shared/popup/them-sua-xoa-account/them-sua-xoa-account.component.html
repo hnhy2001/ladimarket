@@ -1,36 +1,45 @@
-
 <div class="modal-body">
-    <div style="font-size: 18px;">
-      <b >{{title?title:''}}</b>
-      <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+  <div style="font-size: 18px;">
+    <b>{{title?title:''}}</b>
+    <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+  </div>
+  <div class="d-inline mt-4">
+
+    <!-- User input -->
+    <div class="form-group form-outline mb-4 mt-4">
+      <input type="text" name="username" [(ngModel)]="username" placeholder=" Tên tài khoản"
+        class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
-    <div class="d-inline mt-4">
 
-        <!-- User input -->
-        <div class="form-group form-outline mb-4 mt-4">
-          <input type="text" name="username"  [(ngModel)]="username" placeholder=" Tên tài khoản" class="form-control form-control-lg" style="height:2.5rem ;">
-        </div>
-        
-        <!-- Password input -->
-        <div class="form-group form-outline mb-4">
-            <input type="password" name="password" [(ngModel)]="password"  placeholder=" Mật khẩu" class="form-control form-control-lg" style="height:2.5rem ;">
-        </div>
-        <div class="form-group form-outline mb-4">
-          <input type="password" name="passWord" [(ngModel)]="retypePassword"  placeholder="Nhập lại mật khẩu" class="form-control form-control-lg" style="height:2.5rem ;">
-      </div>
-
-        <div class="form-group form-outline mb-4">
-          <input type="text" name="Email"  [(ngModel)]="email" placeholder=" email" class="form-control form-control-lg" style="height:2.5rem ;">
-        </div>
-      
-        <div class="form-group form-outline mb-4">
-            <input type="text" name="Số điện thoại" [(ngModel)]="sdt"  placeholder=" Số điện thoại " class="form-control form-control-lg" style="height:2.5rem ;">
-        </div>
-        <div class="form-group form-outline mb-4">
-          <input type="text" name="Địa chỉ" [(ngModel)]="address "  placeholder=" Địa chỉ" class="form-control form-control-lg" style="height:2.5rem ;">
-      </div>
-
+    <!-- Password input -->
+    <div class="form-group form-outline mb-4">
+      <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
+        class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
+    <div class="form-group form-outline mb-4">
+      <input type="password" name="passWord" [(ngModel)]="retypePassword" placeholder="Nhập lại mật khẩu"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-4">
+      <input type="text" name="Họ và tên" [(ngModel)]="fullName" placeholder=" Họ và tên "
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+
+    <div class="form-group form-outline mb-4">
+      <input type="text" name="Email" [(ngModel)]="email" placeholder=" email" class="form-control form-control-lg"
+        style="height:2.5rem ;">
+    </div>
+
+    <div class="form-group form-outline mb-4">
+      <input type="text" name="Số điện thoại" [(ngModel)]="sdt" placeholder=" Số điện thoại "
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-4">
+      <input type="text" name="Địa chỉ" [(ngModel)]="address " placeholder=" Địa chỉ"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+
+  </div>
 </div>
 <div class="modal-footer">
   <button type="" class="btn btn-success" (click)="create()">Lưu</button>

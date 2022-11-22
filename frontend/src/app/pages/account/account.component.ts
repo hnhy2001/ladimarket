@@ -5,15 +5,14 @@ import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
 import { ThemSuaXoaAccountComponent } from 'app/shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
-import { XuLyDuLieuPopupComponent } from 'app/shared/popup/XuLyDuLieuPopup/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 @Component({
-    selector: 'icons-cmp',
-    templateUrl: 'icons.component.html'
+    selector: 'account-cmp',
+    templateUrl: 'account.component.html'
 })
 
-export class IconsComponent implements OnInit{
+export class AccountComponent implements OnInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     source: any
     listStatus = [
@@ -116,6 +115,10 @@ export class IconsComponent implements OnInit{
           );
     }
     public UpdateData(){
+        if(!this.selectedEntity) {
+            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+            return;
+        }
         const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
         modalRef.componentInstance.data = this.selectedEntity;
         modalRef.componentInstance.title = "Cập nhật tài khoản"
@@ -134,7 +137,6 @@ export class IconsComponent implements OnInit{
         modalRef.result.then(
             () => {
               this.loadData();
-             
             },
             () => {}
           );
@@ -144,20 +146,7 @@ export class IconsComponent implements OnInit{
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
             return;
         }
-    }
-    public onProcessData(event:any):void{
-        if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!")
-        }
-        const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
-        modalRef.componentInstance.data = this.selectedEntity;
-        modalRef.result.then(
-            () => {
-              this.loadData();
-             
-            },
-            () => {}
-          );
+        
     }
     public onRowSelect(event:any):void{
         this.selectedEntity = event.args.row;

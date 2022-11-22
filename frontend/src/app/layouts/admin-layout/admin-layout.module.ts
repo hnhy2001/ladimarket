@@ -10,8 +10,8 @@ import { UserComponent }            from '../../pages/user/user.component';
 import { TableComponent }           from '../../pages/table/table.component';
 import { DataComponent }           from '../../pages/data/data.component';
 import { TypographyComponent }      from '../../pages/typography/typography.component';
-import { IconsComponent }           from '../../pages/icons/icons.component';
-import { MapsComponent }            from '../../pages/maps/maps.component';
+import { AccountComponent }           from '../../pages/account/account.component';
+import { WorkComponent }            from '../../pages/work/work.component';
 import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
 import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
@@ -33,8 +33,8 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
     TableComponent,
     UpgradeComponent,
     TypographyComponent,
-    IconsComponent,
-    MapsComponent,
+    AccountComponent,
+    WorkComponent,
     NotificationsComponent,
     DataComponent,
     
