@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
@@ -9,7 +9,9 @@ import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/T
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/xu-ly-du-lieu/XuLyDuLieuPopup.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import * as XLSX from 'xlsx';  
+
 
 
 @Component({
@@ -107,6 +109,7 @@ export class DataComponent implements OnInit{
     }
 
     ngOnInit(){
+        
         this.loadData();
     }
     public loadData(){
@@ -122,6 +125,8 @@ export class DataComponent implements OnInit{
             }
           );
     }
+
+    
 
     listWork = [];
 
@@ -251,4 +256,34 @@ export class DataComponent implements OnInit{
             );
         }
     }
+
+
+
+    /* Date Range Picker*/
+    selected: { startDate: Moment; endDate: Moment; };
+  
+    ranges: any = {
+        Today: [moment(), moment()],
+        Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [
+        moment()
+            .subtract(1, 'month')
+            .startOf('month'),
+        moment()
+            .subtract(1, 'month')
+            .endOf('month')
+        ],
+        'Last 3 Month': [
+        moment()
+            .subtract(3, 'month')
+            .startOf('month'),
+        moment()
+            .subtract(1, 'month')
+            .endOf('month')
+        ]
+    };
+    /* End Date Range Picker */
 }
