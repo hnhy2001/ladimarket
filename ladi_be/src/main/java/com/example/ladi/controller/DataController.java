@@ -44,8 +44,16 @@ public class DataController extends BaseController<Data>{
 
     @CrossOrigin
     @GetMapping("/getByStatus")
-    public BaseResponse getAllByStatus(@RequestParam Integer status){
-        var datas = dataService.getByStatus(status);
+    public BaseResponse getAllByStatus(@RequestParam Integer status, @RequestParam String startDate, @RequestParam String endDate){
+        var datas = dataService.getByStatus(status, startDate, endDate);
+        if(datas != null) return new BaseResponse(200, "Lấy dữ liệu thành công!", datas);
+        else return new BaseResponse(404, "Lấy dữ liệu thất bại!", datas);
+    }
+
+    @CrossOrigin
+    @GetMapping("/getByDate")
+    public BaseResponse getAllByDate(@RequestParam String startDate, @RequestParam String endDate){
+        var datas = dataService.getByDate(startDate, endDate);
         if(datas != null) return new BaseResponse(200, "Lấy dữ liệu thành công!", datas);
         else return new BaseResponse(404, "Lấy dữ liệu thất bại!", datas);
     }

@@ -23,14 +23,13 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         return dataRepository;
     }
 
-    public List<Data> getByStatus(Integer status) {
-        List<Data> datas = dataRepository.findAllByStatus(status);
+    public List<Data> getByStatus(Integer status, String startDate, String endDate) {
+        List<Data> datas = dataRepository.findAllByStatus(status, startDate, endDate);
         return datas;
     }
 
-    @Override
-    public List<Data> getAllBySearchKey(String searchKey) {
-        List<Data> datas = dataRepository.findAllBySearchKey(searchKey);
+    public List<Data> getByDate(String startDate, String endDate) {
+        List<Data> datas = dataRepository.findAllByDate(startDate, endDate);
         return datas;
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface DataService extends BaseService<Data> {
 
-    public List<Data> getByStatus(Integer status);
-    public List<Data> getAllBySearchKey(String searchKey);
+    public List<Data> getByStatus(Integer status, String startDate, String endDate);
+    public List<Data> getByDate(String startDate, String endDate);
     public BaseResponse assignWork(AssignJobRequest request);
 }

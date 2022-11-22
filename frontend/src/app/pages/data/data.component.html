@@ -22,8 +22,11 @@
             <!--The content below is only a placeholder and can be replaced.-->
             <div>
               <div>
-                <input class="form-control" type="text" ngxDaterangepickerMd [(ngModel)]="selected" [ranges]="ranges" [showCustomRangeLabel]="true"/>
-                <div>Selected : {{selected | json}}</div>
+                <input class="form-control" type="text" ngxDaterangepickerMd 
+                  [(ngModel)]="dateRange" 
+                  [ranges]="ranges" 
+                  [showCustomRangeLabel]="true"
+                  (ngModelChange)="getByStatus(statusDto)"/>
               </div> 
             </div>
           </div>

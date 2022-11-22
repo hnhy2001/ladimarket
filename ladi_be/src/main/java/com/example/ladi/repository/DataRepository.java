@@ -12,9 +12,9 @@ public interface DataRepository extends BaseRepository<Data> {
     List<Data> findAll();
     Data findAllById(int id);
 
-    @Query("SELECT d FROM Data d WHERE (:status is null or d.status = :status)")
-    List<Data> findAllByStatus(@Param("status") Integer status);
+    @Query("SELECT d FROM Data d WHERE (:status is null or d.status = :status) AND (d.date BETWEEN :startDate AND :endDate)")
+    List<Data> findAllByStatus(@Param("status") Integer status, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Query("SELECT d FROM Data d WHERE CONCAT(d.formcolor, d.name, d.phone, d.state, d.ward, d.street) LIKE %?1%")
-    List<Data> findAllBySearchKey(@Param("searchKey") String searchKey);
+    @Query("SELECT d FROM Data d WHERE d.date > :startDate AND d.date < :endDate")
+    List<Data> findAllByDate( @Param("startDate") String startDate, @Param("endDate") String endDate);
 }

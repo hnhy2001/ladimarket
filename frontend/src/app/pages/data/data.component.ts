@@ -7,9 +7,12 @@ import { NotificationService } from 'app/notification.service';
 import { GiaoViecPopUpComponent } from 'app/shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
 import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/TongKetDuLieuPopup.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/xu-ly-du-lieu/XuLyDuLieuPopup.component';
+import dayjs, { Dayjs } from 'dayjs/esm';
+
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 import * as XLSX from 'xlsx';  
 
 
@@ -106,6 +109,11 @@ export class DataComponent implements OnInit{
             datatype: 'array'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
+
+        this.dateRange = {
+            startDate: dayjs().subtract(1, 'days').set('hours', 0).set('minutes', 0),
+            endDate: dayjs().subtract(1, 'days').set('hours', 23).set('minutes', 59)
+          };
     }
 
     ngOnInit(){
@@ -132,17 +140,15 @@ export class DataComponent implements OnInit{
 
     public showData(){
         let indexs = this.myGrid.getselectedrowindexes();
+        this.listWork = [];
         if (indexs.length > 0 && this.listWork.length == 0)
         {
-            for(let i = 1; i <indexs.length; i++) {
+            for(let i = 0; i <indexs.length; i++) {
                 this.listWork.push(this.myGrid.getrowdata(indexs[i]));
             }
         }
 
         if(this.listWork.length > 0 ) {
-
-            console.log(this.listWork);
-
             const modalRef = this.modalService.open(GiaoViecPopUpComponent, { size: 'xl' });
             modalRef.componentInstance.data = this.listWork;
         }
@@ -180,7 +186,6 @@ export class DataComponent implements OnInit{
 
 
     public exportTOExcel() {  
-        console.log(this.listEntity);
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.TABLE.nativeElement);  
         const wb: XLSX.WorkBook = XLSX.utils.book_new();  
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');  
@@ -225,16 +230,25 @@ export class DataComponent implements OnInit{
           );
     }
 
+
+    statusDto: any = -1;
     public getByStatus(status: any) {
+        this.statusDto = status;
+        var date = JSON.parse(JSON.stringify(this.dateRange));
+        console.log(status);
+        let startDate = this.convertDateToString(date.startDate);
+        let endDate = this.convertDateToString(date.endDate);
+        console.log(date);
+        console.log(startDate);
+        console.log(endDate);
         if(status == -1) {
-            this.dmService.getOption(null, this.REQUEST_URL,`/getAll`).subscribe(
+            this.dmService.getOption(null, this.REQUEST_URL,`/getByDate?startDate=${startDate}&endDate=${endDate}`).subscribe(
                 (res: HttpResponse<any>) => {
-                    console.log(res.body);
                   setTimeout(() => {
-                    res.body.RESULT.forEach(obj=> {
-                        moment.locale("vi"); 
-                        obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                    });
+                    // res.body.RESULT.forEach(obj=> {
+                    //     moment.locale("vi"); 
+                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                    // });
                     this.source.localdata = res.body.RESULT;
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                   }, 100);
@@ -244,14 +258,15 @@ export class DataComponent implements OnInit{
                 }
             );
         }else {
-            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status=${status}`).subscribe(
+            
+
+            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status=${this.statusDto}&startDate=${startDate}&endDate=${endDate}`).subscribe(
                 (res: HttpResponse<any>) => {
-                    console.log(res.body);
                   setTimeout(() => {
-                    res.body.RESULT.forEach(obj=> {
-                        moment.locale("vi"); 
-                        obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                    });
+                    // res.body.RESULT.forEach(obj=> {
+                    //     moment.locale("vi"); 
+                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                    // });
                     this.source.localdata = res.body.RESULT;
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                   }, 100);
@@ -266,30 +281,20 @@ export class DataComponent implements OnInit{
 
 
     /* Date Range Picker*/
-    selected: { startDate: Moment; endDate: Moment; };
-  
-    ranges: any = {
-        Today: [moment(), moment()],
-        Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-        'This Month': [moment().startOf('month'), moment().endOf('month')],
-        'Last Month': [
-        moment()
-            .subtract(1, 'month')
-            .startOf('month'),
-        moment()
-            .subtract(1, 'month')
-            .endOf('month')
-        ],
-        'Last 3 Month': [
-        moment()
-            .subtract(3, 'month')
-            .startOf('month'),
-        moment()
-            .subtract(1, 'month')
-            .endOf('month')
-        ]
+    dateRange: TimePeriod;
+    date: object;
+    ranges: DateRanges = {
+        ['Hôm nay']: [dayjs(), dayjs()],
+        ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+        ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
+        ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
+        ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+        ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
+        ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
     };
+
+    public convertDateToString(date:any):string {
+        return moment(date).format('YYYYMMDDhhmmss');
+    }
     /* End Date Range Picker */
 }

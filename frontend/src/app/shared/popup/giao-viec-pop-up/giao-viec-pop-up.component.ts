@@ -27,7 +27,6 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
     this.getUserActive();
     this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
       (res: HttpResponse<any>) => {
-        console.log(res.body.RESULT);
         this.listUser = res.body.RESULT;
       },
       (error: any) => {
@@ -49,6 +48,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
     this.activeModal.dismiss();
   }
 
+  selectedStaff:any;
   public setStaffId(staffId: any) {
     if(staffId != 0 || staffId != undefined)
       this.staffId = staffId;
