@@ -37,7 +37,7 @@ export class DanhMucService {
   }
 
   delete(id: number, requestUrl: any): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl + requestUrl + OPERATIONS.DELETE + '?id='}${id}`, { observe: 'response' });
+    return this.http.delete(`${this.resourceUrl + requestUrl +  '?id='}${id}`, { observe: 'response' });
   }
 
   postOption(entity: any, requestUrl: any, option: any): Observable<HttpResponse<any>> {

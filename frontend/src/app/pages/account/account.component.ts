@@ -146,7 +146,25 @@ export class AccountComponent implements OnInit{
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
             return;
         }
+        this.dmService.delete(this.selectedEntity.id, "/api/v1/account/deleteById").subscribe(
+            
+            (res: HttpResponse<any>) => {
+              if(res.body.CODE === 200){
+                this.notificationService.showSuccess("Xóa thành công", "Success");
+                setTimeout(() => {
+                  this.loadData();
+                }, 100);
+              }
+              else{
+                this.notificationService.showError("Xóa thất bại", "Fail");
         
+              }
+            },
+            () => {
+              console.error();
+              
+            }
+          );
     }
     public onRowSelect(event:any):void{
         this.selectedEntity = event.args.row;
