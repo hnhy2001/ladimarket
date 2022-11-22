@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 
 import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
-import { UserComponent }            from '../../pages/user/user.component';
 import { TableComponent }           from '../../pages/table/table.component';
 import { DataComponent }           from '../../pages/data/data.component';
 import { TypographyComponent }      from '../../pages/typography/typography.component';
@@ -32,7 +31,6 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
   ],
   declarations: [
     DashboardComponent,
-    UserComponent,
     TableComponent,
     UpgradeComponent,
     TypographyComponent,
