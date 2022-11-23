@@ -1,13 +1,16 @@
 package com.example.ladi.extentions;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class datetimeExtention {
 
     public static String getCurrentUnixDate() {
-        long unixTime = Instant.now().getEpochSecond();
-        
-        System.out.println(unixTime);
-        return Long.toString(unixTime);
+        LocalDateTime currentDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+
+        String date = currentDate.format(formatter);
+        return date;
     }
 }

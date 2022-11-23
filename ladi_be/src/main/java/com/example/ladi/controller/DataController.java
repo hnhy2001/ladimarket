@@ -3,6 +3,7 @@ package com.example.ladi.controller;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.request.AssignJobRequest;
 import com.example.ladi.dto.DataDto;
+import com.example.ladi.extentions.datetimeExtention;
 import com.example.ladi.model.Data;
 import com.example.ladi.service.BaseService;
 import com.example.ladi.service.DataService;
@@ -34,10 +35,7 @@ public class DataController extends BaseController<Data>{
 
     @PostMapping("create")
     public BaseResponse create(@RequestBody Data obj) throws NoSuchAlgorithmException {
-//        Data data = mapper.map(entity, Data.class);
-
-        long unixTime = Instant.now().getEpochSecond();
-        obj.setDate(Long.toString(unixTime));
+        obj.setDate(datetimeExtention.getCurrentUnixDate());
         return new BaseResponse(200, "Tạo thành công!", this.getService().create(obj));
     }
 
