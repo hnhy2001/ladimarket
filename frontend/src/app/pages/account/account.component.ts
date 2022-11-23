@@ -12,119 +12,114 @@ import $ from "jquery";
     templateUrl: 'account.component.html'
 })
 
-export class AccountComponent implements OnInit, AfterViewInit{
+export class AccountComponent implements OnInit {
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     source: any
     listStatus = [
-        {id: 0,label:"Chờ xử lý"},
-        {id: 1,label:"Đang xử lý"},
+        { id: 0, label: "Chờ xử lý" },
+        { id: 1, label: "Đang xử lý" },
     ];
+    getWidth(): any {
+        if (document.body.offsetWidth < 850) {
+            return '90%';
+        }
+
+        return 850;
+    }
     dataAdapter: any;
     columns: any[] =
-    [
-        {
-            text: '#', sortable: false, filterable: false, align: 'center', editable: false,
-            groupable: false, draggable: false, resizable: false,
-            datafield: '', columntype: 'number',
-            cellsrenderer: (row: number, column: any, value: number): string => {
-                return '<div style="margin: 4px;">' + (value + 1) + '</div>';
-            }
-        },
-        { text: 'Họ và Tên', editable: false, datafield: 'fullName', width: '20%',align: 'center'},
-        { text: 'Tài khoản', editable: false, datafield: 'userName', width: '15%',align: 'center'},
-        // { text: 'Mât khẩu', editable: false, datafield: 'passWord' , 'width':'160'},
-        { text: 'Email',editable:false ,datafield: 'email' , width: '20%',align: 'center'},
-        { text: 'SDT', editable: false, datafield: 'phone' , width: '10%',align: 'center'},
-        { text: 'Đia chỉ', editable: false, datafield: 'address' , width: '15%',align: 'center'},
-        
-        // { 
-        //     text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
-        //     filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
-        //     createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
-        //         editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
-        //     },
-        //     cellsrenderer: (row: number, column: any, value: number): string => {
-        //         if(value === 0)
-        //         {
-        //             return '<div style="background-color:aqua;color:white; padding: 5px; width:100%; height:20px">Đang xử lý</div>'
-        //         }
-        //     }
-        // },
-        { text: 'Ghi chú', editable: false, datafield: 'note' , width: '15%',align: 'center'},
+        [
+            {
+                text: '#', sortable: false, filterable: false, editable: false,
+                groupable: false, draggable: false, resizable: false,
+                datafield: '', columntype: 'number', width: 50,
+                cellsrenderer: (row: number, column: any, value: number): string => {
+                    return '<div style="margin: 4px;">' + (value + 1) + '</div>';
+                }
+            },
+            { text: 'Tài khoản', editable: false, datafield: 'userName', 'width': '170' },
+            { text: 'Họ và Tên', editable: false, datafield: 'fullName', 'width': '300' },
+            // { text: 'Mât khẩu', editable: false, datafield: 'passWord' , 'width':'160'},
+            { text: 'Email', editable: false, datafield: 'email', 'width': '185' },
+            { text: 'SDT', editable: false, datafield: 'phone', 'width': '170' },
+            { text: 'Đia chỉ', editable: false, datafield: 'address', 'width': '300' },
 
-    ];
-    height: any = $(window).height()! - 230;
-    localization: any = {
-      pagergotopagestring: 'Trang',
-      pagershowrowsstring: 'Hiển thị',
-      pagerrangestring: ' của ',
-      emptydatastring: 'Không có dữ liệu hiển thị',
-      filterstring: 'Nâng cao',
-      filterapplystring: 'Áp dụng',
-      filtercancelstring: 'Huỷ bỏ'
-    };
-    pageSizeOptions = ['50', '100', '200'];
-    REQUEST_URL ="/api/v1/account";
-    
+            // { 
+            //     text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
+            //     filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
+            //     createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
+            //         editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
+            //     },
+            //     cellsrenderer: (row: number, column: any, value: number): string => {
+            //         if(value === 0)
+            //         {
+            //             return '<div style="background-color:aqua;color:white; padding: 5px; width:100%; height:20px">Đang xử lý</div>'
+            //         }
+            //     }
+            // },
+            { text: 'Phân quyền', editable: false, datafield: 'role', 'width': '300' },
+            { text: 'Ghi chú', editable: false, datafield: 'note', 'width': '300' },
+
+        ];
+
+    REQUEST_URL = "/api/v1/account";
+
     listEntity = [];
 
-    selectedEntity:any;
+    selectedEntity: any;
 
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
         private modalService: NgbModal
-    ){
+    ) {
         this.source =
         {
             localdata: [],
             datafields:
-            [
-                { name: 'id', type: 'number' },
-                { name: 'userName', type: 'string' },
-                { name: 'passWord', type: 'string' },
-                { name: 'email', type: 'string' },
-                { name: 'phone', type: 'string' },
-                { name: 'address', type: 'string' },
-                { name: 'fullName', type: 'string' },
-                { name: 'note', type: 'string' },
-                { name: 'role', type: 'string' },
-                { name: 'formcolor', type: 'string' },
-                
-            ],
-            id:'id',
+                [
+                    { name: 'id', type: 'number' },
+                    { name: 'userName', type: 'string' },
+                    { name: 'passWord', type: 'string' },
+                    { name: 'email', type: 'string' },
+                    { name: 'phone', type: 'string' },
+                    { name: 'address', type: 'string' },
+                    { name: 'fullName', type: 'string' },
+                    { name: 'note', type: 'string' },
+                    { name: 'role', type: 'string' },
+                    { name: 'formcolor', type: 'string' },
+
+                ],
+            id: 'id',
             datatype: 'array'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.loadData();
     }
-
-    ngAfterViewInit(): void {
-      this.myGrid.pagesizeoptions(this.pageSizeOptions);
-    }
-
-    public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
+    public loadData() {
+        this.selectedEntity = null;
+        this.dmService.getOption(null, this.REQUEST_URL, "/getAll").subscribe(
             (res: HttpResponse<any>) => {
-              this.listEntity = res.body;
-              setTimeout(() => {
-                this.source.localdata = res.body.RESULT;
-                console.log(this.source);
-                this.dataAdapter = new jqx.dataAdapter(this.source);
-              }, 100);
+                this.listEntity = res.body;
+                setTimeout(() => {
+                    this.source.localdata = res.body.RESULT;
+                    console.log(this.source);
+                    this.dataAdapter = new jqx.dataAdapter(this.source);
+                    this.myGrid.clearselection();
+                }, 100);
             },
             () => {
-              console.error();
+                console.error();
             }
-          );
+        );
     }
-    public updateData(){
-        if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+    public updateData() {
+        if (!this.selectedEntity) {
+            this.notificationService.showError('Vui lòng chọn dữ liệu', "Thông báo lỗi!");
             return;
         }
         const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
@@ -132,49 +127,55 @@ export class AccountComponent implements OnInit, AfterViewInit{
         modalRef.componentInstance.title = "Cập nhật tài khoản"
         modalRef.result.then(
             () => {
-              this.loadData();
-             
+                this.loadData();
+
             },
-            () => {}
-          );
+            () => { }
+        );
     }
-    public createData(){
+    public createData() {
         const modalRef = this.modalService.open(ThemSuaXoaAccountComponent, { size: 'l' });
         modalRef.componentInstance.data = null;
         modalRef.componentInstance.title = "Tạo tài khoản";
         modalRef.result.then(
             () => {
-              this.loadData();
+                this.loadData();
             },
-            () => {}
-          );
+            () => { }
+        );
     }
-    public deleteData(){
-        if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+    public deleteData() {
+        if (!this.selectedEntity) {
+            this.notificationService.showError('Vui lòng chọn dữ liệu', "Thông báo lỗi!");
             return;
         }
-        this.dmService.delete(this.selectedEntity.id, "/api/v1/account/deleteById").subscribe(
-            
-            (res: HttpResponse<any>) => {
-              if(res.body.CODE === 200){
-                this.notificationService.showSuccess("Xóa thành công", "Success");
-                setTimeout(() => {
-                  this.loadData();
-                }, 100);
-              }
-              else{
-                this.notificationService.showError("Xóa thất bại", "Fail");
+        this.confirmDialogService
+            .confirm('Bạn có thật sự muốn xóa bản ghi này?', 'Đồng ý', 'Hủy')
+            .then((confirmed: any) => {
+                if (confirmed) {
+                    this.dmService.delete(this.selectedEntity.id, "/api/v1/account/deleteById").subscribe(
+
+                        (res: HttpResponse<any>) => {
+                            if (res.body.CODE === 200) {
+                                this.notificationService.showSuccess("Xóa thành công", "Success");
+                                setTimeout(() => {
+                                    this.loadData();
+                                }, 100);
+                            }
+                            else {
+                                this.notificationService.showError("Xóa thất bại", "Fail");
+                            }
+                        },
+                        () => {
+                            console.error();
+                        }
+                    );
+                }
+            })
+            .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
         
-              }
-            },
-            () => {
-              console.error();
-              
-            }
-          );
     }
-    public onRowSelect(event:any):void{
+    public onRowSelect(event: any): void {
         this.selectedEntity = event.args.row;
     }
 }
