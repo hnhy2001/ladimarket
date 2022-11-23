@@ -8,6 +8,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { DanhMucService } from 'app/danhmuc.service';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 @Component({
   moduleId: module.id,
   selector: 'navbar-cmp',
@@ -28,7 +29,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,
     private local: LocalStorageService,
-    private dmService: DanhMucService) {
+    private dmService: DanhMucService,private confirmDialogService: ConfirmationDialogService,) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -55,11 +56,26 @@ export class NavbarComponent implements OnInit {
       this.sidebarClose();
     });
   }
+
+  onTriggerWorkActive(): void {
+    this.checkWorkActive = !this.checkWorkActive;
+    this.confirmDialogService
+      .confirm('Xác nhận thay đổi', 'Đồng ý', 'Hủy')
+      .then((confirmed: any) => {
+        if (confirmed) {
+          this.triggerWorkActive()
+        }else{
+          this.checkWorkActive = !this.checkWorkActive;
+        };
+      })
+      .catch(() => console.log('Đã có lỗi xảy ra'));
+  }
+
   async triggerWorkActive() {
     moment.locale("vi");
     let time = moment(new Date).format('YYYYMMDDhms');
 
-    if (this.checkWorkActive == false) {
+    if (this.checkWorkActive) {
       let checkInEntity = {
         timeIn: time,
         nhanVienId: this.local.retrieve("authenticationToken").id
@@ -67,7 +83,10 @@ export class NavbarComponent implements OnInit {
       this.dmService.postOption(checkInEntity, "/api/v1/work/", '').subscribe(
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
-            this.checkWorkActive = true;
+            console.log('done');
+          }else{
+            console.log('error');
+            this.checkWorkActive = !this.checkWorkActive;
           }
         },
         () => {
@@ -102,7 +121,10 @@ export class NavbarComponent implements OnInit {
     this.dmService.postOption(checkOutEntity, "/api/v1/work/checkOut/", '').subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
-          this.checkWorkActive = false;
+          console.log('done');
+        }else{
+          console.log('error');
+          this.checkWorkActive = !this.checkWorkActive;
         }
       },
       () => {

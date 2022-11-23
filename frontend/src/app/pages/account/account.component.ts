@@ -6,43 +6,36 @@ import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-di
 import { NotificationService } from 'app/notification.service';
 import { ThemSuaXoaAccountComponent } from 'app/shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
-
+import $ from "jquery";
 @Component({
     selector: 'account-cmp',
     templateUrl: 'account.component.html'
 })
 
-export class AccountComponent implements OnInit{
+export class AccountComponent implements OnInit, AfterViewInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     source: any
     listStatus = [
         {id: 0,label:"Chờ xử lý"},
         {id: 1,label:"Đang xử lý"},
     ];
-	getWidth() : any {
-		if (document.body.offsetWidth < 850) {
-			return '90%';
-		}
-		
-		return 850;
-	}
     dataAdapter: any;
     columns: any[] =
     [
         {
-            text: '#', sortable: false, filterable: false, editable: false,
+            text: '#', sortable: false, filterable: false, align: 'center', editable: false,
             groupable: false, draggable: false, resizable: false,
-            datafield: '', columntype: 'number', width: 50,
+            datafield: '', columntype: 'number',
             cellsrenderer: (row: number, column: any, value: number): string => {
                 return '<div style="margin: 4px;">' + (value + 1) + '</div>';
             }
         },
-        { text: 'Họ và Tên', editable: false, datafield: 'fullName', 'width':'300'},
-        { text: 'Tài khoản', editable: false, datafield: 'userName', 'width':'170'},
+        { text: 'Họ và Tên', editable: false, datafield: 'fullName', width: '20%',align: 'center'},
+        { text: 'Tài khoản', editable: false, datafield: 'userName', width: '15%',align: 'center'},
         // { text: 'Mât khẩu', editable: false, datafield: 'passWord' , 'width':'160'},
-        { text: 'Email',editable:false ,datafield: 'email' , 'width':'185'},
-        { text: 'SDT', editable: false, datafield: 'phone' , 'width':'170'},
-        { text: 'Đia chỉ', editable: false, datafield: 'address' , 'width':'300'},
+        { text: 'Email',editable:false ,datafield: 'email' , width: '20%',align: 'center'},
+        { text: 'SDT', editable: false, datafield: 'phone' , width: '10%',align: 'center'},
+        { text: 'Đia chỉ', editable: false, datafield: 'address' , width: '15%',align: 'center'},
         
         // { 
         //     text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
@@ -57,10 +50,20 @@ export class AccountComponent implements OnInit{
         //         }
         //     }
         // },
-        { text: 'Ghi chú', editable: false, datafield: 'note' , 'width':'300'},
+        { text: 'Ghi chú', editable: false, datafield: 'note' , width: '15%',align: 'center'},
 
     ];
-
+    height: any = $(window).height()! - 230;
+    localization: any = {
+      pagergotopagestring: 'Trang',
+      pagershowrowsstring: 'Hiển thị',
+      pagerrangestring: ' của ',
+      emptydatastring: 'Không có dữ liệu hiển thị',
+      filterstring: 'Nâng cao',
+      filterapplystring: 'Áp dụng',
+      filtercancelstring: 'Huỷ bỏ'
+    };
+    pageSizeOptions = ['50', '100', '200'];
     REQUEST_URL ="/api/v1/account";
     
     listEntity = [];
@@ -99,6 +102,11 @@ export class AccountComponent implements OnInit{
     ngOnInit(){
         this.loadData();
     }
+
+    ngAfterViewInit(): void {
+      this.myGrid.pagesizeoptions(this.pageSizeOptions);
+    }
+
     public loadData(){
         this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {

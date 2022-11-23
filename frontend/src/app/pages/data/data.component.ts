@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef , AfterViewInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
@@ -22,7 +22,7 @@ import * as XLSX from 'xlsx';
     templateUrl: 'data.component.html'
 })
 
-export class DataComponent implements OnInit{
+export class DataComponent implements OnInit, AfterViewInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     @ViewChild('TABLE', { static: false }) TABLE: ElementRef;  
 
@@ -45,21 +45,21 @@ export class DataComponent implements OnInit{
         {
             text: '#', sortable: false, filterable: false, editable: false,
             groupable: false, draggable: false, resizable: false,
-            datafield: '', columntype: 'number', width: 50,
+            datafield: '', columntype: 'number', 
             cellsrenderer: (row: number, column: any, value: number): string => {
                 return '<div style="margin: 4px;">' + (value + 1) + '</div>';
             }
         },
-        { text: 'Ngày', editable: false, datafield: 'date'},
-        { text: 'Tên KH', editable: false, datafield: 'name', 'width':'160'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , 'width':'200'},
-        { text: 'SĐT', editable: false, datafield: 'phone' , 'width':'100'},
-        { text: 'Địa chỉ', editable: false, datafield: 'street' , 'width':'160'},
-        { text: 'Xã', editable: false, datafield: 'ward' , 'width':'80'},
-        { text: 'Huyện', editable: false, datafield: 'district' , 'width':'80'},
-        { text: 'Tỉnh', editable: false, datafield: 'state' , 'width':'80'},
+        { text: 'Ngày', editable: false, datafield: 'ngay', width: '10%',align: 'center'},
+        { text: 'Tên KH', editable: false, datafield: 'name', width: '10%',align: 'center'},
+        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '10%',align: 'center'},
+        { text: 'SĐT', editable: false, datafield: 'phone' , width: '10%',align: 'center'},
+        { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%',align: 'center'},
+        { text: 'Xã', editable: false, datafield: 'ward' , width: '8%',align: 'center'},
+        { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%',align: 'center'},
+        { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%',align: 'center'},
         { 
-            text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
+            text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '10%',align: 'center',
             filteritems: new jqx.dataAdapter(this.listStatus), displayfield: 'label',
             createfilterwidget: (column: any, htmlElement: any, editor: any): void => {
                 editor.jqxDropDownList({ displayMember: 'label', valueMember: 'id' });
@@ -71,9 +71,20 @@ export class DataComponent implements OnInit{
                 }
             }
         },
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvienid' , 'width':'120'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvienid' ,  width: '10%',align: 'center'},
 
     ];
+    height: any = $(window).height()! - 270;
+    localization: any = {
+      pagergotopagestring: 'Trang',
+      pagershowrowsstring: 'Hiển thị',
+      pagerrangestring: ' của ',
+      emptydatastring: 'Không có dữ liệu hiển thị',
+      filterstring: 'Nâng cao',
+      filterapplystring: 'Áp dụng',
+      filtercancelstring: 'Huỷ bỏ'
+    };
+    pageSizeOptions = ['50', '100', '200'];
 
     REQUEST_URL ="/api/v1/data";
 
@@ -101,9 +112,10 @@ export class DataComponent implements OnInit{
                 { name: 'district', type: 'string' },
                 { name: 'status', type: 'number' },
                 { name: 'nhanvien', type: 'string' },
-                { name: 'date', type: 'string' },
+                { name: 'date', type: 'date',format: "DD/MM/YYYY" },
                 { name: 'formcolor', type: 'string' },
                 { name: 'nhanvienid', type: 'number' },
+                { name: 'ngay', type: 'string' }
             ],
             id:'id',
             datatype: 'array'
@@ -120,11 +132,16 @@ export class DataComponent implements OnInit{
         
         this.loadData();
     }
+
+    ngAfterViewInit(): void {
+        this.myGrid.pagesizeoptions(this.pageSizeOptions);
+      }
+
     public loadData(){
         this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
-                this.source.localdata = res.body.RESULT;
+                this.source.localdata = this.customDate(res.body.RESULT);
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
             },
@@ -134,7 +151,13 @@ export class DataComponent implements OnInit{
           );
     }
 
-    
+    customDate(list: any[]): any[] {
+        list.forEach(unitItem => {
+            unitItem.ngay = unitItem.date? moment(unitItem.date, 'X').format('DD/MM/YYYY HH:mm:ss'):null;
+          
+        });
+        return list;
+      }
 
     listWork = [];
 
@@ -236,22 +259,19 @@ export class DataComponent implements OnInit{
         this.statusDto = status;
         var date = JSON.parse(JSON.stringify(this.dateRange));
         console.log(status);
-        let startDate = this.convertDateToString(date.startDate);
-        let endDate = this.convertDateToString(date.endDate);
-        console.log(date);
-        console.log(startDate);
-        console.log(endDate);
+        let startDate = moment(new Date(date.startDate)).format('DD/MM/YYYY');
+        let endDate = moment(new Date(date.endDate)).format('DD/MM/YYYY');
         if(status == -1) {
             this.dmService.getOption(null, this.REQUEST_URL,`/getByDate?startDate=${startDate}&endDate=${endDate}`).subscribe(
                 (res: HttpResponse<any>) => {
-                  setTimeout(() => {
-                    // res.body.RESULT.forEach(obj=> {
-                    //     moment.locale("vi"); 
-                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                    // });
-                    this.source.localdata = res.body.RESULT;
-                    this.dataAdapter = new jqx.dataAdapter(this.source);
-                  }, 100);
+                //   setTimeout(() => {
+                //     // res.body.RESULT.forEach(obj=> {
+                //     //     moment.locale("vi"); 
+                //     //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                //     // });
+                //     this.source.localdata = res.body.RESULT;
+                //     this.dataAdapter = new jqx.dataAdapter(this.source);
+                //   }, 100);
                 },
                 (error: HttpResponse<any>) => {
                     this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
