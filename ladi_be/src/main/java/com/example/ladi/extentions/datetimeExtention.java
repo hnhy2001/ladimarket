@@ -8,8 +8,7 @@ public class datetimeExtention {
 
     public static String getCurrentUnixDate() {
         LocalDateTime currentDate = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String date = currentDate.format(formatter);
         return date;
     }
