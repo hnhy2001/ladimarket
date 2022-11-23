@@ -3,40 +3,53 @@
     <b>{{title?title:''}}</b>
     <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
   </div>
-  <div class="d-inline mt-4">
+  <div class="d-inline mt-1">
 
-    <!-- User input -->
-    <div class="form-group form-outline mb-4 mt-4">
-      <input type="text" name="username" [(ngModel)]="username" placeholder=" Tên tài khoản"
-        class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
-
-    <!-- Password input -->
-    <div class="form-group form-outline mb-4">
-      <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
-        class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
-    <div class="form-group form-outline mb-4">
-      <input type="password" name="passWord" [(ngModel)]="retypePassword" placeholder="Nhập lại mật khẩu"
-        class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
-    <div class="form-group form-outline mb-4">
+    <div class="form-group form-outline mb-1">
+      <label>Họ và tên</label>
       <input type="text" name="Họ và tên" [(ngModel)]="fullName" placeholder=" Họ và tên "
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
+    <!-- User input -->
+    <div class="form-group form-outline mb-1 mt-1">
+      <label>Tài khoản</label>
+      <input type="text" name="username" [(ngModel)]="username" placeholder=" Tên tài khoản"
+        class="form-control form-control-lg" style="height:2.5rem ;" disabled>
+    </div>
 
-    <div class="form-group form-outline mb-4">
+    <!-- Password input -->
+    <div class="form-group form-outline mb-1">
+      <label>Mật khẩu</label>
+      <input type="password" name="password" [(ngModel)]="password" placeholder=" Mật khẩu"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-1">
+      <label>Nhập lại mật khẩu</label>
+      <input type="password" name="passWord" [(ngModel)]="retypePassword" placeholder="Nhập lại mật khẩu"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-1">
+      <label>Email</label>
       <input type="text" name="Email" [(ngModel)]="email" placeholder=" email" class="form-control form-control-lg"
         style="height:2.5rem ;">
     </div>
 
-    <div class="form-group form-outline mb-4">
+    <div class="form-group form-outline mb-1">
+      <label>SĐT</label>
       <input type="text" name="Số điện thoại" [(ngModel)]="sdt" placeholder=" Số điện thoại "
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
-    <div class="form-group form-outline mb-4">
+    <div class="form-group form-outline mb-1">
+      <label>Địa chỉ</label>
       <input type="text" name="Địa chỉ" [(ngModel)]="address " placeholder=" Địa chỉ"
         class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-1">
+      <label>Phân quyền</label>
+      <select class="form-control" [(ngModel)]="role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
     </div>
 
   </div>

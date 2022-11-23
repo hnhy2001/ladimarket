@@ -25,6 +25,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
   sdt = "";
   address = "";
   fullName = "";
+  role="user";
 
   REQUEST_URL = '/api/v1/account'
   constructor(
@@ -40,24 +41,10 @@ export class ThemSuaXoaAccountComponent implements OnInit {
       this.email = this.data.email;
       this.sdt = this.data.phone;
       this.address = this.data.address;
+      this.role = this.data.role;
     }
   }
 
-  onGiveShip(): void {
-    window.open("#/bill?id=" + this.data.id)
-  }
-
-  public decline(): void {
-    this.activeModal.close(false);
-  }
-
-  public accept(): void {
-    this.activeModal.close(true);
-  }
-
-  public dismiss(): void {
-    this.activeModal.dismiss();
-  }
   create() {
     if(this.validData()){
       let entity = {
@@ -67,7 +54,8 @@ export class ThemSuaXoaAccountComponent implements OnInit {
         email: this.email,
         phone: this.sdt,
         address : this.address,
-        fullName: this.fullName
+        fullName: this.fullName,
+        role: this.role
       }
       if(!this.data){
         this.dmService.postOption(entity, "/api/v1/account/create", '').subscribe(
@@ -116,5 +104,15 @@ export class ThemSuaXoaAccountComponent implements OnInit {
     }
     return true;
   }
-  
+  public decline(): void {
+    this.activeModal.close(false);
+  }
+
+  public accept(): void {
+    this.activeModal.close(true);
+  }
+
+  public dismiss(): void {
+    this.activeModal.dismiss();
+  }
 }
