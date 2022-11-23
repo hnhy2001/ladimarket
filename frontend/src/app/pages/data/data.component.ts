@@ -294,7 +294,7 @@ export class DataComponent implements OnInit{
     };
 
     public convertDateToString(date:any):string {
-        return moment(date).format('YYYYMMDDhhmmss');
+        return moment(date).format('yyyyMMddHHmmss');
     }
     /* End Date Range Picker */
 }

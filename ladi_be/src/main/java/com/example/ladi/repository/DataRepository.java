@@ -12,9 +12,13 @@ public interface DataRepository extends BaseRepository<Data> {
     List<Data> findAll();
     Data findAllById(int id);
 
-    @Query("SELECT d FROM Data d WHERE (:status is null or d.status = :status) AND (d.date BETWEEN :startDate AND :endDate)")
+    @Query(
+        value = "SELECT * FROM data as d WHERE (:status is null or d.status = :status) AND (d.date BETWEEN :startDate AND :endDate)",
+        nativeQuery = true)
     List<Data> findAllByStatus(@Param("status") Integer status, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Query("SELECT d FROM Data d WHERE d.date > :startDate AND d.date < :endDate")
+    @Query(
+        value = "SELECT * FROM data as d WHERE d.date > :startDate AND d.date < :endDate", 
+        nativeQuery = true)
     List<Data> findAllByDate( @Param("startDate") String startDate, @Param("endDate") String endDate);
 }
