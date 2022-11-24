@@ -7,7 +7,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./confirm-dialog.component.scss']
 })
 export class ConfirmDialogComponent implements OnInit {
-  @Input() title?: string;
   @Input() message?: string;
   @Input() btnOkText?: string;
   @Input() btnCancelText?: string;
