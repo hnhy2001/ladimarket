@@ -9,17 +9,26 @@
   <div class="col-12">
     <label>Số lượng công việc chưa xử lý: {{listWork.length}}</label>
   </div>
-  <div class="col-5">
+  <div class="col-5 pr-0">
     <jqxGrid #gridNhanVien
           [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true" [height]="height"
-          [pageable]="true" [autorowheight]="true" [sortable]="true" 
+          [pageable]="true" [sortable]="true" 
           [filterable]="true" [showfilterrow]="true"
           [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
-          (onRowselect)="onRowSelect($event)"
+          (onRowselect)="onRowSelect($event)" [localization]="localization" (onRowclick)="Rowclick($event)"
           >
         </jqxGrid>
   </div>
-  <div class="col-7"></div>
+  <div class="col-7">
+    <jqxGrid #gridCongViec
+          [width]="'100%'" [source]="dataAdapterCV" [columns]="columnsCV" [height]="height"
+          [pageable]="true" [sortable]="true" 
+          [filterable]="true" [showfilterrow]="true"
+          [altrows]="true"  [enabletooltips]="true"
+          [localization]="localization"
+          >
+        </jqxGrid>
+  </div>
 </div>
 <div class="modal-footer">
   <button (click)="assignWork()" type="" class="btn btn-primary">Lưu</button>

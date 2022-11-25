@@ -13,12 +13,14 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('gridNhanVien') myGrid: jqxGridComponent;
+  @ViewChild('gridCongViec') myGridCV: jqxGridComponent;
   REQUEST_WORK_URL ="/api/v1/work";
   listUser = [];
   listWork = [];
+  selectId = null;
   REQUEST_DATA_URL ="/api/v1/data";
 
-  // grid
+  // grid nhân viên
   dataAdapter!: any;
   source =
         {
@@ -39,6 +41,32 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
         { text: 'Họ tên', editable: false, datafield: 'tenDayDu', width:'200'},
         { text: 'thời gian checkin',editable:false ,datafield: 'thoiGianVao'}
     ];
+    // grid công việc
+    dataAdapterCV!: any;
+    sourceCV =
+          {
+              localdata: [],
+              datafields:
+              [
+                { name: 'id', type: 'number' },
+                { name: 'name', type: 'string' },
+                { name: 'phone', type: 'string' },
+                { name: 'formcolor', type: 'string' },
+                { name: 'ngay', type: 'string' },
+                { name: 'street', type: 'string' }
+              ],
+              id:'id',
+              datatype: 'array'
+          }
+      columnsCV: any[] =
+      [
+        { text: 'Ngày', editable: false, datafield: 'ngay', width: '15%'},
+        { text: 'Tên KH', editable: false, datafield: 'name', width: '20%'},
+        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '25%'},
+        { text: 'SĐT', editable: false, datafield: 'phone' , width: '15%'},
+        { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '25%'}
+      ];
+    // grid dùng chung
     height: any = 500;
     localization: any = {
       pagergotopagestring: 'Trang',
@@ -57,7 +85,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngOnInit(): void {
     this.getUserActive();
-    this.getWorks();
+    // this.getWorks();
   }
 
   ngOnDestroy(): void {}
@@ -91,9 +119,12 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getWorks():void{
-    this.service.getOption(null, this.REQUEST_DATA_URL,`?status=0&startDate=0&endDate=0`).subscribe(
+    // this.service.getOption(null, this.REQUEST_DATA_URL,`/getByStatus?status=0&startDate=0&endDate=0`).subscribe(
+      this.service.getOption(null, this.REQUEST_DATA_URL,`/getAll`).subscribe(
       (res: HttpResponse<any>) => {
-          this.listWork = res.body.RESULT;
+          this.listWork = this.customDateCV(res.body.RESULT);
+          this.sourceCV.localdata = this.listWork;
+          this.dataAdapterCV = new jqx.dataAdapter(this.sourceCV);
       },
       (error: HttpResponse<any>) => {
           this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
@@ -101,8 +132,20 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   );
   }
 
+  customDateCV(list: any[]): any[] {
+    list.forEach(unitItem => {
+        unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
+    });
+    return list;
+  }
+
   onRowSelect(e:any):void{
     console.log(e);
+    console.log(this.myGrid.getselectedrowindexes())
+  }
+
+  Rowclick(e:any):void{
+    this.selectId = e.args.row.id;
   }
 
   public dismiss(): void {

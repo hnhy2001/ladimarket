@@ -8,6 +8,7 @@ import { GiaoViecPopUpComponent } from 'app/shared/popup/giao-viec-pop-up/giao-v
 import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/TongKetDuLieuPopup.component';
 import { TuDongGiaoViecComponent } from 'app/shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/xu-ly-du-lieu/XuLyDuLieuPopup.component';
+import DateUtil from 'app/shared/util/date.util';
 import dayjs, { Dayjs } from 'dayjs/esm';
 
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
@@ -141,7 +142,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     customDate(list: any[]): any[] {
         list.forEach(unitItem => {
-            unitItem.ngay = unitItem.date? moment(unitItem.date, 'X').format('DD/MM/YYYY HH:mm:ss'):null;
+            unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             switch (unitItem.status){
                 case 0: 
                 {
