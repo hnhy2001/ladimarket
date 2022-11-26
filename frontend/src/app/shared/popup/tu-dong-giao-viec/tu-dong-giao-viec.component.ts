@@ -30,7 +30,10 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
                 { name: 'id', type: 'number' },
                 { name: 'ten', type: 'string' },
                 { name: 'tenDayDu', type: 'string' },
-                { name: 'thoiGianVao', type: 'string' }
+                { name: 'thoiGianVao', type: 'string' },
+                { name: 'donGiao', type: 'number' },
+                { name: 'donHoanThanh', type: 'number' },
+                { name: 'soLuongCV', type: 'number' }
             ],
             id:'id',
             datatype: 'array'
@@ -39,33 +42,10 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     [
         { text: 'Tên đăng nhập', editable: false, datafield: 'ten'},
         { text: 'Họ tên', editable: false, datafield: 'tenDayDu', width:'200'},
-        { text: 'thời gian checkin',editable:false ,datafield: 'thoiGianVao'}
+        { text: 'Thời gian checkin',editable:false ,datafield: 'thoiGianVao'},
+        { text: 'Đơn hoàn thành',editable:false ,datafield: 'donHoanThanh'},
+        { text: 'Số lượng đơn giao',editable:false ,datafield: 'soLuongCV'}
     ];
-    // grid công việc
-    dataAdapterCV!: any;
-    sourceCV =
-          {
-              localdata: [],
-              datafields:
-              [
-                { name: 'id', type: 'number' },
-                { name: 'name', type: 'string' },
-                { name: 'phone', type: 'string' },
-                { name: 'formcolor', type: 'string' },
-                { name: 'ngay', type: 'string' },
-                { name: 'street', type: 'string' }
-              ],
-              id:'id',
-              datatype: 'array'
-          }
-      columnsCV: any[] =
-      [
-        { text: 'Ngày', editable: false, datafield: 'ngay', width: '15%'},
-        { text: 'Tên KH', editable: false, datafield: 'name', width: '20%'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '25%'},
-        { text: 'SĐT', editable: false, datafield: 'phone' , width: '15%'},
-        { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '25%'}
-      ];
     // grid dùng chung
     height: any = 500;
     localization: any = {
@@ -84,8 +64,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.getUserActive();
-    // this.getWorks();
+    this.getWorks();
   }
 
   ngOnDestroy(): void {}
@@ -97,7 +76,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   getUserActive() {
     this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
         (res: HttpResponse<any>) => {
-          this.listUser = this.customDate(res.body.RESULT);
+          this.listUser = this.customData(res.body.RESULT);
           this.source.localdata = this.listUser;
           this.dataAdapter = new jqx.dataAdapter(this.source);
           setTimeout(() => {
@@ -109,22 +88,114 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
         }
       );
   }
-  customDate(list: any[]): any[] {
-    list.forEach(unitItem => {
-        unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-        unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-        unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
-    });
-    return list;
+  customData(list: any[]): any[] {
+    if(this.listWork.length > 0){
+      const phanDu = this.listWork.length % list.length;
+      const phanNguyen = Math.floor(this.listWork.length / list.length);
+      if(this.listWork.length > list.length){
+        if(phanDu === 0){
+          list.forEach((unitItem) => {
+            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+            unitItem.soLuongCV = phanNguyen
+          });
+          return list;
+        }else{
+          list.forEach((unitItem,index) => {          
+              unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+              unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+              unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+              unitItem.soLuongCV = (index === (list.length - 1))? phanDu :phanNguyen;
+          });
+          return list;
+        }
+        
+      }else{
+        list.forEach((unitItem,index) => {
+              unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+              unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+              unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+              unitItem.soLuongCV = (index === 0)?(phanNguyen + phanDu):null;
+        });
+        return list;
+      }  
+    }else{
+      list.forEach(unitItem => {
+          unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+          unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+          unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+          unitItem.soLuongCV = null;
+      });
+      return list;
+    }
+  }
+
+  customDataSelect(list: any[]): any[] {
+     const count = this.myGrid.getselectedrowindexes().length;
+     const listcheck = this.myGrid.getselectedrowindexes();
+    if(this.listWork.length > 0){
+      const phanDu = this.listWork.length % count;
+      const phanNguyen = Math.floor(this.listWork.length / count);
+      if(this.listWork.length > count){
+        if(phanDu === 0){
+          list.forEach((unitItem,index) => {
+            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+            unitItem.soLuongCV = listcheck.includes(index)?phanNguyen:null;
+          });
+          return list;
+        }else{
+          let countListCheck = count;
+          list.forEach((unitItem,index) => {
+            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+            if(listcheck.includes(index)){
+              countListCheck--;
+              unitItem.soLuongCV = (countListCheck === 0)?(phanNguyen + phanDu):phanNguyen;
+            }else{
+              unitItem.soLuongCV = null;
+            }
+          });
+          return list;
+        }
+        
+      }else{
+        list.forEach((unitItem,index) => {
+          let countListCheck = count;
+          if(listcheck.includes(index)){
+              unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+              unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+              unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+              unitItem.soLuongCV = countListCheck === count ? phanDu : null;
+              countListCheck --
+          }else{
+            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+            unitItem.soLuongCV = null;
+          }
+        });
+        return list;
+      }  
+    }else{
+      list.forEach(unitItem => {
+          unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
+          unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
+          unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
+          unitItem.soLuongCV = null;
+      });
+      return list;
+    }
   }
 
   getWorks():void{
-    // this.service.getOption(null, this.REQUEST_DATA_URL,`/getByStatus?status=0&startDate=0&endDate=0`).subscribe(
-      this.service.getOption(null, this.REQUEST_DATA_URL,`/getAll`).subscribe(
+    this.service.getOption(null, this.REQUEST_DATA_URL,`/getByStatus?status=0&startDate=0&endDate=999999999999`).subscribe(
       (res: HttpResponse<any>) => {
-          this.listWork = this.customDateCV(res.body.RESULT);
-          this.sourceCV.localdata = this.listWork;
-          this.dataAdapterCV = new jqx.dataAdapter(this.sourceCV);
+          this.listWork = res.body.RESULT;
+          this.getUserActive();
       },
       (error: HttpResponse<any>) => {
           this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
@@ -132,20 +203,22 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   );
   }
 
-  customDateCV(list: any[]): any[] {
-    list.forEach(unitItem => {
-        unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
-    });
-    return list;
-  }
-
   onRowSelect(e:any):void{
-    console.log(e);
-    console.log(this.myGrid.getselectedrowindexes())
+    this.customDataSelect(this.listUser);
+    this.source.localdata = this.listUser;
+    this.dataAdapter = new jqx.dataAdapter(this.source);
+    setTimeout(() => {
+      this.myGrid.refreshdata();
+    }, 200);
   }
 
-  Rowclick(e:any):void{
-    this.selectId = e.args.row.id;
+  Rowunselect(e: any): void {
+    this.customDataSelect(this.listUser);
+    this.source.localdata = this.listUser;
+    this.dataAdapter = new jqx.dataAdapter(this.source);
+    setTimeout(() => {
+      this.myGrid.refreshdata();
+    }, 200);
   }
 
   public dismiss(): void {
@@ -171,5 +244,8 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     //     this.notificationService.showError(`${error.body.MESSAGE}`,"Thông báo lỗi!");
     //   }
     // );
+    const listcheck = this.myGrid.getselectedrowindexes();
+    const list = this.listUser;
+    
   }
 }
