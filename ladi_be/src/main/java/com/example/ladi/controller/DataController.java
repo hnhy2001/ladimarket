@@ -107,7 +107,7 @@ public class DataController extends BaseController<Data>{
     }
 
     @CrossOrigin
-    @PostMapping("/assignWork")
+    @PutMapping("/assignWork")
     public BaseResponse assignWork(@RequestBody AssignJobRequest request) throws NoSuchAlgorithmException {
         if(request != null) {
             var staffId = request.getStaffId();
