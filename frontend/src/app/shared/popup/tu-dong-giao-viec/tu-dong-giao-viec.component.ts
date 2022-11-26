@@ -115,7 +115,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
           unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
           unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
           unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
-          unitItem.soLuongCV = null;
+          unitItem.soLuongCV = 0;
       });
       return list;
     }
@@ -213,18 +213,48 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     //   }
     // );
 
-    const entity = [];
-    let count = 0;
-    for(let i = 0; i < this.listUser.length; i++){
-      if(this.listUser[i].soLuongCV){
-        const item = {
-          staffId: this.listUser[i].id,
-          data: this.listWork.slice(count,count + this.listUser[i].soLuongCV)
-        }
-        entity.push(item);
-        count = count + this.listUser[i].soLuongCV
+    // const entity = [];
+    // let count = 0;
+    // for(let i = 0; i < this.listUser.length; i++){
+    //   if(this.listUser[i].soLuongCV){
+    //     const item = {
+    //       staffId: this.listUser[i].id,
+    //       data: this.listWork.slice(count,count + this.listUser[i].soLuongCV)
+    //     }
+    //     entity.push(item);
+    //     count = count + this.listUser[i].soLuongCV
+    //   }
+    // }
+    // console.log(entity);
+    const checkIndex = this.myGrid.getselectedrowindexes();
+    if(checkIndex.length === 0){
+      this.notificationService.showWarning('Vui lòng chọn ít nhất một tài khoản','')
+    }
+    const listCheck = [];
+    for(let i = 0; i< this.listUser.length; i++){
+      if(checkIndex.includes(i)){
+        listCheck.push(this.listUser[i]);
       }
     }
-    console.log(entity);
+    const phanNguyen =  Math.floor(this.listWork.length / listCheck.length);
+    const length = listCheck.length;
+    let countTK = 0;
+    let countCV = phanNguyen;
+    if(phanNguyen === 0){
+      this.listWork.forEach((unitItem) => {
+        unitItem.nhanvienid = listCheck[listCheck.length - 1].id;
+      });
+    }else{
+      this.listWork.forEach((unitItem,index) => {
+        unitItem.nhanvienid = listCheck[countTK].id;
+        if(index === (countCV-1)){
+          countCV = countCV + phanNguyen;
+          if(countTK !== (length - 1)){
+            countTK++;
+          }
+        }
+      });
+    }
+    console.log(this.listWork);
   }
 }

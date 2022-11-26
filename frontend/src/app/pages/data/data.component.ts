@@ -16,8 +16,6 @@ import * as moment from 'moment';
 import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 import * as XLSX from 'xlsx';  
 
-
-
 @Component({
     selector: 'data-cmp',
     templateUrl: 'data.component.html'
@@ -26,20 +24,8 @@ import * as XLSX from 'xlsx';
 export class DataComponent implements OnInit, AfterViewInit{
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     @ViewChild('TABLE', { static: false }) TABLE: ElementRef;  
-
-    public searchKey = '';
+    // grid
     source: any
-    listStatus = [
-        {id: 0,label:"Chờ xử lý"},
-        {id: 1,label:"Đang xử lý"},
-    ];
-	getWidth() : any {
-		if (document.body.offsetWidth < 850) {
-			return '90%';
-		}
-		
-		return 850;
-	}
     dataAdapter: any;
     columns: any[] =
     [
@@ -74,12 +60,25 @@ export class DataComponent implements OnInit, AfterViewInit{
       filtercancelstring: 'Huỷ bỏ'
     };
     pageSizeOptions = ['50', '100', '200'];
-
+    // chung
     REQUEST_URL ="/api/v1/data";
-
     listEntity = [];
-
     selectedEntity:any;
+    public searchKey = '';
+    listWork = [];
+    statusDto: any = -1;
+    // date
+    dateRange: TimePeriod;
+    date: object;
+    ranges: DateRanges = {
+        ['Hôm nay']: [dayjs(), dayjs()],
+        ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+        ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
+        ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
+        ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+        ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
+        ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
+    };
 
     constructor(
         private dmService: DanhMucService,
@@ -184,8 +183,6 @@ export class DataComponent implements OnInit, AfterViewInit{
         return list;
       }
 
-    listWork = [];
-
     public showData(){
         let indexs = this.myGrid.getselectedrowindexes();
         this.listWork = [];
@@ -288,8 +285,6 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
-
-    statusDto: any = -1;
     public getByStatus(status: any) {
         this.statusDto = status;
         var date = JSON.parse(JSON.stringify(this.dateRange));
@@ -299,22 +294,20 @@ export class DataComponent implements OnInit, AfterViewInit{
         if(status == -1) {
             this.dmService.getOption(null, this.REQUEST_URL,`/getByDate?startDate=${startDate}&endDate=${endDate}`).subscribe(
                 (res: HttpResponse<any>) => {
-                //   setTimeout(() => {
-                //     // res.body.RESULT.forEach(obj=> {
-                //     //     moment.locale("vi"); 
-                //     //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                //     // });
-                //     this.source.localdata = res.body.RESULT;
-                //     this.dataAdapter = new jqx.dataAdapter(this.source);
-                //   }, 100);
+                  setTimeout(() => {
+                    // res.body.RESULT.forEach(obj=> {
+                    //     moment.locale("vi"); 
+                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
+                    // });
+                    // this.source.localdata = this.customDate(res.body.RESULT);
+                    // this.dataAdapter = new jqx.dataAdapter(this.source);
+                  }, 100);
                 },
                 (error: HttpResponse<any>) => {
                     this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
                 }
             );
         }else {
-            
-
             this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status=${this.statusDto}&startDate=${startDate}&endDate=${endDate}`).subscribe(
                 (res: HttpResponse<any>) => {
                   setTimeout(() => {
@@ -322,7 +315,7 @@ export class DataComponent implements OnInit, AfterViewInit{
                     //     moment.locale("vi"); 
                     //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
                     // });
-                    this.source.localdata = res.body.RESULT;
+                    this.source.localdata = this.customDate(res.body.RESULT);
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                   }, 100);
                 },
@@ -333,21 +326,8 @@ export class DataComponent implements OnInit, AfterViewInit{
         }
     }
 
-
-
     /* Date Range Picker*/
-    dateRange: TimePeriod;
-    date: object;
-    ranges: DateRanges = {
-        ['Hôm nay']: [dayjs(), dayjs()],
-        ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
-        ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
-        ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
-        ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
-        ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
-        ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
-    };
-
+    
     public convertDateToString(date:any):string {
         return moment(date).format('yyyyMMddHHmmss');
     }

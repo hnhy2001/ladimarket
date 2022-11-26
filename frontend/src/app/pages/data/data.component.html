@@ -10,31 +10,36 @@
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()">Tự động giao việc</button>
             <button type="" class="btn btn-info" (click)="onProcessData($event)">Xử lý</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()">Xuất Excel</button>
-            <!--The content below is only a placeholder and can be replaced.-->
-          
+            <button type="" class="btn btn-info" (click)="onExportData()">Tổng kết dữ liệu</button>
+            <button type="" class="btn btn-info" (click)="loadData()">Làm mới</button>
           </div>
           <div class="col-4">
-            <button type="" class="btn btn-info" (click)="onExportData()" style="float:right">Tổng kết dữ liệu</button>
-            <button type="" class="btn btn-info" (click)="loadData()" style="float:right">Làm mới</button>
-          </div>
-          <div class="col-4">
-            <select class="form-control" (change)="getByStatus($event.target.value)">
-              <option value="-1" selected>--Chọn trạng thái--</option>
-              <option value="0">Chờ xử lý</option>
-              <option value="1">Đang xử lý</option>
-              <option value="2">Hoàn thành</option>
-              <option value="3">Delay</option>
-              <option value="4">Hủy</option>
-              <option value="5">Gửi giao hàng</option>
-            </select>
-          </div>
-          <div class="col-4"></div>
-          <div class="col-4">
-            <input class="form-control" type="text" ngxDaterangepickerMd 
+            <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
             [(ngModel)]="dateRange" 
             [ranges]="ranges" 
             [showCustomRangeLabel]="true"
             (ngModelChange)="getByStatus(statusDto)"/>
+          </div>
+          <div class="col-8">
+            <button type="" class="btn btn-info" (click)="getByStatus(0)">Chờ xử lý</button>
+            <button type="" class="btn btn-info" (click)="getByStatus(1)">Đang xử lý</button>
+            <button type="" class="btn btn-info" (click)="getByStatus(2)">Hoàn thành</button>
+            <button type="" class="btn btn-info" (click)="getByStatus(3)">Không nghe máy L1</button>
+            <button type="" class="btn btn-info" (click)="getByStatus(5)">Thất bại</button>
+            <button type="" class="btn btn-info" (click)="getByStatus(7)">Đã in đơn</button>
+          </div>
+          <div class="col-4">
+            <select class="form-control" style="margin-top: 10px" [(ngModel)]="statusDto" name="statusDto" (change)="getByStatus($event.target.value)">
+              <option value="-1">Tất cả</option>
+              <option value="0">Chờ xử lý</option>
+              <option value="1">Đang xử lý</option>
+              <option value="2">Hoàn thành</option>
+              <option value="3">Không nghe máy L1</option>
+              <option value="4">Không nghe máy L2</option>
+              <option value="5">Thất bại</option>
+              <option value="6">Trùng</option>
+              <option value="7">Đã in đơn</option>
+            </select>
           </div>
         </div>
       </div>
