@@ -7,6 +7,8 @@ import { DanhMucService } from 'app/danhmuc.service';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CheckOutComponent } from '../popup/checkout/checkout.component';
 @Component({
   moduleId: module.id,
   selector: 'navbar-cmp',
@@ -17,6 +19,7 @@ import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-di
 export class NavbarComponent implements OnInit {
   private listTitles: any[];
   location: Location;
+  modalRef!: NgbModalRef;
   private nativeElement: Node;
   private toggleButton;
   private sidebarVisible: boolean;
@@ -27,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,
     private local: LocalStorageService,
-    private dmService: DanhMucService,private confirmDialogService: ConfirmationDialogService,) {
+    private dmService: DanhMucService, private confirmDialogService: ConfirmationDialogService, private modalService: NgbModal) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -57,16 +60,31 @@ export class NavbarComponent implements OnInit {
 
   onTriggerWorkActive(): void {
     this.checkWorkActive = !this.checkWorkActive;
-    this.confirmDialogService
-      .confirm('Xác nhận thay đổi', 'Đồng ý', 'Hủy')
-      .then((confirmed: any) => {
-        if (confirmed) {
+    if (this.checkWorkActive) {
+      this.confirmDialogService
+        .confirm('Xác nhận thay đổi', 'Đồng ý', 'Hủy')
+        .then((confirmed: any) => {
+          if (confirmed) {
+            this.triggerWorkActive()
+          } else {
+            this.checkWorkActive = !this.checkWorkActive;
+          };
+        })
+        .catch(() => console.log('Đã có lỗi xảy ra'));
+    } else {
+      this.modalRef = this.modalService.open(CheckOutComponent, {
+        keyboard: true,
+        backdrop: 'static',
+        size: 'lg'
+      });
+      this.modalRef.result.then((res: any) => {
+        if (res) {
           this.triggerWorkActive()
-        }else{
+        } else {
           this.checkWorkActive = !this.checkWorkActive;
-        };
-      })
-      .catch(() => console.log('Đã có lỗi xảy ra'));
+        }
+      });
+    }
   }
 
   async triggerWorkActive() {
@@ -82,7 +100,7 @@ export class NavbarComponent implements OnInit {
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
             console.log('done');
-          }else{
+          } else {
             console.log('error');
             this.checkWorkActive = !this.checkWorkActive;
           }
@@ -120,7 +138,7 @@ export class NavbarComponent implements OnInit {
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
           console.log('done');
-        }else{
+        } else {
           console.log('error');
           this.checkWorkActive = !this.checkWorkActive;
         }

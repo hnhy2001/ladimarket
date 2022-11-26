@@ -27,6 +27,7 @@ import { GiaoViecPopUpComponent } from './shared/popup/giao-viec-pop-up/giao-vie
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TuDongGiaoViecComponent } from "./shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component";
 import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
+import { CheckOutComponent } from "./shared/popup/checkout/checkout.component";
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
     LogiinComponent,
     ThemSuaXoaAccountComponent,
     GiaoViecPopUpComponent,
-    TuDongGiaoViecComponent
+    TuDongGiaoViecComponent,
+    CheckOutComponent
   ],
   imports: [
     BrowserAnimationsModule,

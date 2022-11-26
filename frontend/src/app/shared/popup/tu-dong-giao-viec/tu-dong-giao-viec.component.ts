@@ -5,6 +5,7 @@ import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
 import DateUtil from 'app/shared/util/date.util';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
+import { userInfo } from 'os';
 @Component({
   selector: 'app-tu-dong-giao-viec',
   templateUrl: './tu-dong-giao-viec.component.html',
@@ -92,7 +93,6 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     if(this.listWork.length > 0){
       const phanDu = this.listWork.length % list.length;
       const phanNguyen = Math.floor(this.listWork.length / list.length);
-      if(this.listWork.length > list.length){
         if(phanDu === 0){
           list.forEach((unitItem) => {
             unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
@@ -110,16 +110,6 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
           });
           return list;
         }
-        
-      }else{
-        list.forEach((unitItem,index) => {
-              unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-              unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-              unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
-              unitItem.soLuongCV = (index === 0)?(phanNguyen + phanDu):null;
-        });
-        return list;
-      }  
     }else{
       list.forEach(unitItem => {
           unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
@@ -134,24 +124,17 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   customDataSelect(list: any[]): any[] {
      const count = this.myGrid.getselectedrowindexes().length;
      const listcheck = this.myGrid.getselectedrowindexes();
-    if(this.listWork.length > 0){
       const phanDu = this.listWork.length % count;
       const phanNguyen = Math.floor(this.listWork.length / count);
       if(this.listWork.length > count){
         if(phanDu === 0){
           list.forEach((unitItem,index) => {
-            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
             unitItem.soLuongCV = listcheck.includes(index)?phanNguyen:null;
           });
           return list;
         }else{
           let countListCheck = count;
           list.forEach((unitItem,index) => {
-            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
             if(listcheck.includes(index)){
               countListCheck--;
               unitItem.soLuongCV = (countListCheck === 0)?(phanNguyen + phanDu):phanNguyen;
@@ -166,29 +149,14 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
         list.forEach((unitItem,index) => {
           let countListCheck = count;
           if(listcheck.includes(index)){
-              unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-              unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-              unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
               unitItem.soLuongCV = countListCheck === count ? phanDu : null;
               countListCheck --
           }else{
-            unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-            unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-            unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
             unitItem.soLuongCV = null;
           }
         });
         return list;
       }  
-    }else{
-      list.forEach(unitItem => {
-          unitItem.ten = unitItem.acount? unitItem.acount.userName:null;
-          unitItem.tenDayDu = unitItem.acount? unitItem.acount.fullName:null;
-          unitItem.thoiGianVao = unitItem.timeIn? DateUtil.formatDate(unitItem.timeIn):null;
-          unitItem.soLuongCV = null;
-      });
-      return list;
-    }
   }
 
   getWorks():void{
@@ -244,8 +212,19 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     //     this.notificationService.showError(`${error.body.MESSAGE}`,"Thông báo lỗi!");
     //   }
     // );
-    const listcheck = this.myGrid.getselectedrowindexes();
-    const list = this.listUser;
-    
+
+    const entity = [];
+    let count = 0;
+    for(let i = 0; i < this.listUser.length; i++){
+      if(this.listUser[i].soLuongCV){
+        const item = {
+          staffId: this.listUser[i].id,
+          data: this.listWork.slice(count,count + this.listUser[i].soLuongCV)
+        }
+        entity.push(item);
+        count = count + this.listUser[i].soLuongCV
+      }
+    }
+    console.log(entity);
   }
 }
