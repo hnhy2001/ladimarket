@@ -9,7 +9,7 @@ import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/T
 import { TuDongGiaoViecComponent } from 'app/shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component';
 import { XuLyDuLieuPopupComponent } from 'app/shared/popup/xu-ly-du-lieu/XuLyDuLieuPopup.component';
 import DateUtil from 'app/shared/util/date.util';
-import dayjs, { Dayjs } from 'dayjs/esm';
+import dayjs from 'dayjs/esm';
 
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import * as moment from 'moment';
@@ -66,9 +66,12 @@ export class DataComponent implements OnInit, AfterViewInit{
     selectedEntity:any;
     public searchKey = '';
     listWork = [];
-    statusDto: any = -1;
+    statusDto: any = '';
     // date
-    dateRange: TimePeriod;
+    dateRange: TimePeriod = {
+        startDate: dayjs().startOf('day'),
+        endDate: dayjs().endOf('day')
+      };;
     date: object;
     ranges: DateRanges = {
         ['Hôm nay']: [dayjs(), dayjs()],
@@ -110,23 +113,25 @@ export class DataComponent implements OnInit, AfterViewInit{
             datatype: 'array'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
-
-        this.dateRange = {
-            startDate: dayjs().subtract(1, 'days').set('hours', 0).set('minutes', 0),
-            endDate: dayjs().subtract(1, 'days').set('hours', 23).set('minutes', 59)
-          };
     }
 
-    ngOnInit(){ 
-        this.loadData();
-    }
+    ngOnInit(){}
 
     ngAfterViewInit(): void {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
       }
 
+      getByStatus(e):void{
+        this.statusDto = e;
+        this.loadData();
+      }
+
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
+        var date = JSON.parse(JSON.stringify(this.dateRange));
+        let startDate = moment(date.startDate).format('YYYYMMDDHHmmss');
+        let endDate = moment(date.endDate).format('YYYYMMDDHHmmss');
+        const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7';
+        this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
                 this.source.localdata = this.customDate(res.body.RESULT);
@@ -210,7 +215,7 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
-    public onProcessData(event:any):void{
+    public onProcessData():void{
         if(!this.selectedEntity) {
             this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
             return;
@@ -249,87 +254,6 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     private getCurrentDate() {
         let date = new Date();
-        let month = date.getMonth() + 1;
-
-        var m = String(month);
-        if (month < 10) {
-            m = "0" + month.toString();
-        }
-
-        let dateOfMonth = date.getDate();
-        var day = String(dateOfMonth);
-
-        if (dateOfMonth < 10) {
-            day = "0" + dateOfMonth;
-        }
-
-        let year = date.getFullYear();
-        
-        let formattedDate = year + "/" + m + "/" + day;
-        return formattedDate;
+        return moment(date).format('DD/MM/YYYY');
     }
-
-    public searchData() {
-        if(this.searchKey === '') this.notificationService.showError('Vui lòng nhập từ khóa tìm kiếm',"Thông báo lỗi!");
-
-        this.dmService.getOption(null, this.REQUEST_URL,"/filterData").subscribe(
-            (res: HttpResponse<any>) => {
-              setTimeout(() => {
-                this.source.localdata = res.body.RESULT;
-                this.dataAdapter = new jqx.dataAdapter(this.source);
-              }, 100);
-            },
-            (error: HttpResponse<any>) => {
-                this.notificationService.showError(`${error.body.RESULT}`,"Thông báo lỗi!");
-            }
-          );
-    }
-
-    public getByStatus(status: any) {
-        this.statusDto = status;
-        var date = JSON.parse(JSON.stringify(this.dateRange));
-        console.log(status);
-        let startDate = moment(new Date(date.startDate)).format('DD/MM/YYYY');
-        let endDate = moment(new Date(date.endDate)).format('DD/MM/YYYY');
-        if(status == -1) {
-            this.dmService.getOption(null, this.REQUEST_URL,`/getByDate?startDate=${startDate}&endDate=${endDate}`).subscribe(
-                (res: HttpResponse<any>) => {
-                  setTimeout(() => {
-                    // res.body.RESULT.forEach(obj=> {
-                    //     moment.locale("vi"); 
-                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                    // });
-                    // this.source.localdata = this.customDate(res.body.RESULT);
-                    // this.dataAdapter = new jqx.dataAdapter(this.source);
-                  }, 100);
-                },
-                (error: HttpResponse<any>) => {
-                    this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
-                }
-            );
-        }else {
-            this.dmService.getOption(null, this.REQUEST_URL,`/getByStatus?status=${this.statusDto}&startDate=${startDate}&endDate=${endDate}`).subscribe(
-                (res: HttpResponse<any>) => {
-                  setTimeout(() => {
-                    // res.body.RESULT.forEach(obj=> {
-                    //     moment.locale("vi"); 
-                    //     obj.date = moment(obj.date).format('MMMM Do YYYY, h:mm:ss a');
-                    // });
-                    this.source.localdata = this.customDate(res.body.RESULT);
-                    this.dataAdapter = new jqx.dataAdapter(this.source);
-                  }, 100);
-                },
-                (error: HttpResponse<any>) => {
-                    this.notificationService.showError(`${error.body.RESULT.message}`,"Thông báo lỗi!");
-                }
-            );
-        }
-    }
-
-    /* Date Range Picker*/
-    
-    public convertDateToString(date:any):string {
-        return moment(date).format('yyyyMMddHHmmss');
-    }
-    /* End Date Range Picker */
 }
