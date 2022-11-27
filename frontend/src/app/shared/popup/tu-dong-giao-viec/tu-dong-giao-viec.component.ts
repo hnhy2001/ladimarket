@@ -227,9 +227,6 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
       },
       (error: any) => {
         this.notificationService.showError(`${error.body.MESSAGE}`,"Thông báo lỗi!");
-      },
-      ()=>{
-        this.notificationService.showError("Đã có lỗi xảy ra","Thông báo lỗi!");
       }
     );
 
