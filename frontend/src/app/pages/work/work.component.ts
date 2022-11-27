@@ -36,12 +36,11 @@ export class WorkComponent implements OnInit {
                 return '<div style="margin: 4px;">' + (value + 1) + '</div>';
             }
         },
-        { text: 'timeIn', editable: false, datafield: 'timeIn', 'width':'120'},
-        { text: 'timeOut', editable: false, datafield: 'timeOut', 'width':'120'},
-        { text: 'Đơn Giao',editable:false ,datafield: 'donGiao' , 'width':'300'},
-        { text: 'Đơn Hoàn Thành', editable: false, datafield: 'donHoanthanh' , 'width':'300'},
-        { text: 'Ghi Chú', editable: false, datafield: 'ghiChu' , 'width':'300'},
-        { text: 'Tài Khoản', editable: false, datafield: 'userName' , 'width':'280'},
+        { text: 'timeIn', editable: false, datafield: 'timeIn', 'width':'300'},
+        { text: 'timeOut', editable: false, datafield: 'timeOut', 'width':'300'},
+        { text: 'Đơn Giao',editable:false ,datafield: 'donGiao' , 'width':'120'},
+        { text: 'Đơn Hoàn Thành', editable: false, datafield: 'donHoanthanh' , 'width':'150'},
+        { text: 'Tài Khoản', editable: false, datafield: 'userName' , 'width':'450'},
 
     ];
 
@@ -80,12 +79,12 @@ export class WorkComponent implements OnInit {
         this.loadData();
     }
     public loadData(){
-        this.dmService.getOption(null, this.REQUEST_URL,"/getAll").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"").subscribe(
             (res: HttpResponse<any>) => {
                 this.listEntity = res.body;
                 this.source.localdata = res.body.RESULT;
                 for(let i = 0; i< this.source.localdata.length; i++){
-                    this.source.localdata[i].userName = this.source.localdata[i].account ? this.source.localdata[i].account.userName : '';
+                    this.source.localdata[i].userName = this.source.localdata[i].acount ? this.source.localdata[i].acount.fullName + " (" + this.source.localdata[i].acount.userName + ") " : '';
                 }
                 console.log(this.source.localdata);
                 this.dataAdapter = new jqx.dataAdapter(this.source);
