@@ -76,7 +76,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getUserActive() {
-    this.service.getOption(null, this.REQUEST_WORK_URL,"?startDate=0&endDate=9999999999999999").subscribe(
+    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
         (res: HttpResponse<any>) => {
           this.listUser = res.body.RESULT;
           this.source.localdata = this.listUser;
@@ -147,7 +147,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
       (res: HttpResponse<any>) => {
           this.listWork = res.body.RESULT;
           if(this.listWork.length === 0){
-            this.notificationService.showWarning('Danh sách công việc null','Cảnh báo!')
+            this.notificationService.showWarning('Danh sách công việc null','Cảnh báo!');
           }else{
             this.getUserActive();
           }
@@ -197,13 +197,13 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     let countCV = phanNguyen;
     if(phanNguyen === 0){
       this.listWork.forEach((unitItem) => {
-        unitItem.nhanvienid = listCheck[listCheck.length - 1].id;
+        unitItem.nhanVienId = listCheck[listCheck.length - 1].id;
         unitItem.date = moment(new Date()).format('YYYYMMDDHHmmss')
         unitItem.status = 1;
       });
     }else{
       this.listWork.forEach((unitItem,index) => {
-        unitItem.nhanvienid = listCheck[countTK].id;
+        unitItem.nhanVienId = listCheck[countTK].id;
         unitItem.date = moment(new Date()).format('YYYYMMDDHHmmss')
         unitItem.status = 1;
         if(index === (countCV-1)){

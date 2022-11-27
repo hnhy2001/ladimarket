@@ -46,7 +46,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
         { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
         { text: 'Trạng thái', editable: false, datafield: 'trangThai' ,  width: '10%'},
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvienid' ,  width: '10%'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
 
     ];
     height: any = $(window).height()! - 270;
@@ -102,10 +102,9 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'state', type: 'string' },
                 { name: 'district', type: 'string' },
                 { name: 'status', type: 'number' },
-                { name: 'nhanvien', type: 'string' },
                 { name: 'date', type: 'date',format: "DD/MM/YYYY" },
                 { name: 'formcolor', type: 'string' },
-                { name: 'nhanvienid', type: 'number' },
+                { name: 'nhanvien', type: 'string' },
                 { name: 'ngay', type: 'string' },
                 { name: 'trangThai', type: 'string' }
             ],
@@ -147,6 +146,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     customDate(list: any[]): any[] {
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
+            unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
             switch (unitItem.status){
                 case 0: 
                 {
