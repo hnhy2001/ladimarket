@@ -70,6 +70,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
             }
           },
           () => {
+            this.notification.showError("Tạo account thất bại", "Fail");
             console.error();
           }
         );
@@ -79,15 +80,16 @@ export class ThemSuaXoaAccountComponent implements OnInit {
         this.dmService.putOption(entity, "/api/v1/account/update", '').subscribe(
           (res: HttpResponse<any>) => {
             if(res.body.CODE === 200){
-              this.notification.showSuccess("Sửa thành công", "Success");
+              this.notification.showSuccess("Cập nhật tài khoản thành công", "Success");
               this.accept();
             }
             else{
-              this.notification.showError("Sửa thất bại", "Fail");
+              this.notification.showError("Cập nhật tài khoản thất bại", "Fail");
               this.dismiss();
             }
           },
           () => {
+            this.notification.showError("Cập nhật tài khoản thất bại", "Fail");
             console.error();
             
           }
@@ -99,7 +101,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
 
   validData(){
     if(this.password !== this.retypePassword){
-      alert("mat khau khong khop")
+      this.notification.showError("Mật khẩu không khớp", "Fail");
       return false;
     }
     return true;
