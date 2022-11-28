@@ -1,11 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
 import DateUtil from 'app/shared/util/date.util';
+import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import moment from 'moment';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-giao-viec-pop-up',
@@ -13,7 +13,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./giao-viec-pop-up.component.scss']
 })
 
-export class GiaoViecPopUpComponent implements OnInit, OnDestroy {
+export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('gridReferenceABC') myGrid: jqxGridComponent;
   REQUEST_WORK_URL ="/api/v1/work";
   @Input() data: any;
   // listUser:Observable<object[]>;
@@ -118,6 +119,10 @@ pageSizeOptions = ['50', '100', '200'];
   ngOnInit(): void {
     this.getUserActive();
     this.getData();
+  }
+
+  ngAfterViewInit(): void {
+    this.myGrid.pagesizeoptions(this.pageSizeOptions);
   }
 
   ngOnDestroy(): void {
