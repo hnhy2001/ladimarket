@@ -49,7 +49,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
         { text: 'Số lượng đơn giao',editable:false ,datafield: 'soLuongCV'}
     ];
     // grid dùng chung
-    height: any = 500;
+    height: any = $(window).height()! - 290;;
     localization: any = {
       pagergotopagestring: 'Trang',
       pagershowrowsstring: 'Hiển thị',
@@ -226,7 +226,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
         this.notificationService.showSuccess(`${res.body.MESSAGE}`,"Thông báo!");
       },
       (error: any) => {
-        this.notificationService.showError(`${error.body.MESSAGE}`,"Thông báo lỗi!");
+        this.notificationService.showError('Đã có lỗi xảy ra',"Thông báo lỗi!");
       }
     );
 

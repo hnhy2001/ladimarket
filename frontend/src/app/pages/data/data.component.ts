@@ -45,7 +45,46 @@ export class DataComponent implements OnInit, AfterViewInit{
         { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
         { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
         { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
-        { text: 'Trạng thái', editable: false, datafield: 'trangThai' ,  width: '10%'},
+        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '10%',cellsrenderer: (row: number, column: any, value: number): string => {
+            switch (value){
+                case 0: 
+                {
+                    return '<div class="div-center">' + 'Chờ xử lý' + '</div>';
+                }
+                case 1: 
+                {
+                    return '<div class = "bg-info div-center text-white">' + 'Đang xử lý' + '</div>';
+                }
+                case 2: 
+                {
+                    return '<div class = "bg-primary div-center text-white">' + 'Hoàn thành' + '</div>';
+                }
+                case 3: 
+                {
+                    return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 1' + '</div>';
+                }
+                case 4: 
+                {
+                    return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 2' + '</div>';
+                }
+                case 5: 
+                {
+                    return '<div class = "bg-danger div-center text-white">' + 'Thất bại' + '</div>';
+                }
+                case 6: 
+                {
+                    return '<div class = "bg-dark div-center text-white">' + 'Trùng' + '</div>';
+                }
+                case 7: 
+                {
+                    return '<div class = "bg-success div-center text-white">' + 'Đã in đơn' + '</div>';
+                }
+                default:
+                {
+                    return '<div></div>';
+                }
+            }
+        }},
         { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
 
     ];
@@ -65,12 +104,12 @@ export class DataComponent implements OnInit, AfterViewInit{
     listEntity = [];
     selectedEntity:any;
     public searchKey = '';
-    listWork = [];
     statusDto: any = '';
+    data:any = [];
     // date
     dateRange: TimePeriod = {
-        startDate: dayjs().startOf('day'),
-        endDate: dayjs().endOf('day')
+        startDate: dayjs().startOf('month'),
+        endDate: dayjs().endOf('month')
       };;
     date: object;
     ranges: DateRanges = {
@@ -105,8 +144,7 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'date', type: 'date',format: "DD/MM/YYYY" },
                 { name: 'formcolor', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
-                { name: 'ngay', type: 'string' },
-                { name: 'trangThai', type: 'string' }
+                { name: 'ngay', type: 'string' }
             ],
             id:'id',
             datatype: 'array'
@@ -133,7 +171,8 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
-                this.source.localdata = this.customDate(res.body.RESULT);
+                this.data = this.customDate(res.body.RESULT)
+                this.source.localdata = this.data;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
             },
@@ -147,62 +186,32 @@ export class DataComponent implements OnInit, AfterViewInit{
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
-            switch (unitItem.status){
-                case 0: 
-                {
-                    unitItem.trangThai = 'Chờ xử lý';
-                    break;
-                }
-                case 1: 
-                {
-                    unitItem.trangThai = 'Đang xử lý';
-                    break;
-                }
-                case 2: 
-                {
-                    unitItem.trangThai = 'Hoàn thành';
-                    break;
-                }
-                case 3: 
-                {
-                    unitItem.trangThai = 'Delay';
-                    break;
-                }
-                case 4: 
-                {
-                    unitItem.trangThai = 'Hủy';
-                    break;
-                }
-                case 5: 
-                {
-                    unitItem.trangThai = 'Gửi giao hàng';
-                    break;
-                }
-                default:
-                {
-                    unitItem.trangThai = '';
-                    break;
-                }
-            }
         });
         return list;
       }
 
     public showData(){
         let indexs = this.myGrid.getselectedrowindexes();
-        this.listWork = [];
-        if (indexs.length > 0 && this.listWork.length == 0)
-        {
-            for(let i = 0; i <indexs.length; i++) {
-                this.listWork.push(this.myGrid.getrowdata(indexs[i]));
+        if(indexs.length === 0){
+            this.notificationService.showWarning('Vui lòng chọn công việc',"Cảnh báo!");
+            return;
+        }
+        const listWork = [];
+            for(let i = 0; i <this.data.length; i++) {
+                if(indexs.includes(i)){
+                    listWork.push(this.data[i]);
+                }
             }
-        }
 
-        if(this.listWork.length > 0 ) {
-            const modalRef = this.modalService.open(GiaoViecPopUpComponent, { size: 'xl' });
-            modalRef.componentInstance.data = this.listWork;
-        }
-        else this.notificationService.showError('Vui lòng chọn công việc',"Thông báo lỗi!");
+        const modalRef = this.modalService.open(GiaoViecPopUpComponent, { windowClass: 'modal-view',keyboard: true });
+        modalRef.componentInstance.data = listWork;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
     }
 
     openAutoAssignWork():void{
@@ -217,7 +226,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     public onProcessData():void{
         if(!this.selectedEntity) {
-            this.notificationService.showError('Vui lòng chọn dữ liệu',"Thông báo lỗi!");
+            this.notificationService.showWarning('Vui lòng chọn dữ liệu',"Cảnh báo!");
             return;
         }
         const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
@@ -255,5 +264,12 @@ export class DataComponent implements OnInit, AfterViewInit{
     private getCurrentDate() {
         let date = new Date();
         return moment(date).format('DD/MM/YYYY');
+    }
+    reLoad():void{
+        this.dateRange = {
+            startDate: dayjs().startOf('month'),
+            endDate: dayjs().endOf('month')
+          };
+        this.loadData();
     }
 }

@@ -44,6 +44,10 @@ export class DanhMucService {
     return this.http.post<any>(this.resourceUrl + requestUrl + option, entity, { observe: 'response' });
   }
 
+  post(requestUrl: any, option: any): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.resourceUrl + requestUrl + option,{ observe: 'response' });
+  }
+
   getOption(req: any, requestUrl: any, option: any): Observable<HttpResponse<any>> {
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json',

@@ -54,9 +54,9 @@ export class WorkComponent implements OnInit, AfterViewInit {
     
     // date
     dateRange: TimePeriod = {
-        startDate: dayjs().startOf('day'),
-        endDate: dayjs().endOf('day')
-      };;
+        startDate: dayjs().startOf('month'),
+        endDate: dayjs().endOf('month')
+      };
     date: object;
     ranges: DateRanges = {
         ['Hôm nay']: [dayjs(), dayjs()],
@@ -140,7 +140,11 @@ export class WorkComponent implements OnInit, AfterViewInit {
     }
 
     reLoad():void{
-
+        this.dateRange = {
+            startDate: dayjs().startOf('month'),
+            endDate: dayjs().endOf('month')
+          };
+        this.loadData();
     }
     
 }

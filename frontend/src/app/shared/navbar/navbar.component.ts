@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CheckOutComponent } from '../popup/checkout/checkout.component';
+import { NotificationService } from 'app/notification.service';
 @Component({
   moduleId: module.id,
   selector: 'navbar-cmp',
@@ -28,7 +29,7 @@ export class NavbarComponent implements OnInit {
   public isCollapsed = true;
   @ViewChild("navbar-cmp", { static: false }) button;
 
-  constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,
+  constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,private notificationService: NotificationService,
     private local: LocalStorageService,
     private dmService: DanhMucService, private confirmDialogService: ConfirmationDialogService, private modalService: NgbModal) {
     this.location = location;
@@ -89,7 +90,7 @@ export class NavbarComponent implements OnInit {
 
   async triggerWorkActive() {
     moment.locale("vi");
-    let time = moment(new Date).format('YYYYMMDDhhmmss');
+    let time = moment(new Date).format('YYYYMMDDHHmmss');
 
     if (this.checkWorkActive) {
       let checkInEntity = {
@@ -99,9 +100,9 @@ export class NavbarComponent implements OnInit {
       this.dmService.postOption(checkInEntity, "/api/v1/work/", '').subscribe(
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
-            console.log('done');
+            this.notificationService.showSuccess("Check In thành công",'Thông báo!');
           } else {
-            console.log('error');
+            this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
             this.checkWorkActive = !this.checkWorkActive;
           }
         },
@@ -115,20 +116,18 @@ export class NavbarComponent implements OnInit {
         (res: HttpResponse<any>) => {
           if (res.body.CODE === 200) {
             id = res.body.RESULT.id;
+            this.checkOut(id);
           }
         },
         () => {
           console.error();
         }
       );
-      setTimeout(() => {
-        this.checkOut(id);
-      }, 500);
     }
   }
 
   checkOut(id: any) {
-    let time = moment(new Date).format('YYYYMMDDhhmmss');
+    let time = moment(new Date).format('YYYYMMDDHHmmss');
     let checkOutEntity = {
       id: id,
       timeOut: time,
@@ -137,9 +136,9 @@ export class NavbarComponent implements OnInit {
     this.dmService.postOption(checkOutEntity, "/api/v1/work/checkOut/", '').subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
-          console.log('done');
+          this.notificationService.showSuccess("Check Out thành công",'Thông báo!');
         } else {
-          console.log('error');
+          this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
           this.checkWorkActive = !this.checkWorkActive;
         }
       },
