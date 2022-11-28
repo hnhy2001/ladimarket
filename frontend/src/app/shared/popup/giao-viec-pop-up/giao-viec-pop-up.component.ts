@@ -164,7 +164,7 @@ pageSizeOptions = ['50', '100', '200'];
 
     this.data.forEach((unitItem) => {
       unitItem.nhanVienId = this.selectedStaff;
-      unitItem.date = moment(new Date()).format('YYYYMMDDHHmmss')
+      unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
       unitItem.status = 1;
     });
 

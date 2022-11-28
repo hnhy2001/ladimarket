@@ -198,13 +198,13 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     if(phanNguyen === 0){
       this.listWork.forEach((unitItem) => {
         unitItem.nhanVienId = listCheck[listCheck.length - 1].acount.id;
-        unitItem.date = moment(new Date()).format('YYYYMMDDHHmmss')
+        unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
         unitItem.status = 1;
       });
     }else{
       this.listWork.forEach((unitItem,index) => {
         unitItem.nhanVienId = listCheck[countTK].acount.id;
-        unitItem.date = moment(new Date()).format('YYYYMMDDHHmmss')
+        unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
         unitItem.status = 1;
         if(index === (countCV-1)){
           countCV = countCV + phanNguyen;
