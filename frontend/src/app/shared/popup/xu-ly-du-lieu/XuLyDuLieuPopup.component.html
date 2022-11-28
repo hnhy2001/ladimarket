@@ -23,7 +23,11 @@
       </tr>
       <tr>
         <td class="text-right">Sản phẩm:</td>
-        <td>{{data?data.formcolor:''}}</td>
+        <td><input [(ngModel)]="data.formcolor" name="formcolor" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td class="text-right">Giá:</td>
+        <td><input [(ngModel)]="data.price" name="price" class="form-control" id="currency-field"  value="" (keyup)="formatCurrency()" (blur)="formatCurrency()" data-type="currency"/></td>
       </tr>
       <tr>
         <td colspan="2" class="text-center">
@@ -34,10 +38,12 @@
   </table>
 </div>
 <div class="modal-footer">
-  <button type="" class="btn btn-warning">Delay</button>
-  <button type="" class="btn btn-danger">Huỷ</button>
-  <button type="" class="btn btn-success">Hoàn thành</button>
-  <button type="" class="btn btn-info" (click)="onGiveShip()">Gửi giao hàng</button>
+  <button type="" class="btn btn-primary" (click)="save(2)">Hoàn thành</button>
+  <button type="" class="btn btn-warning" (click)="save(3)">Không nghe máy lần 1</button>
+  <button type="" class="btn btn-warning" (click)="save(4)">Không nghe máy lần 2</button>
+  <button type="" class="btn btn-danger" (click)="save(5)">Thất bại</button>
+  <button type="" class="btn btn-dark" (click)="save(6)">Trùng</button>
+  <button type="" class="btn btn-success" (click)="save(7)">Đã in đơn</button>
   <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button type="button" class="btn btn-success" (click)="accept()"><i class="fa fa-check-circle-o mr-1"></i> {{ btnOkText }}</button>
   <button type="button" class="btn btn-danger" (click)="decline()"><i class="fa fa-times-circle "></i> {{ btnCancelText }}</button> -->

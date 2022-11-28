@@ -49,7 +49,7 @@ export class DataComponent implements OnInit, AfterViewInit{
             switch (value){
                 case 0: 
                 {
-                    return '<div class="div-center">' + 'Chờ xử lý' + '</div>';
+                    return '<div class="div-center bg-light">' + 'Chờ xử lý' + '</div>';
                 }
                 case 1: 
                 {
@@ -137,14 +137,21 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'name', type: 'string' },
                 { name: 'phone', type: 'string' },
                 { name: 'street', type: 'string' },
+                { name: 'country', type: 'string' },
                 { name: 'ward', type: 'string' },
                 { name: 'state', type: 'string' },
                 { name: 'district', type: 'string' },
                 { name: 'status', type: 'number' },
-                { name: 'date', type: 'date',format: "DD/MM/YYYY" },
+                { name: 'date', type: 'string'},
                 { name: 'formcolor', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
-                { name: 'ngay', type: 'string' }
+                { name: 'ngay', type: 'string' },
+                { name: 'source', type: 'string' },
+                { name: 'ipAddress', type: 'string' },
+                { name: 'dateChanged', type: 'string' },
+                { name: 'staffName', type: 'string' },
+                { name: 'price', type: 'string' },
+                { name: 'nhanVienId', type: 'number' }
             ],
             id:'id',
             datatype: 'array'
@@ -186,6 +193,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
+            unitItem.nhanVienId = unitItem.account? unitItem.account.id:'';
         });
         return list;
       }
