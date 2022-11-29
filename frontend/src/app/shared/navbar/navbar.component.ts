@@ -70,7 +70,10 @@ export class NavbarComponent implements OnInit {
       });
       this.modalRef.result.then((res: any) => {
         if (res) {
-          this.getAccountStatus()
+          this.getAccountStatus();
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 200);
         } else {
           this.checkWorkActive = !this.checkWorkActive;
         }

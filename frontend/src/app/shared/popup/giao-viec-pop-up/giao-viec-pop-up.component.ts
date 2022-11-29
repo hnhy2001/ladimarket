@@ -56,11 +56,11 @@ columns: any[] =
             }
             case 3: 
             {
-                return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 1' + '</div>';
+                return '<div class = "bg-warning div-center">' + 'KNM L1' + '</div>';
             }
             case 4: 
             {
-                return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 2' + '</div>';
+                return '<div class = "bg-warning div-center">' + 'KNM L2' + '</div>';
             }
             case 5: 
             {
@@ -165,7 +165,7 @@ pageSizeOptions = ['50', '100', '200'];
     this.data.forEach((unitItem) => {
       unitItem.nhanVienId = this.selectedStaff;
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
-      unitItem.status = 1;
+      unitItem.status = unitItem.status === 0 ? 1 : unitItem.status;
     });
 
     const entity ={
