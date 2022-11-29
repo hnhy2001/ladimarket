@@ -5,30 +5,34 @@
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-8">
-            <button type="button" class="btn btn-success" (click)="showData()">Giao việc</button>
-            <button type="" class="btn btn-info" (click)="openAutoAssignWork()">Tự động giao việc</button>
+          <div class="col-6">
+            <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
+            <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Tự động giao việc</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
-            <button type="" class="btn btn-info" (click)="exportTOExcel()">Xuất Excel</button>
-            <button type="" class="btn btn-info" (click)="onExportData()">Tổng kết dữ liệu</button>
-            <button type="" class="btn btn-info" (click)="reLoad()">Làm mới</button>
+            <button type="" class="btn btn-info" (click)="exportTOExcel()" [hidden]="this.info.role==='user'">Xuất Excel</button>
+            <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
+            <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
           </div>
-          <div class="col-4">
+          <div class="col-6">
             <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
             [(ngModel)]="dateRange" 
             [ranges]="ranges" 
             [showCustomRangeLabel]="true"
+            [alwaysShowCalendars]="true"
             (ngModelChange)="loadData()"/>
           </div>
-          <div class="col-8">
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===0}" (click)="getByStatus(0)">Chờ xử lý</button>
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===1}"  (click)="getByStatus(1)">Đang xử lý</button>
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===2}"  (click)="getByStatus(2)">Hoàn thành</button>
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===3}"  (click)="getByStatus(3)">Không nghe máy L1</button>
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===4}"  (click)="getByStatus(5)">Thất bại</button>
-            <button type="" class="btn btn-info" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(7)">Đã in đơn</button>
+
+          <div class="col-12 text-center">
+            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}" (click)="getByStatus(0)">Chờ xử lý</button>
+            <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}"  (click)="getByStatus(1)">Đang xử lý</button>
+            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}"  (click)="getByStatus(2)">Hoàn thành</button>
+            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}"  (click)="getByStatus(3)">KNM L1</button>
+            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}"  (click)="getByStatus(4)">KNM L2</button>
+            <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(5)">Thất bại</button>
+            <button type="" class="btn btn-outline-dark btn-sm" [ngClass]="{'btn-selected': statusDto ===6}"  (click)="getByStatus(6)">Trùng</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Đã in đơn</button>
           </div>
-          <div class="col-4">
+          <!-- <div class="col-4">
             <select class="form-control" style="margin-top: 10px" [(ngModel)]="statusDto" name="statusDto" (change)="getByStatus($event.target.value)">
               <option value="">Tất cả</option>
               <option value="0">Chờ xử lý</option>
@@ -40,7 +44,7 @@
               <option value="6">Trùng</option>
               <option value="7">Đã in đơn</option>
             </select>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="card-body">

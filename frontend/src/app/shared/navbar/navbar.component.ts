@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
   private toggleButton;
   private sidebarVisible: boolean;
   public checkWorkActive = false;
-
+  public info:any;
   public isCollapsed = true;
   @ViewChild("navbar-cmp", { static: false }) button;
 
@@ -35,19 +35,8 @@ export class NavbarComponent implements OnInit {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
-    let entity = {
-      nhanVienId: this.local.retrieve("authenticationToken").id
-    };
-    this.dmService.postOption(entity, "/api/v1/work/checkWorkActive", '').subscribe(
-      (res: HttpResponse<any>) => {
-        if (res.body.CODE === 200) {
-          this.checkWorkActive = true;
-        }
-      },
-      () => {
-        console.error();
-      }
-    );
+    this.info = this.local.retrieve("authenticationToken")
+    
   }
 
   ngOnInit() {
@@ -57,6 +46,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.sidebarClose();
     });
+    this.getAccountStatus();
   }
 
   onTriggerWorkActive(): void {
@@ -66,7 +56,7 @@ export class NavbarComponent implements OnInit {
         .confirm('Xác nhận thay đổi', 'Đồng ý', 'Hủy')
         .then((confirmed: any) => {
           if (confirmed) {
-            this.triggerWorkActive()
+            this.onCheckIn()
           } else {
             this.checkWorkActive = !this.checkWorkActive;
           };
@@ -80,7 +70,7 @@ export class NavbarComponent implements OnInit {
       });
       this.modalRef.result.then((res: any) => {
         if (res) {
-          this.triggerWorkActive()
+          this.getAccountStatus()
         } else {
           this.checkWorkActive = !this.checkWorkActive;
         }
@@ -88,55 +78,17 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  async triggerWorkActive() {
+  onCheckIn():void {
     moment.locale("vi");
     let time = moment(new Date).format('YYYYMMDDHHmmss');
-
-    if (this.checkWorkActive) {
-      let checkInEntity = {
-        timeIn: time,
-        nhanVienId: this.local.retrieve("authenticationToken").id
-      };
-      this.dmService.postOption(checkInEntity, "/api/v1/work/", '').subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.body.CODE === 200) {
-            this.notificationService.showSuccess("Check In thành công",'Thông báo!');
-          } else {
-            this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
-            this.checkWorkActive = !this.checkWorkActive;
-          }
-        },
-        () => {
-          console.error();
-        }
-      );
-    } else {
-      let id;
-      this.dmService.postOption({ nhanVienId: this.local.retrieve("authenticationToken").id }, "/api/v1/work/checkWorkActive", '').subscribe(
-        (res: HttpResponse<any>) => {
-          if (res.body.CODE === 200) {
-            id = res.body.RESULT.id;
-            this.checkOut(id);
-          }
-        },
-        () => {
-          console.error();
-        }
-      );
-    }
-  }
-
-  checkOut(id: any) {
-    let time = moment(new Date).format('YYYYMMDDHHmmss');
-    let checkOutEntity = {
-      id: id,
-      timeOut: time,
+    let checkInEntity = {
+      timeIn: time,
+      nhanVienId: this.local.retrieve("authenticationToken").id
     };
-
-    this.dmService.postOption(checkOutEntity, "/api/v1/work/checkOut/", '').subscribe(
+    this.dmService.postOption(checkInEntity, "/api/v1/work/", '').subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
-          this.notificationService.showSuccess("Check Out thành công",'Thông báo!');
+          this.notificationService.showSuccess("Check In thành công",'Thông báo!');
         } else {
           this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
           this.checkWorkActive = !this.checkWorkActive;
@@ -146,8 +98,8 @@ export class NavbarComponent implements OnInit {
         console.error();
       }
     );
-
   }
+
   getTitle() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === '#') {
@@ -159,6 +111,25 @@ export class NavbarComponent implements OnInit {
       }
     }
     return 'Dashboard';
+  }
+  getAccountStatus():void {
+    const entity = {
+      nhanVienId: this.info.id
+    }
+    this.dmService.postOption(entity, "/api/v1/work/checkWorkActive", '').subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.body.CODE === 200) {
+          this.checkWorkActive = true;
+        }
+        else {
+          this.checkWorkActive = false;
+        }
+      },
+      () => {
+        this.checkWorkActive = false;
+        console.error();
+      }
+    );
   }
   sidebarToggle() {
     if (this.sidebarVisible === false) {

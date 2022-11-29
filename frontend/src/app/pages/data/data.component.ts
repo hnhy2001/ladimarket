@@ -14,6 +14,7 @@ import dayjs from 'dayjs/esm';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import * as moment from 'moment';
 import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
+import { LocalStorageService } from 'ngx-webstorage';
 import * as XLSX from 'xlsx';  
 
 @Component({
@@ -37,15 +38,20 @@ export class DataComponent implements OnInit, AfterViewInit{
                 return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + (value + 1) + '</div>';
             }
         },
-        { text: 'Ngày', editable: false, datafield: 'ngay', width: '10%'},
+        { text: 'Ngày', editable: false, datafield: 'ngay', width: '8%'},
         { text: 'Tên KH', editable: false, datafield: 'name', width: '10%'},
         { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '10%'},
-        { text: 'SĐT', editable: false, datafield: 'phone' , width: '10%'},
+        { text: 'Giá',editable:false ,datafield: 'price' , width: '8%', cellsrenderer: (row: number, column: any, value: number): string => 
+            {
+                return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
+            }
+        },
+        { text: 'SĐT', editable: false, datafield: 'phone' , width: '8%'},
         { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
         { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
         { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
         { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
-        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '10%',cellsrenderer: (row: number, column: any, value: number): string => {
+        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '8%',cellsrenderer: (row: number, column: any, value: number): string => {
             switch (value){
                 case 0: 
                 {
@@ -61,11 +67,11 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
                 case 3: 
                 {
-                    return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 1' + '</div>';
+                    return '<div class = "bg-warning div-center">' + 'KNM L1' + '</div>';
                 }
                 case 4: 
                 {
-                    return '<div class = "bg-warning div-center">' + 'Không nghe máy lần 2' + '</div>';
+                    return '<div class = "bg-warning div-center">' + 'KNM L2' + '</div>';
                 }
                 case 5: 
                 {
@@ -122,11 +128,14 @@ export class DataComponent implements OnInit, AfterViewInit{
         ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
     };
 
+    info:any;
+
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private localStorage: LocalStorageService
     ){
         this.source =
         {
@@ -150,13 +159,15 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'ipAddress', type: 'string' },
                 { name: 'dateChanged', type: 'string' },
                 { name: 'staffName', type: 'string' },
-                { name: 'price', type: 'string' },
+                { name: 'price', type: 'number' },
                 { name: 'nhanVienId', type: 'number' }
             ],
             id:'id',
             datatype: 'array'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
+
+        this.info = this.localStorage.retrieve("authenticationToken");
     }
 
     ngOnInit(){}
@@ -198,7 +209,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         return list;
       }
 
-    public showData(){
+    public assignWork(){
         let indexs = this.myGrid.getselectedrowindexes();
         if(indexs.length === 0){
             this.notificationService.showWarning('Vui lòng chọn công việc',"Cảnh báo!");
@@ -273,11 +284,9 @@ export class DataComponent implements OnInit, AfterViewInit{
         let date = new Date();
         return moment(date).format('DD/MM/YYYY');
     }
-    reLoad():void{
-        this.dateRange = {
-            startDate: dayjs().startOf('month'),
-            endDate: dayjs().endOf('month')
-          };
+
+    refresh():void{
+        this.statusDto = '';
         this.loadData();
     }
 }

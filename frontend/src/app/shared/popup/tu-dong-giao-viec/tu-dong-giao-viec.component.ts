@@ -21,6 +21,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   listWork = [];
   selectId = null;
   REQUEST_DATA_URL ="/api/v1/data";
+  numOfWork = 0;
 
   // grid nhân viên
   dataAdapter!: any;
@@ -146,6 +147,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.getOption(null, this.REQUEST_DATA_URL,`?status=0&startDate=0&endDate=99999999999999`).subscribe(
       (res: HttpResponse<any>) => {
           this.listWork = res.body.RESULT;
+          this.numOfWork = this.listWork.length;
           if(this.listWork.length === 0){
             this.notificationService.showWarning('Danh sách công việc null','Cảnh báo!');
           }else{
@@ -167,13 +169,19 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     }, 200);
   }
 
-  Rowunselect(e: any): void {
+  onRowunselect(e: any): void {
     this.customDataSelect(this.listUser);
     this.source.localdata = this.listUser;
     this.dataAdapter = new jqx.dataAdapter(this.source);
     setTimeout(() => {
       this.myGrid.refreshdata();
     }, 200);
+  }
+
+  onChangeNumOfWork():void {
+    if(this.numOfWork > this.listWork.length) {
+      this.notificationService.showError("Số lượng không hợp lý!","Cảnh báo")
+    }
   }
 
   public dismiss(): void {

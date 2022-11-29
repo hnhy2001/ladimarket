@@ -48,9 +48,33 @@ export class CheckOutComponent implements OnInit {
     //   }
     // );
   }
+  doCheckOut() {
+    let time = moment(new Date).format('YYYYMMDDHHmmss');
+    let checkOutEntity = {
+      id: this.data.id,
+      timeOut: time,
+      donGiao : this.data.donGiao,
+      donHoanThanh : this.data.donHoanThanh
+    };
+
+    this.dmService.postOption(checkOutEntity, "/api/v1/work/checkOut/", '').subscribe(
+      (res: HttpResponse<any>) => {
+        if (res.body.CODE === 200) {
+          this.notificationService.showSuccess("Check Out thành công",'Thông báo!');
+          this.activeModal.close(true);
+        } else {
+          this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
+        }
+      },
+      () => {
+        console.error();
+      }
+    );
+
+  }
 
   save():void{
-    this.activeModal.close(true);
+    this.doCheckOut();
   }
 
   public dismiss(): void {

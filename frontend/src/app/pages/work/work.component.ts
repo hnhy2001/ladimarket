@@ -33,8 +33,8 @@ export class WorkComponent implements OnInit, AfterViewInit {
                 return '<div style="margin: 4px;">' + (value + 1) + '</div>';
             }
         },
-        { text: 'timeIn', editable: false, datafield: 'ngayVao'},
-        { text: 'timeOut', editable: false, datafield: 'ngayRa'},
+        { text: 'Check in', editable: false, datafield: 'ngayVao'},
+        { text: 'Check out', editable: false, datafield: 'ngayRa'},
         { text: 'Đơn Giao',editable:false ,datafield: 'donGiao' },
         { text: 'Đơn Hoàn Thành', editable: false, datafield: 'donHoanThanh'},
         { text: 'Tài Khoản', editable: false, datafield: 'userName'}

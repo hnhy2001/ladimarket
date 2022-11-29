@@ -4,7 +4,7 @@
     left: 75%;
 }
 .btn-selected{
-    background-color: #3268b1 !important;
+    opacity: 0.3;
 }
 .modal-open .modal {
     z-index: 9999;
@@ -69,4 +69,10 @@
   }
 .modal-open .modal{
 z-index: 1100;
+}
+.btn-outline-dark {
+    color: #343a40;
+    background-color: transparent;
+    background-image: none;
+    border: 2px solid #343a40 !important;
 }
