@@ -5,15 +5,17 @@
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-4">
+          
+          <div class="col-6 text-left" >
+            <button type="" class="btn btn-info" (click)="reLoad()">Làm mới</button>
+          </div>
+          <div class="col-6">
             <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
             [(ngModel)]="dateRange" 
             [ranges]="ranges" 
             [showCustomRangeLabel]="true"
+            [alwaysShowCalendars]="true"
             (ngModelChange)="loadData()"/>
-          </div>
-          <div class="col-8 text-right" >
-            <button type="" class="btn btn-info" (click)="reLoad()">Làm mới</button>
           </div>
         </div>
       </div>

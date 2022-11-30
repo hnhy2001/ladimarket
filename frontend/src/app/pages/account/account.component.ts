@@ -32,17 +32,17 @@ export class AccountComponent implements OnInit {
             {
                 text: '#', sortable: false, filterable: false, editable: false,
                 groupable: false, draggable: false, resizable: false,
-                datafield: '', columntype: 'number', width: 50,
+                datafield: '', columntype: 'number', width: '5%',
                 cellsrenderer: (row: number, column: any, value: number): string => {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'Tài khoản', editable: false, datafield: 'userName', 'width': '170' },
-            { text: 'Họ và Tên', editable: false, datafield: 'fullName', 'width': '300' },
+            { text: 'Tài khoản', editable: false, datafield: 'userName', 'width': '15%' },
+            { text: 'Họ và Tên', editable: false, datafield: 'fullName', 'width': '15%' },
             // { text: 'Mât khẩu', editable: false, datafield: 'passWord' , 'width':'160'},
-            { text: 'Email', editable: false, datafield: 'email', 'width': '185' },
-            { text: 'SDT', editable: false, datafield: 'phone', 'width': '170' },
-            { text: 'Đia chỉ', editable: false, datafield: 'address', 'width': '300' },
+            { text: 'Email', editable: false, datafield: 'email', 'width': '15%' },
+            { text: 'SDT', editable: false, datafield: 'phone', 'width': '15%' },
+            { text: 'Đia chỉ', editable: false, datafield: 'address', 'width': '15%' },
 
             // { 
             //     text: 'Trạng thái', editable: false, datafield: 'status' , 'width':'80',
@@ -57,8 +57,8 @@ export class AccountComponent implements OnInit {
             //         }
             //     }
             // },
-            { text: 'Phân quyền', editable: false, datafield: 'role', 'width': '300' },
-            { text: 'Ghi chú', editable: false, datafield: 'note', 'width': '300' },
+            { text: 'Phân quyền', editable: false, datafield: 'role', 'width': '10%' },
+            { text: 'Ghi chú', editable: false, datafield: 'note', 'width': '10%' },
 
         ];
 

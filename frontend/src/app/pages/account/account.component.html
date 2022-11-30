@@ -7,8 +7,8 @@
         <div class="row">
           <div class="col-8">
             <button type="" class="btn btn-primary" (click)="createData()">Thêm</button>
-            <button type="" class="btn btn-primary" (click)="updateData()">Sửa</button>
-            <button type="" class="btn btn-warning" (click)="deleteData()">Xóa</button>
+            <button type="" class="btn btn-primary" (click)="updateData()" [disabled]="!selectedEntity">Sửa</button>
+            <button type="" class="btn btn-warning" (click)="deleteData()" [disabled]="!selectedEntity">Xoá</button>
             
           </div>
           <div class="col-4">

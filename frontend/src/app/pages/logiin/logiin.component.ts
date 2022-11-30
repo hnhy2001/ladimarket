@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DanhMucService } from 'app/danhmuc.service';
 import { HttpResponse } from '@angular/common/http';
 import { LocalStorageService } from 'ngx-webstorage';
+import { NotificationService } from 'app/notification.service';
 @Component({
   selector: 'app-logiin',
   templateUrl: './logiin.component.html',
@@ -22,7 +23,8 @@ export class LogiinComponent implements OnInit {
   constructor(
     private router:Router,
     private localStorage: LocalStorageService,
-    private dmService: DanhMucService 
+    private dmService: DanhMucService,
+    private notificationSerivce: NotificationService
   ) {
     
   
@@ -42,15 +44,20 @@ export class LogiinComponent implements OnInit {
         if(res.body.CODE===200){
           this.localStorage.store('authenticationToken', res.body.RESULT);
           setTimeout(() => {
-            this.router.navigate(['/dashboard']);
+            if(res.body.RESULT.role === "admin")
+              this.router.navigate(['/dashboard']);
+            else {
+              this.router.navigate(['/data']);
+            }
           }, 200);
           
         }else{
-          alert(res.body.MESSAGE)
+          this.notificationSerivce.showError("Đăng nhập thất bại","Cảnh báo");
         }
 
       },
       () => {
+        this.notificationSerivce.showError("Đăng nhập thất bại","Cảnh báo");
         console.error();
       }
     );

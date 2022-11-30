@@ -8,9 +8,17 @@
 <div class="modal-body">
   <div class="mt-2 mb-2">
     <h6>Chọn nhân sự</h6>
-    <ng-select [(ngModel)]="selectedStaff" name="selectedStaff">
-      <ng-option *ngFor="let obj of listUser" [value]="obj.acount.id">{{obj.acount.fullName}} ({{obj.acount.userName}})</ng-option>
-    </ng-select>
+    <div class="row">
+      <div class="col-11">
+        <ng-select [(ngModel)]="selectedStaff" name="selectedStaff">
+          <ng-option *ngFor="let obj of listUser" [value]="obj.acount.id">{{obj.acount.fullName}} ({{obj.acount.userName}})</ng-option>
+        </ng-select>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-sm btn-outline-primary" style="margin:0px" (click)="getUserActive()"><i class="fa fa-refresh"></i></button>
+      </div>
+    </div>
+
   </div>
   <div class="mt-2 mb-2">
     <h6>Danh sách công việc</h6>
