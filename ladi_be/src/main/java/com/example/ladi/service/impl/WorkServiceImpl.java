@@ -91,7 +91,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         if (work == null){
             return new BaseResponse(500, "Work not found", "Checkout Fail");
         }
-        List<Data> dataList = customDataRepository.finDataByConditions("0,1,2,3,4,5,6,7", String.valueOf(work.getTimeIn()), String.valueOf(checkOutRequest.getTimeOut()), work.getAccount());
+        List<Data> dataList = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(work.getTimeIn()), String.valueOf(checkOutRequest.getTimeOut()), work.getAccount());
         for (int i = 0; i<dataList.size(); i++){
             if (dataList.get(i).getStatus() == 1){
                 dataList.get(i).setStatus(0);
@@ -128,8 +128,20 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         if (work == null){
             return new BaseResponse(500, "NOT ACCOUNT CHECKING!", null);
         }
-        AccountDto accountDto = new AccountDto(account.getId(), account.getUserName(), account.getFullName());
-        WorkDto workDto = new WorkDto(work.getId(), work.getTimeIn(), work.getTimeOut(), work.getDonGiao(), work.getDonHoanThanh(), work.getGhiChu(), accountDto);
+        Date nowDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        Long date = Long.parseLong(formatter.format(nowDate));
+        Long startDate = work.getTimeIn();
+        Long endDate = date;
+        int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account).size();
+        int donHoanThanh = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account).size();
+        work.setDonGiao(donGiao);
+        work.setDonHoanThanh(donHoanThanh);
+        work.setTimeOut(endDate);
+        AccountDto accountDto = modelMapper.map(work.getAccount(), AccountDto.class);
+        WorkDto workDto = modelMapper.map(work, WorkDto.class);
+        workDto.setAcount(accountDto);
         return new BaseResponse(200, "OK", workDto);
     }
 

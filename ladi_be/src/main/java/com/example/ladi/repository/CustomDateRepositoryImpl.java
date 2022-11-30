@@ -40,6 +40,26 @@ public class CustomDateRepositoryImpl implements CustomDataRepository{
         return dataList;
     }
 
+    @Override
+    public List<Data> checkOut(String status, String startDate, String endDate, Account account){
+        JPAQuery<Data> queryData = new JPAQuery<>(entityManager);
+        QData qData = QData.data;
+        BooleanBuilder filter = new BooleanBuilder();
+        String[] statusArray = status.split(",");
+
+        for (String item : statusArray){
+            filter.or(qData.status.eq(Integer.parseInt(item)));
+        }
+        filter.and(qData.dateChanged.loe(Long.parseLong(endDate)));
+        filter.and(qData.dateChanged.goe(Long.parseLong(startDate)));
+        if (account != null) {
+            filter.and(qData.account.eq(account));
+        }
+        List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
+        System.out.println(dataList);
+        return dataList;
+    }
+
 
     @Override
     public String value() {

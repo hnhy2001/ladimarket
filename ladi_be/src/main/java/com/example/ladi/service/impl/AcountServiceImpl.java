@@ -45,7 +45,7 @@ public class AcountServiceImpl extends BaseServiceImpl<Account> implements Acoun
         }
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
-        LoginResponse loginResponse = new LoginResponse(jwtTokenProvider.generateToken(new AccountDetails(account)), account.getId(), account.getUserName(), account.getFullName());
+        LoginResponse loginResponse = new LoginResponse(jwtTokenProvider.generateToken(new AccountDetails(account)), account.getId(), account.getUserName(), account.getFullName(), account.getRole());
         return new BaseResponse(200, "OK", loginResponse);
     }
 

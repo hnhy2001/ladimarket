@@ -56,7 +56,7 @@ public class Data {
     private String ipAddress;
 
     @Column(name = "datechanged")
-    private String dateChanged;
+    private Long dateChanged;
 
     @Column(name = "utm_source")
     private String utmSource;

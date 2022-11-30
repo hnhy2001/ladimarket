@@ -28,7 +28,7 @@ public class QData extends EntityPathBase<Data> {
 
     public final NumberPath<Long> date = createNumber("date", Long.class);
 
-    public final StringPath dateChanged = createString("dateChanged");
+    public final NumberPath<Long> dateChanged = createNumber("dateChanged", Long.class);
 
     public final StringPath district = createString("district");
 
