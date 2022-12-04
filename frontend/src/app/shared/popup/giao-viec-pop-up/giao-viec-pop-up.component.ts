@@ -60,7 +60,7 @@ columns: any[] =
             }
             case 4: 
             {
-                return '<div class = "bg-warning div-center">' + 'KNM L2' + '</div>';
+                return '<div class = "bg-warning div-center">' + 'KNM Lc2' + '</div>';
             }
             case 5: 
             {
