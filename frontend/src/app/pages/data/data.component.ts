@@ -55,15 +55,15 @@ export class DataComponent implements OnInit, AfterViewInit{
             switch (value){
                 case 0: 
                 {
-                    return '<div class="div-center bg-light">' + 'Chờ xử lý' + '</div>';
+                    return '<div class="div-center bg-light">' + 'Mới' + '</div>';
                 }
                 case 1: 
                 {
-                    return '<div class = "bg-info div-center text-white">' + 'Đang xử lý' + '</div>';
+                    return '<div class = "bg-info div-center text-white">' + 'Đã tiếp nhận' + '</div>';
                 }
                 case 2: 
                 {
-                    return '<div class = "bg-primary div-center text-white">' + 'Hoàn thành' + '</div>';
+                    return '<div class = "bg-primary div-center text-white">' + 'Đang xử lý' + '</div>';
                 }
                 case 3: 
                 {
@@ -75,11 +75,11 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
                 case 5: 
                 {
-                    return '<div class = "bg-danger div-center text-white">' + 'Thất bại' + '</div>';
+                    return '<div class = "bg-warning div-center">' + 'KNM L3' + '</div>';
                 }
                 case 6: 
                 {
-                    return '<div class = "bg-dark div-center text-white">' + 'Trùng' + '</div>';
+                    return '<div class = "bg-danger div-center text-white">' + 'Thất bại' + '</div>';
                 }
                 case 7: 
                 {
@@ -129,6 +129,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     };
 
     info:any;
+    countList = [0,0,0,0,0,0,0]
 
     constructor(
         private dmService: DanhMucService,
@@ -189,7 +190,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
-                this.data = this.customDate(res.body.RESULT)
+                this.data = this.customDate(res.body.RESULT,this.statusDto)
                 this.source.localdata = this.data;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
@@ -200,11 +201,14 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
-    customDate(list: any[]): any[] {
+    customDate(list: any[], status:any): any[] {
+        if(status!=='') this.countList[Number(status)] = 0
+        else this.countList = [0,0,0,0,0,0,0];
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
             unitItem.nhanVienId = unitItem.account? unitItem.account.id:'';
+            this.countList[unitItem.status]++;
         });
         return list;
       }
