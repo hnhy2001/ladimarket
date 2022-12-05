@@ -40,7 +40,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         },
         { text: 'Ngày', editable: false, datafield: 'ngay', width: '8%'},
         { text: 'Tên KH', editable: false, datafield: 'name', width: '10%'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '10%'},
+        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '10%'},
         { text: 'Giá',editable:false ,datafield: 'price' , width: '8%', cellsrenderer: (row: number, column: any, value: number): string => 
             {
                 return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
@@ -153,7 +153,7 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'district', type: 'string' },
                 { name: 'status', type: 'number' },
                 { name: 'date', type: 'string'},
-                { name: 'formcolor', type: 'string' },
+                { name: 'product', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
                 { name: 'ngay', type: 'string' },
                 { name: 'source', type: 'string' },
@@ -287,6 +287,25 @@ export class DataComponent implements OnInit, AfterViewInit{
     private getCurrentDate() {
         let date = new Date();
         return moment(date).format('DD/MM/YYYY');
+    }
+
+    public onRowdblclick(event:any){
+        console.log(event);
+        this.selectedEntity = event.args.row.bounddata;
+
+        if(!this.selectedEntity) {
+            this.notificationService.showWarning('Vui lòng chọn dữ liệu',"Cảnh báo!");
+            return;
+        }
+        const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+        );
     }
 
     refresh():void{
