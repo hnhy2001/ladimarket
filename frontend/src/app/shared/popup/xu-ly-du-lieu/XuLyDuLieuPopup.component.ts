@@ -21,9 +21,7 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.formatCurrency();
-    }, 100);
+
   }
 
 
@@ -31,32 +29,31 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
     window.open("#/bill?id=" + this.data.id)
   }
 
-  formatNumber(n: any): any {
-    return n.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+  // formatNumber(n: any): any {
+  //   return n.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  // }
 
-  formatCurrency(): any {
-    const input: any = $('#currency-field');
-    let inputVal = input.val();
-    if (inputVal === '') {
-      return;
-    }
-    const originalLen = inputVal.length;
-    let caretPos = input.prop('selectionStart');
-    inputVal = this.formatNumber(inputVal);
+  // formatCurrency(): any {
+  //   const input: any = $('#currency-field');
+  //   let inputVal = input.val();
+  //   if (inputVal === '') {
+  //     return;
+  //   }
+  //   const originalLen = inputVal.length;
+  //   let caretPos = input.prop('selectionStart');
+  //   inputVal = this.formatNumber(inputVal);
 
-    // send updated string to input
-    input.val(inputVal);
+  //   // send updated string to input
+  //   input.val(inputVal);
 
-    // put caret back in the right position
-    const updatedLen = inputVal.length;
-    caretPos = updatedLen - originalLen + caretPos;
-    input[0].setSelectionRange(caretPos, caretPos);
-  }
+  //   // put caret back in the right position
+  //   const updatedLen = inputVal.length;
+  //   caretPos = updatedLen - originalLen + caretPos;
+  //   input[0].setSelectionRange(caretPos, caretPos);
+  // }
 
   save(i:any):void{
     this.data.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
-    this.data.price = this.data.price?this.data.price.replace(/,/g, '').replace(/\D/g, ''):null;
     this.data.status = i === -1 ? this.data.status : i;
     const entity = {
       dataList: [this.data]

@@ -7,30 +7,32 @@
   <table class="table table-bordered" style="width:100%">
     <tbody>
       <tr>
-        <td colspan="2" class="text-center text-bold">Thông tin khách hàng: </td>
+        <td colspan="4" class="text-center text-bold">Thông tin khách hàng </td>
       </tr>
       <tr>
-        <td class="text-right" style="width:30%">Khách hàng:</td>
-        <td class="text-bold">{{data?data.name:''}}</td>
+        <td class="text-right" style="width:15%">Khách hàng:</td>
+        <td class="text-bold" style="width:35%">{{data?data.name:''}}</td>
+        <td class="text-right" style="width:15%">SĐT:</td>
+        <td class="text-bold" style="width:35%">{{data?data.phone:''}}</td>
       </tr>
       <tr>
-        <td class="text-right">SĐT:</td>
-        <td class="text-bold">{{data?data.phone:''}}</td>
-      </tr>
-      <tr>
+        <td class="text-right">Xã, Huyện, Tỉnh:</td>
+        <td>{{data?data.ward:''}}, {{data?data.district:''}}, {{data?data.state:''}}</td>
         <td class="text-right">Địa chỉ:</td>
         <td>{{data?data.street:''}}</td>
       </tr>
       <tr>
         <td class="text-right">Sản phẩm:</td>
-        <td><input [(ngModel)]="data.formcolor" name="formcolor" class="form-control" /></td>
-      </tr>
-      <tr>
+        <td><input [(ngModel)]="data.product" name="product" class="form-control" /></td>
         <td class="text-right">Giá:</td>
-        <td><input [(ngModel)]="data.price" name="price" class="form-control" id="currency-field"  value="" (keyup)="formatCurrency()" (blur)="formatCurrency()" data-type="currency"/></td>
+        <td><input [(ngModel)]="data.price" name="price" type="number" class="form-control" id="currency-field"  value="" data-type="currency"/></td>
       </tr>
       <tr>
-        <td colspan="2" class="text-center">
+        <td class="text-right">Ghi chú:</td>
+        <td colspan="3"><input [(ngModel)]="data.message" name="product" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td colspan="4" class="text-center">
           <qrcode [qrdata]="data.phone" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
         </td>
       </tr>

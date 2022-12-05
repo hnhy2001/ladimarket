@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { ChuyenTrangThaiPopUpComponent } from 'app/shared/popup/chuyen-trang-thai-pop-up/chuyen-trang-thai-pop-up.component';
 import { GiaoViecPopUpComponent } from 'app/shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
 import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/TongKetDuLieuPopup.component';
 import { TuDongGiaoViecComponent } from 'app/shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component';
@@ -129,7 +130,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     };
 
     info:any;
-    countList = [0,0,0,0,0,0,0]
+    countList = [0,0,0,0,0,0,0,0]
 
     constructor(
         private dmService: DanhMucService,
@@ -203,7 +204,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     customDate(list: any[], status:any): any[] {
         if(status!=='') this.countList[Number(status)] = 0
-        else this.countList = [0,0,0,0,0,0,0];
+        else this.countList = [0,0,0,0,0,0,0,0];
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
@@ -237,6 +238,30 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
+    public openChangeStatus(){
+        let indexs = this.myGrid.getselectedrowindexes();
+        if(indexs.length === 0){
+            this.notificationService.showWarning('Vui lòng chọn công việc',"Cảnh báo!");
+            return;
+        }
+        const listWork = [];
+            for(let i = 0; i <this.data.length; i++) {
+                if(indexs.includes(i)){
+                    listWork.push(this.data[i]);
+                }
+            }
+
+        const modalRef = this.modalService.open(ChuyenTrangThaiPopUpComponent, { windowClass: 'modal-view',keyboard: true });
+        modalRef.componentInstance.data = listWork;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
+    }
+
     openAutoAssignWork():void{
         const modalRef = this.modalService.open(TuDongGiaoViecComponent, { windowClass: 'modal-view',keyboard: true });
         modalRef.result.then(
@@ -246,6 +271,8 @@ export class DataComponent implements OnInit, AfterViewInit{
             () => {}
           );
     }
+
+    
 
     public onProcessData():void{
         if(!this.selectedEntity) {
@@ -290,15 +317,9 @@ export class DataComponent implements OnInit, AfterViewInit{
     }
 
     public onRowdblclick(event:any){
-        console.log(event);
-        this.selectedEntity = event.args.row.bounddata;
 
-        if(!this.selectedEntity) {
-            this.notificationService.showWarning('Vui lòng chọn dữ liệu',"Cảnh báo!");
-            return;
-        }
         const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
-        modalRef.componentInstance.data = this.selectedEntity;
+        modalRef.componentInstance.data = event.args.row.bounddata;
         modalRef.result.then(
             () => {
               this.loadData();
