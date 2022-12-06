@@ -14,5 +14,5 @@ public class CreateWorkRequest {
     private int donGiao;
     private int donHoanThanh;
     private String ghiChu;
-    private int nhanVienId;
+    private Long nhanVienId;
 }

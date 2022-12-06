@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class LoginResponse {
     private Object object;
-    private int id;
+    private Long id;
     private String userName;
     private String fullName;
     private String role;

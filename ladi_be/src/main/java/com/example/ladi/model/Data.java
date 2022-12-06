@@ -17,7 +17,7 @@ public class Data {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -40,8 +40,8 @@ public class Data {
     @Column(name = "ward")
     private String ward;
 
-    @Column(name = "formcolor")
-    private String formcolor;
+    @Column(name = "product")
+    private String product;
 
     @Column(name = "status")
     private  int status;
@@ -49,8 +49,8 @@ public class Data {
     @Column(name = "date")
     private Long date;
 
-    @Column(name = "source")
-    private String source;
+    @Column(name = "link")
+    private String link;
 
     @Column(name = "ipaddress")
     private String ipAddress;
@@ -78,6 +78,15 @@ public class Data {
 
     @Column(name = "price")
     private Double price;
+
+    @Column(name = "message")
+    private String message;
+
+    @Column(name = "note")
+    private String note;
+
+    @Column(name = "shopcode")
+    private String shopCode;
 
     @ManyToOne
     @JoinColumn(name = "nhanvienid")

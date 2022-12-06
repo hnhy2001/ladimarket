@@ -10,6 +10,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 @Getter
 @Setter
 public class AssignWorkRequest {
-    int id;
+    Long id;
 //    List<DataRequest> dataList;
 }

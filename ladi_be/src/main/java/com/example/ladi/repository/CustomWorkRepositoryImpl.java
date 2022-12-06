@@ -28,12 +28,23 @@ public class CustomWorkRepositoryImpl implements CustomWorkRepository{
     }
 
     @Override
-    public List finWorkByConditions(String startDate, String endDate, Account account) {
+    public List finWorkByConditions(String startDate, String endDate, Account account, String shopCode, int isActive) {
         JPAQuery<Work> workQuery = new JPAQuery<>(entityManager);
         QWork qWork = QWork.work;
         BooleanBuilder filter = new BooleanBuilder();
-        filter.and(qWork.timeIn.loe(Long.parseLong(endDate)));
-        filter.and(qWork.timeIn.goe(Long.parseLong(startDate)));
+        if (shopCode != null){
+            String[] shopCodeArr = shopCode.split(",");
+            for (String item : shopCodeArr){
+                filter.and(qWork.account.shop.like("%"+item+"%"));
+            }
+        }
+        if (isActive != 0){
+            filter.and(qWork.isActive.eq(isActive));
+        }
+        if (startDate != null && endDate != null){
+            filter.and(qWork.timeIn.loe(Long.parseLong(endDate)));
+            filter.and(qWork.timeIn.goe(Long.parseLong(startDate)));
+        }
         if (account != null) {
             filter.and(qWork.account.eq(account));
         }

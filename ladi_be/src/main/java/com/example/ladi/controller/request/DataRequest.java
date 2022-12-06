@@ -6,71 +6,77 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class DataRequest {
-    private int id;
-    private String phone;
+    private Long id;
+
     private String name;
+
+    private String phone;
+
     private String street;
+
     private String country;
 
-    public DataRequest(int id, String phone, String name, String street, String country, String state, String district, String ward, String formcolor, int status, String date, String source, String ipAddress, String dateChanged, String staffName, int nhanVienId, Double price) {
+    private String state;
+
+    private String district;
+
+    private String ward;
+
+    private String product;
+
+    private  int status;
+
+    private Long date;
+
+    private String link;
+
+    private String ipAddress;
+
+    private Long dateChanged;
+
+    public DataRequest() {
+    }
+
+    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, String utmSource, String utmMedium, String utmCampation, String utmTerm, String utmContent, String variantUrl, Double price, String message, String note, String shopCode, Long nhanVienId) {
         this.id = id;
-        this.phone = phone;
         this.name = name;
+        this.phone = phone;
         this.street = street;
         this.country = country;
         this.state = state;
         this.district = district;
         this.ward = ward;
-        this.formcolor = formcolor;
+        this.product = product;
         this.status = status;
         this.date = date;
-        this.source = source;
+        this.link = link;
         this.ipAddress = ipAddress;
         this.dateChanged = dateChanged;
-        this.staffName = staffName;
+        this.utmSource = utmSource;
+        this.utmMedium = utmMedium;
+        this.utmCampation = utmCampation;
+        this.utmTerm = utmTerm;
+        this.utmContent = utmContent;
+        this.variantUrl = variantUrl;
+        this.price = price;
+        this.message = message;
+        this.note = note;
+        this.shopCode = shopCode;
         this.nhanVienId = nhanVienId;
-        this.price = price;
     }
 
-    private String state;
-    private String district;
-    private String ward;
-    private String formcolor;
-    private int status;
-    private String date;
-    private String source;
-    private String ipAddress;
-    private String dateChanged;
-    private String staffName;
-    private int nhanVienId;
-    private Double price;
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public DataRequest() {
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getName() {
@@ -79,6 +85,14 @@ public class DataRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getStreet() {
@@ -121,12 +135,12 @@ public class DataRequest {
         this.ward = ward;
     }
 
-    public String getFormcolor() {
-        return formcolor;
+    public String getProduct() {
+        return product;
     }
 
-    public void setFormcolor(String formcolor) {
-        this.formcolor = formcolor;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
     public int getStatus() {
@@ -137,20 +151,20 @@ public class DataRequest {
         this.status = status;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public String getSource() {
-        return source;
+    public String getLink() {
+        return link;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getIpAddress() {
@@ -161,27 +175,121 @@ public class DataRequest {
         this.ipAddress = ipAddress;
     }
 
-    public String getDateChanged() {
+    public Long getDateChanged() {
         return dateChanged;
     }
 
-    public void setDateChanged(String dateChanged) {
+    public void setDateChanged(Long dateChanged) {
         this.dateChanged = dateChanged;
     }
 
-    public String getStaffName() {
-        return staffName;
+    public String getUtmSource() {
+        return utmSource;
     }
 
-    public void setStaffName(String staffName) {
-        this.staffName = staffName;
+    public void setUtmSource(String utmSource) {
+        this.utmSource = utmSource;
     }
 
-    public int getNhanVienId() {
+    public String getUtmMedium() {
+        return utmMedium;
+    }
+
+    public void setUtmMedium(String utmMedium) {
+        this.utmMedium = utmMedium;
+    }
+
+    public String getUtmCampation() {
+        return utmCampation;
+    }
+
+    public void setUtmCampation(String utmCampation) {
+        this.utmCampation = utmCampation;
+    }
+
+    public String getUtmTerm() {
+        return utmTerm;
+    }
+
+    public void setUtmTerm(String utmTerm) {
+        this.utmTerm = utmTerm;
+    }
+
+    public String getUtmContent() {
+        return utmContent;
+    }
+
+    public void setUtmContent(String utmContent) {
+        this.utmContent = utmContent;
+    }
+
+    public String getVariantUrl() {
+        return variantUrl;
+    }
+
+    public void setVariantUrl(String variantUrl) {
+        this.variantUrl = variantUrl;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getShopCode() {
+        return shopCode;
+    }
+
+    public void setShopCode(String shopCode) {
+        this.shopCode = shopCode;
+    }
+
+    public Long getNhanVienId() {
         return nhanVienId;
     }
 
-    public void setNhanVienId(int nhanVienId) {
+    public void setNhanVienId(Long nhanVienId) {
         this.nhanVienId = nhanVienId;
     }
+
+    private String utmSource;
+
+    private String utmMedium;
+
+    private String utmCampation;
+
+    private String utmTerm;
+
+    private String utmContent;
+
+    private String variantUrl;
+
+    private Double price;
+
+    private String message;
+
+    private String note;
+
+    private String shopCode;
+
+    private Long nhanVienId;
 }

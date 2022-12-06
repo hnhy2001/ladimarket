@@ -10,5 +10,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CheckWorkActiveRequest {
-    private int nhanVienId;
+    private Long nhanVienId;
 }

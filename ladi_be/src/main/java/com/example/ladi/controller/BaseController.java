@@ -30,12 +30,12 @@ public abstract class BaseController<T> {
     }
 
     @GetMapping("getById")
-    public BaseResponse getById(@RequestParam(name = "id") int id){
+    public BaseResponse getById(@RequestParam(name = "id") Long id){
         return new BaseResponse(200, "Lấy dữ liệu thành công!", this.getService().getById(id));
     }
 
     @DeleteMapping("deleteById")
-    public BaseResponse deleteById(@RequestParam(name = "id") int id){
+    public BaseResponse deleteById(@RequestParam(name = "id") Long id){
         return new BaseResponse(200, "OK", this.getService().deleteById(id));
     }
 }

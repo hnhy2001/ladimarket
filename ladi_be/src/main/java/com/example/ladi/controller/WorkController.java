@@ -8,6 +8,7 @@ import com.example.ladi.model.Work;
 import com.example.ladi.service.BaseService;
 import com.example.ladi.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,22 +34,22 @@ public class WorkController extends BaseController<Work>{
     }
 
     @PostMapping("/checkOut")
-    public BaseResponse checkOut(@RequestBody CheckOutRequest checkOutRequest){
-        return workService.checkOut(checkOutRequest);
+    public BaseResponse checkOut(@RequestBody CheckOutRequest checkOutRequest, @RequestParam(name = "shopCode", required = false) String shopCode){
+        return workService.checkOut(checkOutRequest, shopCode);
     }
 
     @GetMapping("getAllActive")
-    public BaseResponse getAllIsActive(){
-        return workService.getAllActive();
+    public BaseResponse getAllIsActive(@RequestParam(name = "shopCode", required = false) String shopCode){
+        return workService.getAllActive(shopCode);
     }
 
     @PostMapping("checkWorkActive")
-    public BaseResponse getAllIsActive(@RequestBody CheckWorkActiveRequest checkWorkActiveRequest){
-        return workService.checkWorkActive(checkWorkActiveRequest);
+    public BaseResponse getAllIsActive(@RequestBody CheckWorkActiveRequest checkWorkActiveRequest, @RequestParam(name = "shopCode", required = false) String shopCode){
+        return workService.checkWorkActive(checkWorkActiveRequest, shopCode);
     }
 
     @PostMapping("infoCheckout")
-    public BaseResponse infoCheckout(@RequestParam int id){
+    public BaseResponse infoCheckout(@RequestParam Long id){
 //        return new BaseResponse(200, "Ok", "hello");
         return workService.infoCheckout(id);
     }

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DataDto {
-    private int id;
+    private Long id;
     private String phone;
     private String name;
     private String street;
@@ -18,13 +18,16 @@ public class DataDto {
     private String state;
     private String district;
     private String ward;
-    private String formcolor;
+    private String product;
     private int status;
     private String date;
-    private String source;
+    private String link;
     private String ipAddress;
     private String dateChanged;
     private String staffName;
     private Double price;
+    private String shopCode;
+    private String message;
+    private String note;
     private AccountDto account;
 }

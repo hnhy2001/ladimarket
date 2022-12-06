@@ -64,7 +64,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Account account = accountRepository.findByUserName(userName);
         List<WorkDto> workDtoList = new ArrayList<>();
         if (account.getRole().equals("admin")){
-            List<Work> workList = customWorkRepository.finWorkByConditions(startDate, endDate, null);
+            List<Work> workList = customWorkRepository.finWorkByConditions(startDate, endDate, null, null, 0);
             for (int i = 0; i<workList.size(); i++){
                 AccountDto accountDto = modelMapper.map(workList.get(i).getAccount(), AccountDto.class);
                 WorkDto workDto = modelMapper.map(workList.get(i),WorkDto.class);
@@ -73,7 +73,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
             }
         }
         else{
-            List<Work> workList = customWorkRepository.finWorkByConditions(startDate, endDate, account);
+            List<Work> workList = customWorkRepository.finWorkByConditions(startDate, endDate, account, null, 0);
             for (int i = 0 ; i<workList.size(); i++){
                 AccountDto accountDto = modelMapper.map(workList.get(i).getAccount(),AccountDto.class);
                 WorkDto workDto = modelMapper.map(workList.get(i),WorkDto.class);
@@ -86,12 +86,12 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
     }
 
     @Override
-    public BaseResponse checkOut(CheckOutRequest checkOutRequest) {
+    public BaseResponse checkOut(CheckOutRequest checkOutRequest, String shopCode) {
         Work work = workRepository.findAllById(checkOutRequest.getId());
         if (work == null){
             return new BaseResponse(500, "Work not found", "Checkout Fail");
         }
-        List<Data> dataList = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(work.getTimeIn()), String.valueOf(checkOutRequest.getTimeOut()), work.getAccount());
+        List<Data> dataList = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(work.getTimeIn()), String.valueOf(checkOutRequest.getTimeOut()), work.getAccount(), shopCode);
         for (int i = 0; i<dataList.size(); i++){
             if (dataList.get(i).getStatus() == 1){
                 dataList.get(i).setStatus(0);
@@ -107,11 +107,11 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
     }
 
     @Override
-    public BaseResponse getAllActive() {
-        List<Work> workList = workRepository.findAllByIsActive(1);
+    public BaseResponse getAllActive(String shopCode) {
+        List<Work> workList = customWorkRepository.finWorkByConditions(null, null, null, shopCode, 1);
         List<WorkDto> workDtoList = new ArrayList<>();
         for (int i = 0 ; i<workList.size(); i++){
-            AccountDto accountDto = new AccountDto(workList.get(i).getAccount().getId(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getFullName());
+            AccountDto accountDto = new AccountDto(workList.get(i).getAccount().getId(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getShop(), workList.get(i).getAccount().getRole());
             WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getGhiChu(), accountDto);
             workDtoList.add(workDto);
         }
@@ -119,7 +119,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
     }
 
     @Override
-    public BaseResponse checkWorkActive(CheckWorkActiveRequest checkWorkActive) {
+    public BaseResponse checkWorkActive(CheckWorkActiveRequest checkWorkActive, String shopCode) {
         Account account = accountRepository.findAllById(checkWorkActive.getNhanVienId());
         if (account == null){
             return new BaseResponse(500, "Account Not Found!", null);
@@ -134,8 +134,8 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Long date = Long.parseLong(formatter.format(nowDate));
         Long startDate = work.getTimeIn();
         Long endDate = date;
-        int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account).size();
-        int donHoanThanh = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account).size();
+        int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donHoanThanh = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         work.setDonGiao(donGiao);
         work.setDonHoanThanh(donHoanThanh);
         work.setTimeOut(endDate);
@@ -146,7 +146,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
     }
 
     @Override
-    public BaseResponse infoCheckout(int id) {
+    public BaseResponse infoCheckout(Long id) {
         Date nowDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
@@ -154,10 +154,10 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Work work = workRepository.findById(id).get();
         Long startDate = work.getTimeIn();
         Long endDate = date;
-        int donGiao = customDataRepository.finDataByConditions("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), work.getAccount()).size();
-        int donHoanThanh = customDataRepository.finDataByConditions("2", String.valueOf(startDate), String.valueOf(endDate), work.getAccount()).size();
-        work.setDonGiao(donGiao);
-        work.setDonHoanThanh(donHoanThanh);
+//        int donGiao = customDataRepository.finDataByConditions("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), work.getAccount()).size();
+//        int donHoanThanh = customDataRepository.finDataByConditions("2", String.valueOf(startDate), String.valueOf(endDate), work.getAccount()).size();
+//        work.setDonGiao(donGiao);
+//        work.setDonHoanThanh(donHoanThanh);
         work.setTimeOut(endDate);
         AccountDto accountDto = modelMapper.map(work.getAccount(), AccountDto.class);
         WorkDto workDto = modelMapper.map(work, WorkDto.class);

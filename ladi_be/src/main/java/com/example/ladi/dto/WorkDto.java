@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkDto {
-    private int id;
+    private Long id;
     private Long timeIn;
     private Long timeOut;
     private int donGiao;

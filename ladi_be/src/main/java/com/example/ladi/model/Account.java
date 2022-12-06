@@ -43,4 +43,7 @@ public class Account extends BaseEntity{
     @Column(name = "role")
     private String role;
 
+    @Column(name = "shop")
+    private String shop;
+
 }

@@ -23,12 +23,12 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         return this.getRepository().save(t);
     }
     @Override
-    public T getById(int id) {
+    public T getById(Long id) {
         return this.getRepository().findAllById(id);
     }
 
     @Override
-    public String deleteById(int id){
+    public String deleteById(Long id){
         T t = this.getRepository().findAllById(id);
         this.getRepository().delete(t);
         return "delete success";

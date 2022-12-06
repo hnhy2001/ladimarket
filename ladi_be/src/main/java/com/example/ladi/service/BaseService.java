@@ -8,6 +8,6 @@ public interface BaseService<T> {
     public List<T> getAll();
     public T create(T t);
     public T update(T t) throws NoSuchAlgorithmException;
-    public T getById(int id);
-    public String deleteById(int id);
+    public T getById(Long id);
+    public String deleteById(Long id);
 }

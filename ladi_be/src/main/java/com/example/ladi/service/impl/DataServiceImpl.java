@@ -11,10 +11,7 @@ import com.example.ladi.dto.WorkDto;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
 import com.example.ladi.model.Work;
-import com.example.ladi.repository.AccountRepository;
-import com.example.ladi.repository.BaseRepository;
-import com.example.ladi.repository.CustomDataRepository;
-import com.example.ladi.repository.DataRepository;
+import com.example.ladi.repository.*;
 import com.example.ladi.service.DataService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.logging.SimpleFormatter;
 
 @Service
@@ -42,27 +36,30 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
 
     @Autowired
     CustomDataRepository customDataRepository;
+
+    @Autowired
+    CustomWorkRepository customWorkRepository;
     @Override
     protected BaseRepository<Data> getRepository() {
         return dataRepository;
     }
 
     @Override
-    public BaseResponse getAllData(String jwt, String status, String startDate, String endDate) {
+    public BaseResponse getAllData(String jwt, String status, String startDate, String endDate, String shopCode) {
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
         String bearerToken = getJwtFromRequest(jwt);
         String userName = jwtTokenProvider.getAccountUserNameFromJWT(bearerToken);
         Account account = accountRepository.findByUserName(userName);
         List<DataDto> dataDtoList = new ArrayList<>();
         if (account.getRole().equals("admin")) {
-            List<Data> dataList = customDataRepository.finDataByConditions(status, startDate, endDate, null);
+            List<Data> dataList = customDataRepository.finDataByConditions(status, startDate, endDate, null, shopCode);
             for (int i = 0; i < dataList.size(); i++) {
                 if (dataList.get(i).getAccount() == null){
                     DataDto dataDto = modelMapper.map(dataList.get(i), DataDto.class);
                     dataDtoList.add(dataDto);
                 }
                 else {
-                    AccountDto accountDto = new AccountDto(dataList.get(i).getAccount().getId(), dataList.get(i).getAccount().getUserName(), dataList.get(i).getAccount().getFullName());
+                    AccountDto accountDto = new AccountDto(dataList.get(i).getAccount().getId(), dataList.get(i).getAccount().getUserName(), dataList.get(i).getAccount().getFullName(), dataList.get(i).getAccount().getShop(), dataList.get(i).getAccount().getRole());
                     DataDto dataDto = modelMapper.map(dataList.get(i), DataDto.class);
                     dataDto.setAccount(accountDto);
                     dataDtoList.add(dataDto);
@@ -70,7 +67,7 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
             }
             return new BaseResponse(200, "OK", dataDtoList);
         }else {
-            List<Data> dataList = customDataRepository.finDataByConditions(status, startDate, endDate, account);
+            List<Data> dataList = customDataRepository.finDataByConditions(status, startDate, endDate, account, shopCode);
             for (int i = 0; i<dataList.size(); i++){
                 AccountDto accountDto = modelMapper.map(dataList.get(i).getAccount(), AccountDto.class);
                 DataDto dataDto = modelMapper.map(dataList.get(i), DataDto.class);
@@ -82,14 +79,25 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     @Override
-    public BaseResponse createData(Data data) {
+    public BaseResponse createData(Data data, String shopCode) {
         Date nowDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         Long date = Long.parseLong(formatter.format(nowDate));
         data.setDate(date);
+        data.setShopCode(shopCode);
+        List<Work> workList = customWorkRepository.finWorkByConditions(null, null, null, shopCode, 1);
+        DataDto dataDto = new DataDto();
+        if (!workList.isEmpty()){
+            Random rand = new Random();
+            int ranNum = rand.nextInt(workList.size());
+            data.setAccount(workList.get(ranNum).getAccount());
+            AccountDto accountDto = modelMapper.map(workList.get(ranNum).getAccount(), AccountDto.class);
+            dataDto = modelMapper.map(data, DataDto.class);
+            dataDto.setAccount(accountDto);
+        }
         dataRepository.save(data);
-        return new BaseResponse(200, "OK", data);
+        return new BaseResponse(200, "OK", dataDto);
     }
     
     @Override
@@ -98,7 +106,6 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
             Account account = accountRepository.findAllById(data.getNhanVienId());
             Data dataResult = modelMapper.map(data, Data.class);
             dataResult.setAccount(account);
-            System.out.println(dataResult);
             dataRepository.save(dataResult);
         }
         return new BaseResponse(200, "Success!", null);

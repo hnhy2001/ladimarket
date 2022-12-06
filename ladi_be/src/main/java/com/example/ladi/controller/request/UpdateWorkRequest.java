@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateWorkRequest {
-    private int id;
+    private Long id;
     private int donGiao;
     private int donHoanThanh;
     private String ghiChu;

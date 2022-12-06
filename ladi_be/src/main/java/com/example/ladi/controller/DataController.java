@@ -44,14 +44,14 @@ public class DataController extends BaseController<Data>{
 
 
     @GetMapping("")
-    public BaseResponse getAllData(@RequestHeader(name = "Authorization") String jwt, @RequestParam String status, @RequestParam String startDate, @RequestParam String endDate){
+    public BaseResponse getAllData(@RequestHeader(name = "Authorization") String jwt, @RequestParam String status, @RequestParam String startDate, @RequestParam String endDate, @RequestParam(name = "shopCode", required = false) String shopCode){
 
-        return dataService.getAllData(jwt, status, startDate, endDate);
+        return dataService.getAllData(jwt, status, startDate, endDate, shopCode);
     }
 
     @PostMapping("createData")
-    public BaseResponse createData(@RequestBody Data data){
-        return dataService.createData(data);
+    public BaseResponse createData(@RequestBody Data data, @RequestParam(name = "shopCode", required = false) String shopCode){
+        return dataService.createData(data, shopCode);
     }
 
     @PostMapping("assignWork")

@@ -7,8 +7,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.List;
 
 @NoRepositoryBean
-public interface BaseRepository<T> extends JpaRepository<T, Integer>, JpaSpecificationExecutor<T> {
+public interface BaseRepository<T> extends JpaRepository<T, Long>, JpaSpecificationExecutor<T> {
     List<T> findAll();
-    T findAllById(int id);
+    T findAllById(Long id);
     List<T> findAllByOrderByIdDesc();
 }
