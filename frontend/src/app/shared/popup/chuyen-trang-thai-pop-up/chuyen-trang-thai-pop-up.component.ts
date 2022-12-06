@@ -8,12 +8,12 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import moment from 'moment';
 
 @Component({
-  selector: 'app-giao-viec-pop-up',
-  templateUrl: './giao-viec-pop-up.component.html',
-  styleUrls: ['./giao-viec-pop-up.component.scss']
+  selector: 'chuyen-trang-thai-pop-up',
+  templateUrl: './chuyen-trang-thai-pop-up.component.html',
+  styleUrls: ['./chuyen-trang-thai-pop-up.component.scss']
 })
 
-export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('gridReferenceABC') myGrid: jqxGridComponent;
   REQUEST_WORK_URL = "/api/v1/work";
   @Input() data: any;
@@ -25,6 +25,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   // grid
   source: any
   dataAdapter: any;
+  status = 1;
   columns: any[] =
     [
       {
@@ -159,15 +160,9 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public assignWork(): void {
-    if (!this.selectedStaff) {
-      this.notificationService.showWarning('Vui lòng chọn nhân sự', "Cảnh báo!");
-      return;
-    }
-
     this.data.forEach((unitItem) => {
-      unitItem.nhanVienId = this.selectedStaff;
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
-      unitItem.status = unitItem.status === 0 ? 1 : unitItem.status;
+      unitItem.status = this.status;
     });
 
     const entity = {

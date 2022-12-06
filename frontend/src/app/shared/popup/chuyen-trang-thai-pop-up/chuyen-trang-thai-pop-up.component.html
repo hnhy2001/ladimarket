@@ -1,0 +1,40 @@
+
+<div class="modal-header">
+  <div style="font-size: 24px;">
+      <p class="m-0">Chuyển trạng thái</p>
+      <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+    </div>
+</div>
+<div class="modal-body">
+  <div class="mt-2 mb-2">
+    <h6>Chọn trạng thái</h6>
+    
+    <select name="" id="" class="form-control" [(ngModel)]="status">
+      <option value="1">Đã tiếp nhận</option>
+      <option value="2">Đang xử lý</option>
+      <option value="3">KNM L1</option>
+      <option value="4">KNM L2</option>
+      <option value="5">KNM L3</option>
+      <option value="6">Thất bại</option>
+      <option value="7">Đã in đơn</option>
+    </select>
+
+  </div>
+  <div class="mt-2 mb-2">
+    <h6>Danh sách công việc</h6>
+  </div>
+  <div>
+    <jqxGrid #gridReferenceABC
+          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true" [height]="height"
+          [pageable]="true" [sortable]="true" 
+          [filterable]="true" [showfilterrow]="true"
+          [altrows]="true"  [enabletooltips]="true" 
+          [localization]="localization"
+          >
+    </jqxGrid>
+  </div>
+</div>
+<div class="modal-footer">
+  <button (click)="assignWork()" type="" class="btn btn-primary">Chuyển trạng thái</button>
+  <button (click)="dismiss()" type="button" class="btn btn-danger" >Hủy</button>
+</div>

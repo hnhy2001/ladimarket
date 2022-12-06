@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
 import { NotificationService } from 'app/notification.service';
+import { ChuyenTrangThaiPopUpComponent } from 'app/shared/popup/chuyen-trang-thai-pop-up/chuyen-trang-thai-pop-up.component';
 import { GiaoViecPopUpComponent } from 'app/shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
 import { TongKetDuLieuPopupComponent } from 'app/shared/popup/tong-ket-du-lieu/TongKetDuLieuPopup.component';
 import { TuDongGiaoViecComponent } from 'app/shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component';
@@ -40,7 +41,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         },
         { text: 'Ngày', editable: false, datafield: 'ngay', width: '8%'},
         { text: 'Tên KH', editable: false, datafield: 'name', width: '10%'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'formcolor' , width: '10%'},
+        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '10%'},
         { text: 'Giá',editable:false ,datafield: 'price' , width: '8%', cellsrenderer: (row: number, column: any, value: number): string => 
             {
                 return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
@@ -55,15 +56,15 @@ export class DataComponent implements OnInit, AfterViewInit{
             switch (value){
                 case 0: 
                 {
-                    return '<div class="div-center bg-light">' + 'Chờ xử lý' + '</div>';
+                    return '<div class="div-center bg-light">' + 'Mới' + '</div>';
                 }
                 case 1: 
                 {
-                    return '<div class = "bg-info div-center text-white">' + 'Đang xử lý' + '</div>';
+                    return '<div class = "bg-info div-center text-white">' + 'Đã tiếp nhận' + '</div>';
                 }
                 case 2: 
                 {
-                    return '<div class = "bg-primary div-center text-white">' + 'Hoàn thành' + '</div>';
+                    return '<div class = "bg-primary div-center text-white">' + 'Đang xử lý' + '</div>';
                 }
                 case 3: 
                 {
@@ -75,11 +76,11 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
                 case 5: 
                 {
-                    return '<div class = "bg-danger div-center text-white">' + 'Thất bại' + '</div>';
+                    return '<div class = "bg-warning div-center">' + 'KNM L3' + '</div>';
                 }
                 case 6: 
                 {
-                    return '<div class = "bg-dark div-center text-white">' + 'Trùng' + '</div>';
+                    return '<div class = "bg-danger div-center text-white">' + 'Thất bại' + '</div>';
                 }
                 case 7: 
                 {
@@ -129,6 +130,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     };
 
     info:any;
+    countList = [0,0,0,0,0,0,0,0]
 
     constructor(
         private dmService: DanhMucService,
@@ -152,7 +154,7 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'district', type: 'string' },
                 { name: 'status', type: 'number' },
                 { name: 'date', type: 'string'},
-                { name: 'formcolor', type: 'string' },
+                { name: 'product', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
                 { name: 'ngay', type: 'string' },
                 { name: 'source', type: 'string' },
@@ -189,7 +191,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
-                this.data = this.customDate(res.body.RESULT)
+                this.data = this.customDate(res.body.RESULT,this.statusDto)
                 this.source.localdata = this.data;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
               }, 100);
@@ -200,11 +202,14 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
-    customDate(list: any[]): any[] {
+    customDate(list: any[], status:any): any[] {
+        if(status!=='') this.countList[Number(status)] = 0
+        else this.countList = [0,0,0,0,0,0,0,0];
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
             unitItem.nhanVienId = unitItem.account? unitItem.account.id:'';
+            this.countList[unitItem.status]++;
         });
         return list;
       }
@@ -233,6 +238,30 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
 
+    public openChangeStatus(){
+        let indexs = this.myGrid.getselectedrowindexes();
+        if(indexs.length === 0){
+            this.notificationService.showWarning('Vui lòng chọn công việc',"Cảnh báo!");
+            return;
+        }
+        const listWork = [];
+            for(let i = 0; i <this.data.length; i++) {
+                if(indexs.includes(i)){
+                    listWork.push(this.data[i]);
+                }
+            }
+
+        const modalRef = this.modalService.open(ChuyenTrangThaiPopUpComponent, { windowClass: 'modal-view',keyboard: true });
+        modalRef.componentInstance.data = listWork;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+          );
+    }
+
     openAutoAssignWork():void{
         const modalRef = this.modalService.open(TuDongGiaoViecComponent, { windowClass: 'modal-view',keyboard: true });
         modalRef.result.then(
@@ -242,6 +271,8 @@ export class DataComponent implements OnInit, AfterViewInit{
             () => {}
           );
     }
+
+    
 
     public onProcessData():void{
         if(!this.selectedEntity) {
@@ -283,6 +314,19 @@ export class DataComponent implements OnInit, AfterViewInit{
     private getCurrentDate() {
         let date = new Date();
         return moment(date).format('DD/MM/YYYY');
+    }
+
+    public onRowdblclick(event:any){
+
+        const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
+        modalRef.componentInstance.data = event.args.row.bounddata;
+        modalRef.result.then(
+            () => {
+              this.loadData();
+             
+            },
+            () => {}
+        );
     }
 
     refresh():void{
