@@ -31,6 +31,7 @@ import { CheckOutComponent } from "./shared/popup/checkout/checkout.component";
 import { ChuyenTrangThaiPopUpComponent } from "./shared/popup/chuyen-trang-thai-pop-up/chuyen-trang-thai-pop-up.component";
 import { ThemSuaShopComponent } from "./shared/popup/them-sua-shop/them-sua-shop.component";
 import { GanShopComponent } from "./shared/popup/gan-shop/gan-shop.component";
+import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { GanShopComponent } from "./shared/popup/gan-shop/gan-shop.component";
     TuDongGiaoViecComponent,
     CheckOutComponent,
     ThemSuaShopComponent,
-    GanShopComponent
+    GanShopComponent,
+    ThongTinCauHinhComponent
   ],
   imports: [
     BrowserAnimationsModule,

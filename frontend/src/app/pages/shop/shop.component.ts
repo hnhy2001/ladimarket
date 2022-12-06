@@ -7,6 +7,7 @@ import { NotificationService } from 'app/notification.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import $ from "jquery";
 import { ThemSuaShopComponent } from 'app/shared/popup/them-sua-shop/them-sua-shop.component';
+import { ThongTinCauHinhComponent } from 'app/shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component';
 @Component({
     selector: 'shop-cmp',
     templateUrl: 'shop.component.html'
@@ -128,6 +129,21 @@ export class ShopComponent implements OnInit, AfterViewInit {
         const modalRef = this.modalService.open(ThemSuaShopComponent, { size: 'l' });
         modalRef.componentInstance.data = null;
         modalRef.componentInstance.title = "Tạo shop";
+        modalRef.result.then(
+            () => {
+                this.loadData();
+            },
+            () => { }
+        );
+    }
+
+    public thongTinCauHinh() {
+        if (!this.selectedEntity) {
+            this.notificationService.showWarning('Vui lòng chọn dữ liệu', "Cảnh báo!");
+            return;
+        }
+        const modalRef = this.modalService.open(ThongTinCauHinhComponent, { size: 'xl' });
+        modalRef.componentInstance.data = this.selectedEntity;
         modalRef.result.then(
             () => {
                 this.loadData();
