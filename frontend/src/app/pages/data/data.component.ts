@@ -92,7 +92,7 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
             }
         }},
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '8%'},
 
     ];
     height: any = $(window).height()! - 270;

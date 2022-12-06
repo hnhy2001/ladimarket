@@ -1,0 +1,31 @@
+<div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+          <div class="row">
+            <div class="col-8">
+              <button type="" class="btn btn-primary" (click)="createData()">Thêm</button>
+              <button type="" class="btn btn-primary" (click)="updateData()" [disabled]="!selectedEntity">Sửa</button>
+              <button type="" class="btn btn-primary" (click)="loadData()">Làm mới</button>
+            </div>
+            <div class="col-4">
+              
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+            <jqxGrid #gridReference
+            [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
+            [pageable]="true" [height]="height" [sortable]="true" 
+            [filterable]="true" [showfilterrow]="true"
+            [altrows]="true"  [enabletooltips]="true"
+            (onRowselect)="onRowSelect($event)"
+            >
+            </jqxGrid>
+        </div>
+      </div>
+    </div> 
+  </div>
+  
