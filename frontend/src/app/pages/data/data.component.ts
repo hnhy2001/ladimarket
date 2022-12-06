@@ -49,9 +49,9 @@ export class DataComponent implements OnInit, AfterViewInit{
         },
         { text: 'SĐT', editable: false, datafield: 'phone' , width: '8%'},
         { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
-        { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
-        { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
-        { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
+        { text: 'Ghi chú', editable: false, datafield: 'message' , width: '12%'},
+        { text: 'Nguồn', editable: false, datafield: 'link' , width: '12%'},
+
         { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '8%',cellsrenderer: (row: number, column: any, value: number): string => {
             switch (value){
                 case 0: 
@@ -92,7 +92,10 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
             }
         }},
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '8%'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
+        { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
+        { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
+        { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
 
     ];
     height: any = $(window).height()! - 270;
@@ -155,9 +158,10 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'status', type: 'number' },
                 { name: 'date', type: 'string'},
                 { name: 'product', type: 'string' },
+                { name: 'link', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
                 { name: 'ngay', type: 'string' },
-                { name: 'source', type: 'string' },
+                { name: 'message', type: 'string' },
                 { name: 'ipAddress', type: 'string' },
                 { name: 'dateChanged', type: 'string' },
                 { name: 'staffName', type: 'string' },
@@ -172,7 +176,11 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.info = this.localStorage.retrieve("authenticationToken");
     }
 
-    ngOnInit(){}
+    ngOnInit(){
+        const interval = setInterval(() => {
+            this.loadData()
+        }, 60000);
+    }
 
     ngAfterViewInit(): void {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
