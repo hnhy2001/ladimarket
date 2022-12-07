@@ -1,4 +1,7 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DanhMucService } from 'app/danhmuc.service';
+import { NotificationService } from 'app/notification.service';
 import { LocalStorageService } from 'ngx-webstorage';
 
 
@@ -27,16 +30,47 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
     private info:any;
+    REQUEST_URL_SHOP = '/api/v1/shop'
     constructor(
-        private localStorage: LocalStorageService
+        private localStorage: LocalStorageService,
+        private dmService: DanhMucService,
+        private notification: NotificationService
     ){
         this.info = this.localStorage.retrieve("authenticationToken")
     }
     ngOnInit() {
+        this.loadData();
+    }
+
+    loadData():void{
+        this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
+            (res: HttpResponse<any>) => {
+                
+                if(res.body.CODE === 200){
+                    const listShop = res.body.RESULT;
+                    for(let i = 0; i < listShop.length; i++){
+                        const entity = { path: '/data',title: listShop[i].name,icon:'nc-basket',class: '',role:'user', params:listShop[i].code };
+                        ROUTES.push(entity);
+                    }
+                    this.getMenu();
+                  }
+                  else{
+                    this.notification.showError("Đã có lỗi xảy ra", "Fail");
+                  }
+            },
+            () => {
+                this.notification.showError("Đã có lỗi xảy ra", "Fail");
+                console.error();
+            }
+        );
+      }
+
+    getMenu():void{
         if(this.info.role === 'user')
             this.menuItems = ROUTES.filter(menuItem => menuItem.role === 'user');
         else if(this.info.role === 'admin')
         this.menuItems = ROUTES.filter(menuItem => menuItem);
+        console.log(this.menuItems);
     }
 
 }

@@ -40,13 +40,17 @@ export class ThemSuaShopComponent implements OnInit {
         this.notification.showError("Mã không được để trống", "Fail");
         return;
     }
+    if(this.ma.trim().length < 5){
+      this.notification.showError("Mã phải có ít nhất 5 ký tự", "Fail");
+        return;
+    }
     if(!this.ten.trim()){
         this.notification.showError("Tên không được để trống", "Fail");
         return;
     }
       const entity = {
         id: this.data?this.data.id:0,
-        code: this.ma?this.ma.trim():'',
+        code: this.ma?this.ma.trim().toUpperCase():'',
         name: this.ten?this.ten.trim():'',
         status: this.trangThai,
         url: this.url,
