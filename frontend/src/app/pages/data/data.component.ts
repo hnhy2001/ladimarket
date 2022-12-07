@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef , AfterViewInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
@@ -133,14 +134,16 @@ export class DataComponent implements OnInit, AfterViewInit{
     };
 
     info:any;
-    countList = [0,0,0,0,0,0,0,0]
+    countList = [0,0,0,0,0,0,0,0];
+    shopCode = '';
 
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
         private modalService: NgbModal,
-        private localStorage: LocalStorageService
+        private localStorage: LocalStorageService,
+        private route: ActivatedRoute
     ){
         this.source =
         {
@@ -180,6 +183,13 @@ export class DataComponent implements OnInit, AfterViewInit{
         const interval = setInterval(() => {
             this.loadData()
         }, 60000);
+
+        this.route.queryParams
+        .subscribe(params => {
+            console.log(params); // { orderby: "price" }
+            this.shopCode = params.shopCode;
+        }
+        );
     }
 
     ngAfterViewInit(): void {
@@ -192,11 +202,13 @@ export class DataComponent implements OnInit, AfterViewInit{
       }
 
     public loadData(){
+        // if(!this.shopCode)
+        // return;
         var date = JSON.parse(JSON.stringify(this.dateRange));
         let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
         let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
         const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7';
-        this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate +'&shopCode='+this.shopCode ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
                 this.data = this.customDate(res.body.RESULT,this.statusDto)
