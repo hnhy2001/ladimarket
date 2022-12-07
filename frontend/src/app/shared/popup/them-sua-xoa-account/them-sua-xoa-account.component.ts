@@ -46,7 +46,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
       this.sdt = this.data.phone;
       this.address = this.data.address;
       this.role = this.data.role;
-      this.listSelect = this.data.shop.split(",");
+      this.listSelect = this.data.shop?this.data.shop.split(","):[];
     }
   }
 
