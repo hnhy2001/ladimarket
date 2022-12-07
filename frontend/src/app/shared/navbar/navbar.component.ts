@@ -18,7 +18,7 @@ import { NotificationService } from 'app/notification.service';
 
 
 export class NavbarComponent implements OnInit {
-  private listTitles: any[];
+  private listTitles: any[] = [];
   location: Location;
   modalRef!: NgbModalRef;
   private nativeElement: Node;
@@ -40,7 +40,9 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
+    setTimeout(() => {
+      this.listTitles = ROUTES.filter(listTitle => listTitle);
+    }, 1000);
     var navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
     this.router.events.subscribe((event) => {
@@ -109,7 +111,7 @@ export class NavbarComponent implements OnInit {
       titlee = titlee.slice(1);
     }
     for (var item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
+      if (this.listTitles[item].path === titlee || ('/data?shopCode=' + this.listTitles[item].params) === titlee) {
         return this.listTitles[item].title;
       }
     }

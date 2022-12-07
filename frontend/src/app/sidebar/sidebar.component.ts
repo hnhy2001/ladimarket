@@ -13,13 +13,7 @@ export interface RouteInfo {
     role: string;
 }
 
-export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',       class: '', role: '' },
-    { path: '/account',         title: 'Tài khoản',             icon:'nc-badge',    class: '', role: '' },
-    { path: '/data',          title: 'Kiện hàng bom',              icon:'nc-bullet-list-67',      class: '',role:'user' },
-    { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: '', role:'user' },
-    { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' }
-];
+export let ROUTES: RouteInfo[] = [];
 
 @Component({
     moduleId: module.id,
@@ -45,7 +39,13 @@ export class SidebarComponent implements OnInit {
     loadData():void{
         this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
             (res: HttpResponse<any>) => {
-                
+                ROUTES = [
+                    { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',       class: '', role: '' },
+                    { path: '/account',         title: 'Tài khoản',             icon:'nc-badge',    class: '', role: '' },
+                    { path: '/data',          title: 'Kiện hàng bom',              icon:'nc-bullet-list-67',      class: '',role:'user' },
+                    { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: '', role:'user' },
+                    { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' }
+                ];
                 if(res.body.CODE === 200){
                     const listShop = res.body.RESULT;
                     for(let i = 0; i < listShop.length; i++){
@@ -70,7 +70,6 @@ export class SidebarComponent implements OnInit {
             this.menuItems = ROUTES.filter(menuItem => menuItem.role === 'user');
         else if(this.info.role === 'admin')
         this.menuItems = ROUTES.filter(menuItem => menuItem);
-        console.log(this.menuItems);
     }
 
 }
