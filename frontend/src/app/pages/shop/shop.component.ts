@@ -35,7 +35,23 @@ export class ShopComponent implements OnInit, AfterViewInit {
             { text: 'Tên', editable: false, datafield: 'name', 'width': '35%'},
             { text: 'Url', editable: false, datafield: 'url', 'width': '15%' },
             { text: 'Ghi chú', editable: false, datafield: 'note', 'width': '15%' },
-            { text: 'Trạng thái', editable: false, datafield: 'trangThai', 'width': '15%' }
+            { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '15%',cellsrenderer: (row: number, column: any, value: number): string => {
+                switch (value){
+                    case 0: 
+                    {
+                        return '<div class="div-center bg-warning">' + 'Khóa' + '</div>';
+                    }
+                    case 1: 
+                    {
+                        return '<div class = "bg-info div-center text-white">' + 'Hoạt động' + '</div>';
+                    }
+
+                    default:
+                    {
+                        return '<div></div>';
+                    }
+                }
+            }},
         ];
 
     REQUEST_URL = "/api/v1/shop";
@@ -71,7 +87,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
                     { name: 'status', type: 'string' },
                     { name: 'url', type: 'string' },
                     { name: 'note', type: 'string' },
-                    { name: 'trangThai', type: 'string' }
+                    { name: 'status', type: 'number' }
                 ],
             id: 'id',
             datatype: 'array'
@@ -89,9 +105,9 @@ export class ShopComponent implements OnInit, AfterViewInit {
         this.selectedEntity = null;
         this.dmService.getOption(null, this.REQUEST_URL, "?status=-1").subscribe(
             (res: HttpResponse<any>) => {
-                this.listEntity = res.body;
+                this.listEntity = res.body.RESULT;
                 setTimeout(() => {
-                    this.source.localdata = this.customData(res.body.RESULT);
+                    this.source.localdata = this.listEntity;
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                     this.myGrid.clearselection();
                 }, 100);
@@ -102,12 +118,6 @@ export class ShopComponent implements OnInit, AfterViewInit {
         );
     }
 
-    customData(list:any):any{
-        list.forEach(unitItem => {
-            unitItem.trangThai = unitItem.status === 1? 'Hoạt động' :'Khóa'
-        });
-        return list;
-    }
 
     public updateData() {
         if (!this.selectedEntity) {

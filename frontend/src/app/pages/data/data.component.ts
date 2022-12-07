@@ -249,6 +249,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
         const modalRef = this.modalService.open(GiaoViecPopUpComponent, { windowClass: 'modal-view',keyboard: true });
         modalRef.componentInstance.data = listWork;
+        modalRef.componentInstance.shopCode = this.shopCode;
         modalRef.result.then(
             () => {
               this.loadData();
@@ -284,6 +285,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     openAutoAssignWork():void{
         const modalRef = this.modalService.open(TuDongGiaoViecComponent, { windowClass: 'modal-view',keyboard: true });
+        modalRef.componentInstance.shopCode = this.shopCode;
         modalRef.result.then(
             () => {
               this.loadData();

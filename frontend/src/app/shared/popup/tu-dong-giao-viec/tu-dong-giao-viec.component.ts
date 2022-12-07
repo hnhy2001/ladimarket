@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
@@ -16,6 +16,7 @@ import { userInfo } from 'os';
 export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('gridNhanVien') myGrid: jqxGridComponent;
   @ViewChild('gridCongViec') myGridCV: jqxGridComponent;
+  @Input() shopCode: any;
   REQUEST_WORK_URL ="/api/v1/work";
   listUser = [];
   listWork = [];
@@ -76,7 +77,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getUserActive() {
-    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive").subscribe(
+    this.service.getOption(null, this.REQUEST_WORK_URL,"/getAllActive?shopCode="+this.shopCode).subscribe(
         (res: HttpResponse<any>) => {
           this.listUser = res.body.RESULT;
           this.source.localdata = this.listUser;
@@ -146,7 +147,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getWorks():void{
-    this.service.getOption(null, this.REQUEST_DATA_URL,`/getAllDataAccountNull?status=0,3,4`).subscribe(
+    this.service.getOption(null, this.REQUEST_DATA_URL,`/getAllDataAccountNull?status=0,3,4&shopCode=KHBOM`).subscribe(
       (res: HttpResponse<any>) => {
           this.listWork = res.body.RESULT;
           this.numOfWork = this.listWork.length;

@@ -36,6 +36,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
         { text: 'Check in', editable: false, datafield: 'ngayVao'},
         { text: 'Check out', editable: false, datafield: 'ngayRa'},
         { text: 'Đơn Giao',editable:false ,datafield: 'donGiao' },
+        { text: 'Đơn Đang Xử Lý', editable: false, datafield: 'donXuLy'},
         { text: 'Đơn Hoàn Thành', editable: false, datafield: 'donHoanThanh'},
         { text: 'Tài Khoản', editable: false, datafield: 'userName'}
 
@@ -86,6 +87,7 @@ export class WorkComponent implements OnInit, AfterViewInit {
                 { name: 'ngayVao', type: 'string' },
                 { name: 'ngayRa', type: 'string' },
                 { name: 'donGiao', type: 'string' },
+                { name: 'donXuLy', type: 'string' },
                 { name: 'donHoanThanh', type: 'string' },
                 { name: 'ghiChu', type: 'string' },
                 { name: 'userName', type: 'any' },

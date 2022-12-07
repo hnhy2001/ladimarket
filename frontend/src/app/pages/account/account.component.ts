@@ -8,6 +8,7 @@ import { ThemSuaXoaAccountComponent } from 'app/shared/popup/them-sua-xoa-accoun
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import $ from "jquery";
 import { GanShopComponent } from 'app/shared/popup/gan-shop/gan-shop.component';
+import { LocalStorageService } from 'ngx-webstorage';
 @Component({
     selector: 'account-cmp',
     templateUrl: 'account.component.html'
@@ -60,6 +61,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
     listEntity = [];
 
+    info: any;
+
     selectedEntity: any;
     height: any = $(window).height()! - 270;
     localization: any = {
@@ -76,7 +79,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private localStorage: LocalStorageService
     ) {
         this.source =
         {
@@ -100,6 +104,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
             datatype: 'array'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
+        this.info = this.localStorage.retrieve('authenticationtoken');
     }
 
     ngOnInit() {
@@ -109,6 +114,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
       }
     public loadData() {
+        if(this.info.role !== 'admin') return;
         this.selectedEntity = null;
         this.dmService.getOption(null, this.REQUEST_URL, "/getAll").subscribe(
             (res: HttpResponse<any>) => {
