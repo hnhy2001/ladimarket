@@ -207,4 +207,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
         this.selectedEntity = event.args.row;
         console.log(this.selectedEntity);
     }
+    public onRowdblclick(event:any):void{
+        this.selectedEntity = event.args.row.bounddata;
+        this.updateData();
+    }
+    
 }

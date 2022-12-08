@@ -165,4 +165,8 @@ export class ShopComponent implements OnInit, AfterViewInit {
     public onRowSelect(event: any): void {
         this.selectedEntity = event.args.row;
     }
+    public onRowdblclick(event:any):void{
+        this.selectedEntity = event.args.row.bounddata;
+        this.updateData();
+    }
 }
