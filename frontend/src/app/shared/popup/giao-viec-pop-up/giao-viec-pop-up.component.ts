@@ -115,7 +115,8 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
           { name: 'status', type: 'number' },
           { name: 'date', type: 'date', format: "DD/MM/YYYY" },
           { name: 'formcolor', type: 'string' },
-          { name: 'ngay', type: 'string' }
+          { name: 'ngay', type: 'string' },
+          { name: 'shopCode', type:'string'}
         ],
       id: 'id',
       datatype: 'array'

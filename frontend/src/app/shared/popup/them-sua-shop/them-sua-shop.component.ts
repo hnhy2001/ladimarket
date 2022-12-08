@@ -61,7 +61,7 @@ export class ThemSuaShopComponent implements OnInit {
         this.dmService.postOption(entity, this.REQUEST_URL, 'create').subscribe(
           (res: HttpResponse<any>) => {
             if(res.body.CODE === 200){
-              this.notification.showSuccess("Tạo shop thành công", "Success");
+              this.notification.showSuccess("Tạo shop thành công; Đăng nhập lại để cập nhật menu", "Success");
               this.accept();
             }
             else{
@@ -79,7 +79,7 @@ export class ThemSuaShopComponent implements OnInit {
         this.dmService.putOption(entity, this.REQUEST_URL, 'update').subscribe(
           (res: HttpResponse<any>) => {
             if(res.body.CODE === 200){
-              this.notification.showSuccess("Cập nhật shop thành công", "Success");
+              this.notification.showSuccess("Cập nhật shop thành công; Đăng nhập lại để cập nhật menu", "Success");
               this.accept();
             }
             else{

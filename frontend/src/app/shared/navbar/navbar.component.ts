@@ -25,18 +25,18 @@ export class NavbarComponent implements OnInit {
   private toggleButton;
   private sidebarVisible: boolean;
   public checkWorkActive = false;
-  public info:any;
+  public info: any;
   public isCollapsed = true;
   @ViewChild("navbar-cmp", { static: false }) button;
 
-  constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,private notificationService: NotificationService,
+  constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router, private notificationService: NotificationService,
     private local: LocalStorageService,
     private dmService: DanhMucService, private confirmDialogService: ConfirmationDialogService, private modalService: NgbModal) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
     this.info = this.local.retrieve("authenticationToken")
-    
+
   }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
     this.checkWorkActive = !this.checkWorkActive;
     if (this.checkWorkActive) {
       this.confirmDialogService
-        .confirm('Xác nhận thay đổi', 'Đồng ý', 'Hủy')
+        .confirm('Bật trạng thái nhận việc?', 'Đồng ý', 'Hủy')
         .then((confirmed: any) => {
           if (confirmed) {
             this.onCheckIn()
@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit {
         if (res) {
           this.getAccountStatus();
           setTimeout(() => {
-            window.location.reload(); 
+            window.location.reload();
           }, 200);
         } else {
           this.checkWorkActive = !this.checkWorkActive;
@@ -83,7 +83,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  onCheckIn():void {
+  onCheckIn(): void {
     moment.locale("vi");
     let time = moment(new Date).format('YYYYMMDDHHmmss');
     let checkInEntity = {
@@ -93,9 +93,9 @@ export class NavbarComponent implements OnInit {
     this.dmService.postOption(checkInEntity, "/api/v1/work/", '').subscribe(
       (res: HttpResponse<any>) => {
         if (res.body.CODE === 200) {
-          this.notificationService.showSuccess("Check In thành công",'Thông báo!');
+          this.notificationService.showSuccess("Check In thành công", 'Thông báo!');
         } else {
-          this.notificationService.showError("Đã có lỗi xảy ra",'Thông báo!');
+          this.notificationService.showError("Đã có lỗi xảy ra", 'Thông báo!');
           this.checkWorkActive = !this.checkWorkActive;
         }
       },
@@ -117,7 +117,7 @@ export class NavbarComponent implements OnInit {
     }
     return 'Dashboard';
   }
-  getAccountStatus():void {
+  getAccountStatus(): void {
     const entity = {
       nhanVienId: this.info.id
     }
@@ -189,9 +189,17 @@ export class NavbarComponent implements OnInit {
 
   }
   logout() {
-    this.local.clear();
-    setTimeout(() => {
-      this.router.navigate(['/logiin']);
-    }, 200);
+    this.confirmDialogService
+      .confirm('Xác nhận đăng xuất?', 'Đồng ý', 'Hủy')
+      .then((confirmed: any) => {
+        if (confirmed) {
+          this.local.clear();
+          setTimeout(() => {
+            this.router.navigate(['/logiin']);
+          }, 200);
+        };
+      })
+      .catch(() => console.log('Đã có lỗi xảy ra'));
+
   }
 }

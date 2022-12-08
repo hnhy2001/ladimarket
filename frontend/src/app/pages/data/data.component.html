@@ -8,8 +8,8 @@
           <div class="col-8">
             <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Giao việc nhanh</button>
-            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
+            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()" [hidden]="this.info.role==='user'">Xuất Excel</button>
             <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
             <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>

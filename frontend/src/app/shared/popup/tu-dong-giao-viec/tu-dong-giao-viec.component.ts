@@ -147,7 +147,7 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   getWorks():void{
-    this.service.getOption(null, this.REQUEST_DATA_URL,`/getAllDataAccountNull?status=0,3,4&shopCode=KHBOM`).subscribe(
+    this.service.getOption(null, this.REQUEST_DATA_URL,`/getAllDataAccountNull?status=0,3,4,5&shopCode=KHBOM`).subscribe(
       (res: HttpResponse<any>) => {
           this.listWork = res.body.RESULT;
           this.numOfWork = this.listWork.length;

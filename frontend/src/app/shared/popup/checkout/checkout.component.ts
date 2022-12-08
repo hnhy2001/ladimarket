@@ -54,7 +54,8 @@ export class CheckOutComponent implements OnInit {
       id: this.data.id,
       timeOut: time,
       donGiao : this.data.donGiao,
-      donHoanThanh : this.data.donHoanThanh
+      donHoanThanh : this.data.donHoanThanh,
+      donXuLy:this.data.donXuLy
     };
 
     this.dmService.postOption(checkOutEntity, "/api/v1/work/checkOut/", '').subscribe(

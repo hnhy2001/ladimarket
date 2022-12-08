@@ -169,7 +169,8 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'dateChanged', type: 'string' },
                 { name: 'staffName', type: 'string' },
                 { name: 'price', type: 'number' },
-                { name: 'nhanVienId', type: 'number' }
+                { name: 'nhanVienId', type: 'number' },
+                { name: 'shopCode', type:'string'}
             ],
             id:'id',
             datatype: 'array'
@@ -188,6 +189,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         .subscribe(params => {
             console.log(params); // { orderby: "price" }
             this.shopCode = params.shopCode;
+            this.loadData();
         }
         );
     }
@@ -202,8 +204,8 @@ export class DataComponent implements OnInit, AfterViewInit{
       }
 
     public loadData(){
-        // if(!this.shopCode)
-        // return;
+        if(!this.shopCode)
+        return;
         var date = JSON.parse(JSON.stringify(this.dateRange));
         let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
         let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
@@ -323,6 +325,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     }
     public onRowSelect(event:any):void{
         this.selectedEntity = event.args.row;
+        console.log(this.selectedEntity);
     }
 
 
