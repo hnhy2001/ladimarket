@@ -51,7 +51,12 @@
         <option value="admin">admin</option>
       </select>
     </div>
-
+    <div class="form-group form-outline mb-1">
+      <label>Danh sách shop</label>
+      <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true" placeholder="Danh sách shop">
+        <ng-option *ngFor="let obj of listShop" [value]="obj.code">{{obj.code}} - {{obj.name}}</ng-option>
+      </ng-select>
+    </div>
   </div>
 </div>
 <div class="modal-footer">

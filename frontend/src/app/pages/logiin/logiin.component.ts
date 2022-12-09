@@ -47,7 +47,7 @@ export class LogiinComponent implements OnInit {
             if(res.body.RESULT.role === "admin")
               this.router.navigate(['/dashboard']);
             else {
-              this.router.navigate(['/data']);
+              this.router.navigate(['/work']);
             }
           }, 200);
           

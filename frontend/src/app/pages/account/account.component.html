@@ -11,18 +11,19 @@
             <button type="" class="btn btn-warning" (click)="deleteData()" [disabled]="!selectedEntity">Xoá</button>
             
           </div>
-          <div class="col-4">
-            <button type="" class="btn btn-primary" (click)="loadData()" style="float:right">Làm mới</button>
+          <div class="col-4 text-right">
+            <button type="" class="btn btn-primary" (click)="loadData()">Làm mới</button>
           </div>
         </div>
       </div>
       <div class="card-body">
           <jqxGrid #gridReference
           [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
-          [pageable]="true" [autorowheight]="true" [sortable]="true" 
+          [pageable]="true" [height]="height" [sortable]="true" 
           [filterable]="true" [showfilterrow]="true"
-          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'single'"
+          [altrows]="true"  [enabletooltips]="true"
           (onRowselect)="onRowSelect($event)"
+          (onRowdoubleclick)="onRowdblclick($event)"
           >
           </jqxGrid>
       </div>

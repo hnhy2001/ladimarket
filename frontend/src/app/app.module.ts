@@ -29,6 +29,9 @@ import { TuDongGiaoViecComponent } from "./shared/popup/tu-dong-giao-viec/tu-don
 import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
 import { CheckOutComponent } from "./shared/popup/checkout/checkout.component";
 import { ChuyenTrangThaiPopUpComponent } from "./shared/popup/chuyen-trang-thai-pop-up/chuyen-trang-thai-pop-up.component";
+import { ThemSuaShopComponent } from "./shared/popup/them-sua-shop/them-sua-shop.component";
+import { GanShopComponent } from "./shared/popup/gan-shop/gan-shop.component";
+import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component";
 
 
 @NgModule({
@@ -42,7 +45,10 @@ import { ChuyenTrangThaiPopUpComponent } from "./shared/popup/chuyen-trang-thai-
     GiaoViecPopUpComponent,
     ChuyenTrangThaiPopUpComponent,
     TuDongGiaoViecComponent,
-    CheckOutComponent
+    CheckOutComponent,
+    ThemSuaShopComponent,
+    GanShopComponent,
+    ThongTinCauHinhComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -26,8 +26,11 @@ export class ThemSuaXoaAccountComponent implements OnInit {
   address = "";
   fullName = "";
   role="user";
+  listShop:any = [];
+  listSelect:any = [];
 
-  REQUEST_URL = '/api/v1/account'
+  REQUEST_URL = '/api/v1/account';
+  REQUEST_URL_SHOP = '/api/v1/shop'
   constructor(
     private activeModal: NgbActiveModal,
     private dmService: DanhMucService,
@@ -35,6 +38,7 @@ export class ThemSuaXoaAccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadData();
     if(this.data){
       this.username = this.data.userName;
       this.fullName = this.data.fullName;
@@ -42,7 +46,19 @@ export class ThemSuaXoaAccountComponent implements OnInit {
       this.sdt = this.data.phone;
       this.address = this.data.address;
       this.role = this.data.role;
+      this.listSelect = this.data.shop?this.data.shop.split(","):[];
     }
+  }
+
+  loadData():void{
+    this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
+        (res: HttpResponse<any>) => {
+            this.listShop = res.body.RESULT;
+        },
+        () => {
+            console.error();
+        }
+    );
   }
 
   create() {
@@ -55,7 +71,8 @@ export class ThemSuaXoaAccountComponent implements OnInit {
         phone: this.sdt,
         address : this.address,
         fullName: this.fullName,
-        role: this.role
+        role: this.role,
+        shop: this.listSelect.toString()
       }
       if(!this.data){
         this.dmService.postOption(entity, "/api/v1/account/create", '').subscribe(

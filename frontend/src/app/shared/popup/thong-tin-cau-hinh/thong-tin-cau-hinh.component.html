@@ -1,0 +1,51 @@
+<div class="modal-body">
+    <div style="font-size: 18px;" class="text-center">
+      <b>Thông tin cấu hình</b>
+      <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+    </div>
+    <div class="d-inline mt-1">
+      <table class="table table-bordered">
+        <tr>
+          <td colspan="2" class="text-center" (dblclick)="copyText('https://dhftech.store/api/v1/data/createData?shopCode='+data.code)">https://dhftech.store/api/v1/data/createData?shopCode={{data?data.code:''}}</td>
+        </tr>
+        <tr (dblclick)="copyText('name')">
+          <td style="width: 50%" class="text-right">name</td>
+          <td>Tên khách hàng</td>
+        </tr>
+        <tr (dblclick)="copyText('phone')">
+          <td class="text-right">phone</td>
+          <td>SĐT khách hàng</td>
+        </tr>
+        <tr (dblclick)="copyText('street')">
+          <td class="text-right">street</td>
+          <td>Địa chỉ</td>
+        </tr>
+        <tr (dblclick)="copyText('product')">
+          <td class="text-right">product</td>
+          <td>Sản phẩm</td>
+        </tr>
+        <tr (dblclick)="copyText('state')">
+          <td class="text-right">state</td>
+          <td>Tỉnh Thành Phố</td>
+        </tr>
+        <tr (dblclick)="copyText('district')">
+          <td class="text-right">district</td>
+          <td>Quận Huyện</td>
+        </tr>
+        <tr (dblclick)="copyText('ward')">
+          <td class="text-right">ward</td>
+          <td>Phường xã</td>
+        </tr>
+        <tr (dblclick)="copyText('message')">
+          <td class="text-right">message</td>
+          <td>Lời nhắn</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="text-center;"><i>*double click to copy</i></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    
+  </div>

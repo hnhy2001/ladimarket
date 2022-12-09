@@ -11,21 +11,21 @@
       </tr>
       <tr>
         <td class="text-right" style="width:15%">Khách hàng:</td>
-        <td class="text-bold" style="width:35%">{{data?data.name:''}}</td>
-        <td class="text-right" style="width:15%">SĐT:</td>
-        <td class="text-bold" style="width:35%">{{data?data.phone:''}}</td>
+        <td style="width:85%" colspan="3">
+          <span class="text-bold">{{data?data.name:''}} ({{data?data.phone:''}})</span>
+        </td>
       </tr>
       <tr>
-        <td class="text-right">Xã, Huyện, Tỉnh:</td>
-        <td>{{data?data.ward:''}}, {{data?data.district:''}}, {{data?data.state:''}}</td>
         <td class="text-right">Địa chỉ:</td>
-        <td>{{data?data.street:''}}</td>
+        <td colspan="3">{{data?data.street:''}}, {{data?data.ward:''}}, {{data?data.district:''}}, {{data?data.state:''}}</td>
       </tr>
       <tr>
         <td class="text-right">Sản phẩm:</td>
-        <td><input [(ngModel)]="data.product" name="product" class="form-control" /></td>
+        <td colspan="3"><input [(ngModel)]="data.product" name="product" class="form-control" /></td>
+      </tr>
+      <tr>
         <td class="text-right">Giá:</td>
-        <td><input [(ngModel)]="data.price" name="price" type="number" class="form-control" id="currency-field"  value="" data-type="currency"/></td>
+        <td colspan="3"><input [(ngModel)]="data.price" name="price" type="number" class="form-control" min="0" step="1000"/></td>
       </tr>
       <tr>
         <td class="text-right">Ghi chú:</td>

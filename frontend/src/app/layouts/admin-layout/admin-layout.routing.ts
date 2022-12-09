@@ -7,6 +7,7 @@ import { WorkComponent } from '../../pages/work/work.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { DataComponent } from 'app/pages/data/data.component';
+import { ShopComponent } from 'app/pages/shop/shop.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -16,5 +17,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'account',        component: AccountComponent },
     { path: 'work',           component: WorkComponent },
     { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent }
+    { path: 'upgrade',        component: UpgradeComponent },
+    { path: 'shop',        component: ShopComponent }
 ];

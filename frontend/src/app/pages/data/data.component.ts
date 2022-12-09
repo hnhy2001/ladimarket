@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild, ElementRef , AfterViewInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-dialog.service';
@@ -49,9 +50,9 @@ export class DataComponent implements OnInit, AfterViewInit{
         },
         { text: 'SĐT', editable: false, datafield: 'phone' , width: '8%'},
         { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
-        { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
-        { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
-        { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
+        { text: 'Ghi chú', editable: false, datafield: 'message' , width: '12%'},
+        { text: 'Nguồn', editable: false, datafield: 'link' , width: '12%'},
+
         { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '8%',cellsrenderer: (row: number, column: any, value: number): string => {
             switch (value){
                 case 0: 
@@ -93,6 +94,9 @@ export class DataComponent implements OnInit, AfterViewInit{
             }
         }},
         { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
+        { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
+        { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
+        { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
 
     ];
     height: any = $(window).height()! - 270;
@@ -130,14 +134,16 @@ export class DataComponent implements OnInit, AfterViewInit{
     };
 
     info:any;
-    countList = [0,0,0,0,0,0,0,0]
+    countList = [0,0,0,0,0,0,0,0];
+    shopCode = '';
 
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
         private modalService: NgbModal,
-        private localStorage: LocalStorageService
+        private localStorage: LocalStorageService,
+        private route: ActivatedRoute
     ){
         this.source =
         {
@@ -155,14 +161,16 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'status', type: 'number' },
                 { name: 'date', type: 'string'},
                 { name: 'product', type: 'string' },
+                { name: 'link', type: 'string' },
                 { name: 'nhanvien', type: 'string' },
                 { name: 'ngay', type: 'string' },
-                { name: 'source', type: 'string' },
+                { name: 'message', type: 'string' },
                 { name: 'ipAddress', type: 'string' },
                 { name: 'dateChanged', type: 'string' },
                 { name: 'staffName', type: 'string' },
                 { name: 'price', type: 'number' },
-                { name: 'nhanVienId', type: 'number' }
+                { name: 'nhanVienId', type: 'number' },
+                { name: 'shopCode', type:'string'}
             ],
             id:'id',
             datatype: 'array'
@@ -172,7 +180,19 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.info = this.localStorage.retrieve("authenticationToken");
     }
 
-    ngOnInit(){}
+    ngOnInit(){
+        const interval = setInterval(() => {
+            this.loadData()
+        }, 60000);
+
+        this.route.queryParams
+        .subscribe(params => {
+            console.log(params); // { orderby: "price" }
+            this.shopCode = params.shopCode;
+            this.loadData();
+        }
+        );
+    }
 
     ngAfterViewInit(): void {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
@@ -184,11 +204,13 @@ export class DataComponent implements OnInit, AfterViewInit{
       }
 
     public loadData(){
+        if(!this.shopCode)
+        return;
         var date = JSON.parse(JSON.stringify(this.dateRange));
         let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
         let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
         const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7';
-        this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate ).subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate +'&shopCode='+this.shopCode ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
                 this.data = this.customDate(res.body.RESULT,this.statusDto)
@@ -229,6 +251,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
         const modalRef = this.modalService.open(GiaoViecPopUpComponent, { windowClass: 'modal-view',keyboard: true });
         modalRef.componentInstance.data = listWork;
+        modalRef.componentInstance.shopCode = this.shopCode;
         modalRef.result.then(
             () => {
               this.loadData();
@@ -264,6 +287,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     openAutoAssignWork():void{
         const modalRef = this.modalService.open(TuDongGiaoViecComponent, { windowClass: 'modal-view',keyboard: true });
+        modalRef.componentInstance.shopCode = this.shopCode;
         modalRef.result.then(
             () => {
               this.loadData();
@@ -301,6 +325,7 @@ export class DataComponent implements OnInit, AfterViewInit{
     }
     public onRowSelect(event:any):void{
         this.selectedEntity = event.args.row;
+        console.log(this.selectedEntity);
     }
 
 

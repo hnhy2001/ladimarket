@@ -5,16 +5,16 @@
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-7">
+          <div class="col-8">
             <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Giao việc nhanh</button>
-            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
+            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()" [hidden]="this.info.role==='user'">Xuất Excel</button>
             <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
             <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
           </div>
-          <div class="col-5">
+          <div class="col-4">
             <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
             [(ngModel)]="dateRange" 
             [ranges]="ranges" 

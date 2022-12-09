@@ -1,0 +1,16 @@
+<div class="modal-body">
+    <div style="font-size: 18px;">
+      <b>Phân quyền shop</b>
+      <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+    </div>
+    <div class="d-inline mt-1">
+      <div class="form-group form-outline mt-4 mb-4">
+        <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true" placeholder="Danh sách shop">
+            <ng-option *ngFor="let obj of listShop" [value]="obj.code">{{obj.code}} - {{obj.name}}</ng-option>
+          </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="" class="btn btn-success" (click)="save()">Lưu</button>
+  </div>

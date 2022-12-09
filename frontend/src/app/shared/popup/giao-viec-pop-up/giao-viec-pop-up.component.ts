@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
@@ -17,6 +18,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild('gridReferenceABC') myGrid: jqxGridComponent;
   REQUEST_WORK_URL = "/api/v1/work";
   @Input() data: any;
+  @Input() shopCode: any;
   // listUser:Observable<object[]>;
   listUser = [];
   selectedStaff: any;
@@ -97,7 +99,10 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   pageSizeOptions = ['50', '100', '200'];
   constructor(private activeModal: NgbActiveModal,
     private service: DanhMucService,
-    private notificationService: NotificationService) {
+    private notificationService: NotificationService,
+    private route: ActivatedRoute
+    
+    ) {
     this.source =
     {
       localdata: [],
@@ -110,12 +115,14 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
           { name: 'status', type: 'number' },
           { name: 'date', type: 'date', format: "DD/MM/YYYY" },
           { name: 'formcolor', type: 'string' },
-          { name: 'ngay', type: 'string' }
+          { name: 'ngay', type: 'string' },
+          { name: 'shopCode', type:'string'}
         ],
       id: 'id',
       datatype: 'array'
     };
     this.dataAdapter = new jqx.dataAdapter(this.source);
+
   }
 
   ngOnInit(): void {
@@ -131,7 +138,8 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public getUserActive() {
-    this.service.getOption(null, this.REQUEST_WORK_URL, "/getAllActive").subscribe(
+    if(!this.shopCode) return;
+    this.service.getOption(null, this.REQUEST_WORK_URL, "/getAllActive?shopCode="+this.shopCode).subscribe(
       (res: HttpResponse<any>) => {
         this.listUser = res.body.RESULT;
       },
