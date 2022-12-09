@@ -56,6 +56,7 @@ public class AcountServiceImpl extends BaseServiceImpl<Account> implements Acoun
         account1.setEmail(account.getEmail());
         account1.setAddress(account.getAddress());
         account1.setPhone(account.getPhone());
+        account1.setShop(account.getShop());
         if (account.getPassWord() != ""){
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(account.getPassWord().getBytes());

@@ -12,6 +12,7 @@ import java.util.List;
 public interface DataRepository extends BaseRepository<Data> {
     List<Data> findAll();
     Data findAllById(Long id);
+    List<Data> findAllByAccountIsNull();
 
     @Query(
         value = "SELECT * FROM data as d WHERE (:status is null or d.status = :status) AND (d.date BETWEEN :startDate AND :endDate)",

@@ -27,6 +27,9 @@ public class Work extends BaseEntity{
     @Column(name = "don_hoan_thanh")
     private int donHoanThanh;
 
+    @Column(name = "don_xu_ly")
+    private int donXuLy;
+
     @Column(name = "ghi_chu")
     private String ghiChu;
 

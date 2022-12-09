@@ -9,5 +9,6 @@ import java.util.List;
 public interface CustomDataRepository<Data, Integer extends Serializable> extends Repository {
     public List<Data> finDataByConditions(String status, String startDate, String endDate, Account account, String shopCode);
     public List<Data> checkOut(String status, String startDate, String endDate, Account account, String shopCode);
+    List<Data> findDataByAccountNull(String status, String shopCode);
 
 }

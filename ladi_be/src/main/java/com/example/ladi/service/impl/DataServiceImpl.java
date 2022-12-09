@@ -92,6 +92,8 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
             Random rand = new Random();
             int ranNum = rand.nextInt(workList.size());
             data.setAccount(workList.get(ranNum).getAccount());
+            data.setStatus(1);
+            data.setDateChanged(date);
             AccountDto accountDto = modelMapper.map(workList.get(ranNum).getAccount(), AccountDto.class);
             dataDto = modelMapper.map(data, DataDto.class);
             dataDto.setAccount(accountDto);
@@ -109,6 +111,12 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
             dataRepository.save(dataResult);
         }
         return new BaseResponse(200, "Success!", null);
+    }
+
+    @Override
+    public BaseResponse getAllDataAccountNull(String status, String shopCode) {
+        List<Data> dataList = customDataRepository.findDataByAccountNull(status, shopCode);
+        return new BaseResponse(200, "OK", dataList);
     }
 
     private String getJwtFromRequest(String bearerToken) {

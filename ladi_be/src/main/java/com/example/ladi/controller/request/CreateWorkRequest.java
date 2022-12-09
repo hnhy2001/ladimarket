@@ -13,6 +13,7 @@ public class CreateWorkRequest {
     private Long timeOut;
     private int donGiao;
     private int donHoanThanh;
+    private int donXuLy;
     private String ghiChu;
     private Long nhanVienId;
 }

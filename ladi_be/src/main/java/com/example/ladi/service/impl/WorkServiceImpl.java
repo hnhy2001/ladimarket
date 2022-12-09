@@ -51,7 +51,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         if (account == null){
             return new BaseResponse(500, "Account not found", "Create Fail");
         }
-        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getGhiChu(), 1, account);
+        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getDonXuLy(), createWorkRequest.getGhiChu(), 1, account);
         workRepository.save(work);
         return new BaseResponse(200, "OK", work.getId());
     }
@@ -93,7 +93,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         }
         List<Data> dataList = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(work.getTimeIn()), String.valueOf(checkOutRequest.getTimeOut()), work.getAccount(), shopCode);
         for (int i = 0; i<dataList.size(); i++){
-            if (dataList.get(i).getStatus() == 1){
+            if (dataList.get(i).getStatus() == 1 || dataList.get(i).getStatus() == 2){
                 dataList.get(i).setStatus(0);
             }
             dataList.get(i).setAccount(null);
@@ -101,6 +101,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         work.setTimeOut(checkOutRequest.getTimeOut());
         work.setDonGiao(checkOutRequest.getDonGiao());
         work.setDonHoanThanh(checkOutRequest.getDonHoanThanh());
+        work.setDonXuLy(checkOutRequest.getDonXuLy());
         work.setIsActive(-1);
         workRepository.save(work);
         return new BaseResponse(200, "OK", "Checkout Success");
@@ -112,7 +113,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         List<WorkDto> workDtoList = new ArrayList<>();
         for (int i = 0 ; i<workList.size(); i++){
             AccountDto accountDto = new AccountDto(workList.get(i).getAccount().getId(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getShop(), workList.get(i).getAccount().getRole());
-            WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getGhiChu(), accountDto);
+            WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getDonXuLy(), workList.get(i).getGhiChu(), accountDto);
             workDtoList.add(workDto);
         }
         return new BaseResponse(200, "OK", workDtoList);
@@ -135,9 +136,11 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Long startDate = work.getTimeIn();
         Long endDate = date;
         int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
-        int donHoanThanh = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donHoanThanh = customDataRepository.checkOut("7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donXuLy = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         work.setDonGiao(donGiao);
         work.setDonHoanThanh(donHoanThanh);
+        work.setDonXuLy(donXuLy);
         work.setTimeOut(endDate);
         AccountDto accountDto = modelMapper.map(work.getAccount(), AccountDto.class);
         WorkDto workDto = modelMapper.map(work, WorkDto.class);

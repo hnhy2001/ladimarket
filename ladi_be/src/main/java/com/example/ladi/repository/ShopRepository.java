@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ShopRepository extends BaseRepository<Shop> {
     List<Shop> findAllByStatus(int status);
+    List<Shop> findAllByCode(String code);
+    List<Shop> findAllByStatusAndCode(int status, String Code);
 }

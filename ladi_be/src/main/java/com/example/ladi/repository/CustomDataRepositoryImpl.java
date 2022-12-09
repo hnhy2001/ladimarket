@@ -31,9 +31,11 @@ public class CustomDataRepositoryImpl implements CustomDataRepository{
         if (shopCode != null){
             filter.and(qData.shopCode.eq(shopCode));
         }
-        filter.and(qData.date.loe(Long.parseLong(endDate)));
-        filter.and(qData.date.goe(Long.parseLong(startDate)));
-        if (account != null) {
+        if (startDate != null && endDate != null){
+            filter.and(qData.date.loe(Long.parseLong(endDate)));
+            filter.and(qData.date.goe(Long.parseLong(startDate)));
+        }
+        if (account!= null){
             filter.and(qData.account.eq(account));
         }
         List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
@@ -61,6 +63,24 @@ public class CustomDataRepositoryImpl implements CustomDataRepository{
         }
         List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
         System.out.println(dataList);
+        return dataList;
+    }
+
+    @Override
+    public List findDataByAccountNull(String status, String shopCode) {
+        JPAQuery<Data> queryData = new JPAQuery<>(entityManager);
+        QData qData = QData.data;
+        BooleanBuilder filter = new BooleanBuilder();
+        String[] statusArray = status.split(",");
+
+        for (String item : statusArray){
+            filter.or(qData.status.eq(Integer.parseInt(item)));
+        }
+        if (shopCode != null){
+            filter.and(qData.shopCode.eq(shopCode));
+        }
+        filter.and(qData.account.isNull());
+        List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
         return dataList;
     }
 

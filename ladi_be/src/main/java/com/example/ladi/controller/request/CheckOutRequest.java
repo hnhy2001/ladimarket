@@ -14,4 +14,5 @@ public class CheckOutRequest {
     private Long timeOut;
     private int donGiao;
     private int donHoanThanh;
+    private int donXuLy;
 }

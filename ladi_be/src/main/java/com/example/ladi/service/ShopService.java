@@ -5,5 +5,5 @@ import com.example.ladi.controller.reponse.BaseResponse;
 import java.util.List;
 
 public interface ShopService extends BaseService<Shop> {
-    BaseResponse getAllByStatus(int status);
+    BaseResponse getAllByStatus(int status, String jwt);
 }

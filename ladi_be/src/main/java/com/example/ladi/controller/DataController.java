@@ -59,4 +59,9 @@ public class DataController extends BaseController<Data>{
         return dataService.assignWork(assignJobRequest);
     }
 
+    @GetMapping("getAllDataAccountNull")
+    public BaseResponse getAllBaseResponse(@RequestParam String status, @RequestParam(name = "shopCode", required = false) String shopCode){
+        return dataService.getAllDataAccountNull(status, shopCode);
+    }
+
 }
