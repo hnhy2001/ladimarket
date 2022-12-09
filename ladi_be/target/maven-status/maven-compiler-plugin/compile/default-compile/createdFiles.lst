@@ -40,6 +40,7 @@ com\example\ladi\model\QShop.class
 com\example\ladi\dto\AccountDto.class
 com\example\ladi\model\BaseEntity.class
 com\example\ladi\model\Data.class
+com\example\ladi\model\QProduct.class
 com\example\ladi\repository\ConfigRepository.class
 com\example\ladi\model\Shop.class
 com\example\ladi\controller\BaseController.class

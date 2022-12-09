@@ -1,5 +1,6 @@
 package com.example.ladi.dto;
 
+import com.example.ladi.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,5 @@ public class DataDto {
     private String message;
     private String note;
     private AccountDto account;
+    private Product productDto;
 }

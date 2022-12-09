@@ -91,4 +91,8 @@ public class Data {
     @ManyToOne
     @JoinColumn(name = "nhanvienid")
     Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "productid")
+    Product productDto;
 }

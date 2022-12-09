@@ -1,6 +1,7 @@
 package com.example.ladi.controller.request;
 
 import com.example.ladi.dto.AccountDto;
+import com.example.ladi.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,10 +41,12 @@ public class DataRequest {
 
     private Long dateChanged;
 
+    private Product productDto;
+
     public DataRequest() {
     }
 
-    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, String utmSource, String utmMedium, String utmCampation, String utmTerm, String utmContent, String variantUrl, Double price, String message, String note, String shopCode, Long nhanVienId) {
+    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, String utmSource, String utmMedium, String utmCampation, String utmTerm, String utmContent, String variantUrl, Double price, String message, String note, String shopCode, Long nhanVienId, Product productDto) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -69,6 +72,7 @@ public class DataRequest {
         this.note = note;
         this.shopCode = shopCode;
         this.nhanVienId = nhanVienId;
+        this.productDto = productDto;
     }
 
     public Long getId() {
@@ -270,6 +274,12 @@ public class DataRequest {
     public void setNhanVienId(Long nhanVienId) {
         this.nhanVienId = nhanVienId;
     }
+
+    public void setProductDto(Product productDto) {
+        this.productDto = productDto;
+    }
+
+    public Product getProductDto(){return this.productDto;}
 
     private String utmSource;
 
