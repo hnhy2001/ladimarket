@@ -24,15 +24,10 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     }
 
     @Override
-    public BaseResponse getAllByStatus(int status) {
+    public BaseResponse getAllByShopcodeAndStatus (String shopcode, int status) {
 
         List<Product> productList = new ArrayList<>();
-        if (status == -1){
-            productList = productRepository.findAll();
-        }
-        else {
-            productList = productRepository.findAllByStatus(status);
-        }
+        productList = productRepository.findAllByShopcodeAndStatus(shopcode, status);
         return new BaseResponse(200, "OK", productList);
     }
 

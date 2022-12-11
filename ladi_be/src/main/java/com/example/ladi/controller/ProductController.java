@@ -20,7 +20,7 @@ public class ProductController extends BaseController<Product> {
     }
 
     @GetMapping()
-    public BaseResponse getAllByStatus(@RequestParam(name = "status") int status){
-        return productService.getAllByStatus(status);
+    public BaseResponse getAllByShopcodeAndStatus(@RequestParam(name = "shopCode") String  shopcode, @RequestParam(name = "status") int status){
+        return productService.getAllByShopcodeAndStatus(shopcode, status);
     }
 }
