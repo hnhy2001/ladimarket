@@ -9,7 +9,7 @@
             <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Giao việc nhanh</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
-            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
+            <button type="" class="btn btn-info" (click)="openChangeStatus()">Thao tác</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()" [hidden]="this.info.role==='user'">Xuất Excel</button>
             <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
             <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
@@ -31,7 +31,8 @@
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}"  (click)="getByStatus(4)">KNM L2 ({{countList[4]}})</button>
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(5)">KNM L3 ({{countList[5]}})</button>
             <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}"  (click)="getByStatus(6)">Thất bại ({{countList[6]}})</button>
-            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Đã in đơn ({{countList[7]}})</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Thành công ({{countList[7]}})</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}"  (click)="getByStatus(7)">Thành công ({{countList[8]}})</button>
           </div>
         </div>
       </div>

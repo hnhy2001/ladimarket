@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ShopComponent } from 'app/pages/shop/shop.component';
+import { ProductComponent } from 'app/pages/product/product.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ShopComponent } from 'app/pages/shop/shop.component';
     WorkComponent,
     NotificationsComponent,
     DataComponent,
-    ShopComponent
+    ShopComponent,
+    ProductComponent
   ]
 })
 

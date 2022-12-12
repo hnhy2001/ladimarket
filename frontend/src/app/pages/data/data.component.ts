@@ -33,27 +33,18 @@ export class DataComponent implements OnInit, AfterViewInit{
     columns: any[] =
     [
         {
-            text: '#', sortable: false, filterable: false, editable: false, width: (window.innerWidth - window.innerWidth * 0.94 - 32),
+            text: '#', sortable: false, filterable: false, editable: false, width: '5%',
             groupable: false, draggable: false, resizable: false,
             datafield: '', columntype: 'number', 
             cellsrenderer: (row: number, column: any, value: number): string => {
                 return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + (value + 1) + '</div>';
             }
         },
-        { text: 'Ngày', editable: false, datafield: 'ngay', width: '8%'},
-        { text: 'Tên KH', editable: false, datafield: 'name', width: '10%'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '10%'},
-        { text: 'Giá',editable:false ,datafield: 'price' , width: '8%', cellsrenderer: (row: number, column: any, value: number): string => 
-            {
-                return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
-            }
-        },
-        { text: 'SĐT', editable: false, datafield: 'phone' , width: '8%'},
-        { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
-        { text: 'Ghi chú', editable: false, datafield: 'message' , width: '12%'},
-        { text: 'Nguồn', editable: false, datafield: 'link' , width: '12%'},
-
-        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '8%',cellsrenderer: (row: number, column: any, value: number): string => {
+        { text: 'Ngày', editable: false, datafield: 'ngay', width: '10%'},
+        { text: 'Tên KH', editable: false, datafield: 'name', width: '20%'},
+        { text: 'SĐT', editable: false, datafield: 'phone' , width: '10%'},
+        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '25%'},
+        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '10%',cellsrenderer: (row: number, column: any, value: number): string => {
             switch (value){
                 case 0: 
                 {
@@ -85,6 +76,10 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
                 case 7: 
                 {
+                    return '<div class = "bg-success div-center text-white">' + 'Thành công' + '</div>';
+                }
+                case 8: 
+                {
                     return '<div class = "bg-success div-center text-white">' + 'Đã in đơn' + '</div>';
                 }
                 default:
@@ -93,13 +88,21 @@ export class DataComponent implements OnInit, AfterViewInit{
                 }
             }
         }},
-        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '10%'},
+        { text: 'Nhân viên', editable: false, datafield: 'nhanvien' ,  width: '20%'},
+        { text: 'Giá',editable:false ,datafield: 'price' , width: '15%', cellsrenderer: (row: number, column: any, value: number): string => 
+        {
+            return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
+        }
+        },
+        { text: 'Nguồn', editable: false, datafield: 'link' , width: '30%'},
+        { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
         { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
         { text: 'Huyện', editable: false, datafield: 'district' ,  width: '8%'},
         { text: 'Tỉnh', editable: false, datafield: 'state' ,  width: '8%'},
+        { text: 'Ghi chú', editable: false, datafield: 'message' , width: '12%'},
 
     ];
-    height: any = $(window).height()! - 270;
+    height: any = $(window).height()! - 200;
     localization: any = {
       pagergotopagestring: 'Trang',
       pagershowrowsstring: 'Hiển thị',
@@ -209,10 +212,11 @@ export class DataComponent implements OnInit, AfterViewInit{
         var date = JSON.parse(JSON.stringify(this.dateRange));
         let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
         let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
-        const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7';
+        const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7,8';
         this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate +'&shopCode='+this.shopCode ).subscribe(
             (res: HttpResponse<any>) => {
               setTimeout(() => {
+                this.listEntity = res.body.RESULT;
                 this.data = this.customDate(res.body.RESULT,this.statusDto)
                 this.source.localdata = this.data;
                 this.dataAdapter = new jqx.dataAdapter(this.source);
@@ -226,7 +230,7 @@ export class DataComponent implements OnInit, AfterViewInit{
 
     customDate(list: any[], status:any): any[] {
         if(status!=='') this.countList[Number(status)] = 0
-        else this.countList = [0,0,0,0,0,0,0,0];
+        else this.countList = [0,0,0,0,0,0,0,0,0];
         list.forEach(unitItem => {
             unitItem.ngay = unitItem.date? DateUtil.formatDate(unitItem.date):null;
             unitItem.nhanvien = unitItem.account? unitItem.account.userName:'';
@@ -324,8 +328,7 @@ export class DataComponent implements OnInit, AfterViewInit{
           );
     }
     public onRowSelect(event:any):void{
-        this.selectedEntity = event.args.row;
-        console.log(this.selectedEntity);
+        this.selectedEntity = this.listEntity[Number(event.args.rowindex)];
     }
 
 
@@ -342,9 +345,9 @@ export class DataComponent implements OnInit, AfterViewInit{
     }
 
     public onRowdblclick(event:any){
-
+        console.log(event);
         const modalRef = this.modalService.open(XuLyDuLieuPopupComponent, { size: 'xl' });
-        modalRef.componentInstance.data = event.args.row.bounddata;
+        modalRef.componentInstance.data = this.listEntity[Number(event.args.rowindex)];
         modalRef.result.then(
             () => {
               this.loadData();

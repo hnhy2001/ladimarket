@@ -74,6 +74,10 @@ export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterVi
               }
             case 7:
               {
+                return '<div class = "bg-success div-center text-white">' + 'Thành công' + '</div>';
+              }
+            case 8:
+              {
                 return '<div class = "bg-success div-center text-white">' + 'Đã in đơn' + '</div>';
               }
             default:

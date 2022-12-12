@@ -32,6 +32,7 @@ import { ChuyenTrangThaiPopUpComponent } from "./shared/popup/chuyen-trang-thai-
 import { ThemSuaShopComponent } from "./shared/popup/them-sua-shop/them-sua-shop.component";
 import { GanShopComponent } from "./shared/popup/gan-shop/gan-shop.component";
 import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component";
+import { ThemSuaProductComponent } from "./shared/popup/them-sua-product/them-sua-product.component";
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thon
     TuDongGiaoViecComponent,
     CheckOutComponent,
     ThemSuaShopComponent,
+    ThemSuaProductComponent,
     GanShopComponent,
     ThongTinCauHinhComponent
   ],

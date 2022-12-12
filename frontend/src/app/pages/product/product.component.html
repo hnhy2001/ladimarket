@@ -1,18 +1,19 @@
 <div class="row">
-
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
           <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
           <div class="row">
-            <div class="col-8">
+            <div class="col-4">
               <button type="" class="btn btn-primary" (click)="createData()">Thêm</button>
               <button type="" class="btn btn-primary" (click)="updateData()" [disabled]="!selectedEntity">Sửa</button>
-              <button type="" class="btn btn-primary" [routerLink]="['/product']" [queryParams]="{shopcode: shopcode}" [disabled]="!selectedEntity">Cấu hình sản phẩm</button>
               <button type="" class="btn btn-primary" (click)="loadData()">Làm mới</button>
             </div>
+            <div class="col-4 text-center pt-2">
+              <b>Cấu hình sản phẩm cho {{shopCode}}</b>
+            </div>
             <div class="col-4 text-right">
-              <button type="" class="btn btn-primary" (click)="thongTinCauHinh()" [disabled]="!selectedEntity">Thông tin cấu hình</button>
+              <button type="" class="btn btn-primary" [routerLink]="['/shop']" [queryParams]="{shopCode:shopCode}">Quay lại shop</button>
             </div>
           </div>
         </div>

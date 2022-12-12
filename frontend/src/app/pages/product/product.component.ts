@@ -6,14 +6,14 @@ import { ConfirmationDialogService } from 'app/layouts/confirm-dialog/confirm-di
 import { NotificationService } from 'app/notification.service';
 import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import $ from "jquery";
-import { ThemSuaShopComponent } from 'app/shared/popup/them-sua-shop/them-sua-shop.component';
-import { ThongTinCauHinhComponent } from 'app/shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component';
+import { ActivatedRoute } from '@angular/router';
+import { ThemSuaProductComponent } from 'app/shared/popup/them-sua-product/them-sua-product.component';
 @Component({
-    selector: 'shop-cmp',
-    templateUrl: 'shop.component.html'
+    selector: 'product-cmp',
+    templateUrl: 'product.component.html'
 })
 
-export class ShopComponent implements OnInit, AfterViewInit {
+export class ProductComponent implements OnInit, AfterViewInit {
     @ViewChild('gridReference') myGrid: jqxGridComponent;
     source: any
     listStatus = [
@@ -33,28 +33,13 @@ export class ShopComponent implements OnInit, AfterViewInit {
             },
             { text: 'Mã', editable: false, datafield: 'code', 'width': '15%' },
             { text: 'Tên', editable: false, datafield: 'name', 'width': '35%'},
-            { text: 'Url', editable: false, datafield: 'url', 'width': '15%' },
+            { text: 'Giá bán', editable: false, datafield: 'giaBan', 'width': '15%'},
+            { text: 'Giá nhập', editable: false, datafield: 'giaNhap', 'width': '15%'},
             { text: 'Ghi chú', editable: false, datafield: 'note', 'width': '15%' },
-            { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '15%',cellsrenderer: (row: number, column: any, value: number): string => {
-                switch (value){
-                    case 0: 
-                    {
-                        return '<div class="div-center bg-warning">' + 'Khóa' + '</div>';
-                    }
-                    case 1: 
-                    {
-                        return '<div class = "bg-info div-center text-white">' + 'Hoạt động' + '</div>';
-                    }
-
-                    default:
-                    {
-                        return '<div></div>';
-                    }
-                }
-            }},
+            
         ];
 
-    REQUEST_URL = "/api/v1/shop";
+    REQUEST_URL = "/api/v1/product";
 
     listEntity = [];
 
@@ -70,12 +55,14 @@ export class ShopComponent implements OnInit, AfterViewInit {
       filtercancelstring: 'Huỷ bỏ'
     };
     pageSizeOptions = ['50', '100', '200'];
-    shopcode='';
+
+    shopCode = '';
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
         private confirmDialogService: ConfirmationDialogService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private route: ActivatedRoute
     ) {
         this.source =
         {
@@ -86,8 +73,10 @@ export class ShopComponent implements OnInit, AfterViewInit {
                     { name: 'code', type: 'string' },
                     { name: 'name', type: 'string' },
                     { name: 'status', type: 'string' },
-                    { name: 'url', type: 'string' },
                     { name: 'note', type: 'string' },
+                    { name: 'shopcode', type: 'string' },
+                    { name: 'giaBan', type: 'number' },
+                    { name: 'giaNhap', type: 'number' },
                     { name: 'status', type: 'number' }
                 ],
             id: 'id',
@@ -97,6 +86,14 @@ export class ShopComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        this.route.queryParams
+        .subscribe(params => {
+            console.log(params); // { orderby: "price" }
+            this.shopCode = params.shopcode;
+            this.loadData();
+        }
+        );
+
         this.loadData();
     }
     ngAfterViewInit(): void {
@@ -104,7 +101,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
       }
     public loadData() {
         this.selectedEntity = null;
-        this.dmService.getOption(null, this.REQUEST_URL, "?status=-1").subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL, "?status=1&shopCode="+this.shopCode).subscribe(
             (res: HttpResponse<any>) => {
                 this.listEntity = res.body.RESULT;
                 setTimeout(() => {
@@ -125,9 +122,10 @@ export class ShopComponent implements OnInit, AfterViewInit {
             this.notificationService.showError('Vui lòng chọn dữ liệu', "Thông báo lỗi!");
             return;
         }
-        const modalRef = this.modalService.open(ThemSuaShopComponent, { size: 'l' });
+        const modalRef = this.modalService.open(ThemSuaProductComponent, { size: 'l' });
         modalRef.componentInstance.data = this.selectedEntity;
-        modalRef.componentInstance.title = "Cập nhật shop"
+        modalRef.componentInstance.shopcode = this.shopCode;
+        modalRef.componentInstance.title = "Cập nhật sản phẩm"
         modalRef.result.then(
             () => {
                 this.loadData();
@@ -137,9 +135,10 @@ export class ShopComponent implements OnInit, AfterViewInit {
         );
     }
     public createData() {
-        const modalRef = this.modalService.open(ThemSuaShopComponent, { size: 'l' });
+        const modalRef = this.modalService.open(ThemSuaProductComponent, { size: 'l' });
         modalRef.componentInstance.data = null;
-        modalRef.componentInstance.title = "Tạo shop";
+        modalRef.componentInstance.shopcode = this.shopCode;
+        modalRef.componentInstance.title = "Thêm sản phẩm";
         modalRef.result.then(
             () => {
                 this.loadData();
@@ -153,7 +152,7 @@ export class ShopComponent implements OnInit, AfterViewInit {
             this.notificationService.showWarning('Vui lòng chọn dữ liệu', "Cảnh báo!");
             return;
         }
-        const modalRef = this.modalService.open(ThongTinCauHinhComponent, { size: 'xl' });
+        const modalRef = this.modalService.open(ThemSuaProductComponent, { size: 'xl' });
         modalRef.componentInstance.data = this.selectedEntity;
         modalRef.result.then(
             () => {
@@ -165,13 +164,9 @@ export class ShopComponent implements OnInit, AfterViewInit {
     
     public onRowSelect(event: any): void {
         this.selectedEntity = event.args.row;
-        if(this.selectedEntity)
-            this.shopcode = this.selectedEntity.code
     }
     public onRowdblclick(event:any):void{
         this.selectedEntity = event.args.row.bounddata;
-        if(this.selectedEntity)
-            this.shopcode = this.selectedEntity.code
         this.updateData();
     }
 }
