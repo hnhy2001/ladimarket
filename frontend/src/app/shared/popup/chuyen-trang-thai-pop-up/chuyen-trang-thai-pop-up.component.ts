@@ -167,6 +167,7 @@ export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterVi
     this.data.forEach((unitItem) => {
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
       unitItem.status = this.status;
+      if(Number(unitItem.status) === 6) unitItem.price = 0;
     });
 
     const entity = {

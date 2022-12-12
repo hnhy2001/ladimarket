@@ -36,14 +36,6 @@
         <td colspan="3"><input [(ngModel)]="data.product" name="product" class="form-control" /></td>
       </tr>
       <tr>
-        <td class="text-right">Giá:</td>
-        <td colspan="3"><input [(ngModel)]="data.price" name="price" type="number" class="form-control" min="0" step="1000"/></td>
-      </tr>
-      <tr>
-        <td class="text-right">Ghi chú:</td>
-        <td colspan="3"><input [(ngModel)]="data.message" name="product" class="form-control" /></td>
-      </tr>
-      <tr>
         <td class="text-right">Chọn loại sản phẩm:</td>
         <td colspan="3">
           <ng-select [items]="listProduct" 
@@ -53,6 +45,14 @@
           >
           </ng-select>
         </td>
+      </tr>
+      <tr>
+        <td class="text-right">Giá:</td>
+        <td colspan="3"><input [(ngModel)]="data.price" name="price" type="number" class="form-control" min="0" step="1000"/></td>
+      </tr>
+      <tr>
+        <td class="text-right">Ghi chú:</td>
+        <td colspan="3"><input [(ngModel)]="data.message" name="product" class="form-control" /></td>
       </tr>
       <tr>
         <td colspan="4" class="text-center">
@@ -70,7 +70,7 @@
   <button type="" class="btn btn-warning" (click)="save(5)">KNM L3</button>
   <button type="" class="btn btn-danger" (click)="save(6)">Thất bại</button>
   <button type="" class="btn btn-success" (click)="save(7)">Thành công</button>
-  <button type="" class="btn btn-success" (click)="save(8)">Đã in đơn</button>
+  <button type="" class="btn btn-success" (click)="save(8)" [hidden]="this.info.role==='user'">Đã in đơn</button>
   <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button type="button" class="btn btn-success" (click)="accept()"><i class="fa fa-check-circle-o mr-1"></i> {{ btnOkText }}</button>
   <button type="button" class="btn btn-danger" (click)="decline()"><i class="fa fa-times-circle "></i> {{ btnCancelText }}</button> -->

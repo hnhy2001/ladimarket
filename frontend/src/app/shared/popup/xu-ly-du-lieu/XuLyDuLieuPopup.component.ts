@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
 import moment from 'moment';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'jhi-XuLyDuLieuPopup',
@@ -16,12 +17,15 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   REQUEST_PRODUCT_URL ="/api/v1/product";
   listProduct = [];
   selectedProductEntity: any;
+  info:any;
   constructor(private activeModal: NgbActiveModal,
     private service: DanhMucService,
     private notificationService: NotificationService,
-    private dmService: DanhMucService  
+    private dmService: DanhMucService,
+    private localStorage: LocalStorageService
   ) 
   {
+    this.info = this.localStorage.retrieve("authenticationToken");
   }
 
   ngOnInit(): void {
@@ -75,6 +79,7 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   // }
 
   save(i:any):void{
+    if(i===6) this.data.price = 0;
     this.data.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
     this.data.status = i === -1 ? this.data.status : i;
     this.data.productDto = this.selectedProductEntity;

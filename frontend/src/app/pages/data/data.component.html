@@ -32,8 +32,13 @@
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(5)">KNM L3 ({{countList[5]}})</button>
             <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}"  (click)="getByStatus(6)">Thất bại ({{countList[6]}})</button>
             <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Thành công ({{countList[7]}})</button>
-            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}"  (click)="getByStatus(7)">Thành công ({{countList[8]}})</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}"  (click)="getByStatus(8)" [hidden]="this.info.role==='user'">Đã in đơn ({{countList[8]}})</button>
           </div>
+
+          <div class="col-12 text-center">
+            <h6>Tổng số đơn: <span class="text-danger">{{listEntity.length}}</span>&nbsp;&nbsp;&nbsp;&nbsp;Doanh số: <span class="text-danger">{{tongDoanhSo.toLocaleString('vi', {style : 'currency', currency : 'VND'})}}</span></h6>
+          </div>
+
         </div>
       </div>
       <div class="card-body">
