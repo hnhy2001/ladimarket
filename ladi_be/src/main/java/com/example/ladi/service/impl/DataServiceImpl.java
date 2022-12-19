@@ -10,6 +10,7 @@ import com.example.ladi.dto.DataDto;
 import com.example.ladi.dto.WorkDto;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
+import com.example.ladi.model.UtmMedium;
 import com.example.ladi.model.Work;
 import com.example.ladi.repository.*;
 import com.example.ladi.service.DataService;
@@ -30,6 +31,9 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    UtmMediumRepository utmMediumRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -84,6 +88,7 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         SimpleDateFormat dateOnlyFormatter = new SimpleDateFormat("yyyyMMdd");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        dateOnlyFormatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         Long date = Long.parseLong(formatter.format(nowDate));
         Long dateOnly = Long.parseLong(dateOnlyFormatter.format(nowDate));
         data.setDate(date);
@@ -131,7 +136,15 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     public BaseResponse statisticByUtmMedium() {
-        List<Object> dataList = dataRepository.statisticUtmMediumByMedium();
+        List<Object> dataList = new ArrayList<>();
+        List <UtmMedium> utmMediumList = utmMediumRepository.findAll();
+        Map<String,List<Object>> map = new HashMap<String,List<Object>>();
+        map.put("All",dataRepository.statisticUtmMedium());
+        for (int i = 0;i<utmMediumList.size();i++){
+            String code = utmMediumList.get(i).getCode();
+            map.put(code ,dataRepository.statisticUtmMediumByMedium(code));
+        }
+        dataList.add(map);
         return new BaseResponse(200, "OK", dataList);
     }
 }

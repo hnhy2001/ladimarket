@@ -77,7 +77,7 @@
           <tbody>  
             <tr *ngFor="let obj of listEntity">  
               <td>{{obj.id}}</td>  
-              <td>{{DateUtil.formatDate(obj.date)}}</td>  
+              <td>{{obj.date?formatDate(obj.date):''}}</td>  
               <td>{{obj.name}}</td>   
               <td>{{obj.phone}}</td> 
               <td>{{obj.productDto?obj.productDto.name:''}}</td> 

@@ -364,4 +364,8 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.statusDto = '';
         this.loadData();
     }
+
+    formatDate(date:any){
+        return DateUtil.formatDate(date);
+    }
 }

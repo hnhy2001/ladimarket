@@ -44,6 +44,7 @@ export class SidebarComponent implements OnInit {
                     { path: '/account',         title: 'Tài khoản',             icon:'nc-badge',    class: '', role: '' },
                     { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' },
                     { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'user' },
+                    { path: '/utm-medium',          title: 'Cấu hình utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
                 ];
                 if(res.body.CODE === 200){
                     const listShop = res.body.RESULT;
@@ -65,10 +66,11 @@ export class SidebarComponent implements OnInit {
       }
 
     getMenu():void{
-        if(this.info.role === 'user')
-            this.menuItems = ROUTES.filter(menuItem => menuItem.role === 'user');
-        else if(this.info.role === 'admin')
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        if(this.info.role === 'admin')
+            this.menuItems = ROUTES.filter(menuItem => menuItem.path !== '/utm-medium');
+        else{
+            this.menuItems = ROUTES.filter(menuItem => menuItem.role === this.info.role);
+        }
     }
 
 }

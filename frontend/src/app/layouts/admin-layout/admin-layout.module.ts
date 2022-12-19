@@ -42,7 +42,7 @@ import { ProductComponent } from 'app/pages/product/product.component';
     NotificationsComponent,
     DataComponent,
     ShopComponent,
-    UtmMediumComponent
+    UtmMediumComponent,
     ProductComponent
   ]
 })

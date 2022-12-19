@@ -20,7 +20,6 @@ public abstract class BaseController<T> {
 
     @PostMapping("create")
     public BaseResponse create(@RequestBody T t) throws NoSuchAlgorithmException {
-        System.out.println(t);
         return new BaseResponse(200, "Tạo thành công!", this.getService().create(t));
     }
 

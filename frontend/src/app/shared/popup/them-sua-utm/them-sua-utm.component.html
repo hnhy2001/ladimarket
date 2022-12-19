@@ -1,0 +1,31 @@
+<div class="modal-body">
+    <div style="font-size: 18px;">
+      <b>{{title?title:''}}</b>
+      <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+    </div>
+    <div class="d-inline mt-1">
+  
+      <div class="form-group form-outline mb-1">
+        <label>Nhân viên</label>
+        <input type="text"  placeholder="" [(ngModel)]="ten" maxlength="100"
+          class="form-control form-control-lg" style="height:2.5rem ;" disabled>
+      </div>
+
+      <div class="form-group form-outline mb-1">
+        <label>Mã *</label>
+        <input type="text" name="ma" [(ngModel)]="ma" placeholder="  " maxlength="100"
+          class="form-control form-control-lg" style="height:2.5rem ;" [disabled]="data">
+      </div>
+
+      <div class="form-group form-outline mb-1">
+        <label>Ghi chú</label>
+        <input type="text" name="ghiChu" [(ngModel)]="ghiChu" placeholder=""
+          class="form-control form-control-lg" style="height:2.5rem ;">
+      </div>
+
+  
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="" class="btn btn-success" (click)="create()">Lưu</button>
+  </div>

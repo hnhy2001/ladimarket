@@ -46,8 +46,10 @@ export class LogiinComponent implements OnInit {
           setTimeout(() => {
             if(res.body.RESULT.role === "admin")
               this.router.navigate(['/dashboard']);
+            else if(res.body.RESULT.role === "marketing")
+              this.router.navigate(['/utm-medium']);
             else {
-              this.router.navigate(['/work']);
+              this.router.navigate(['/data']);
             }
           }, 200);
           

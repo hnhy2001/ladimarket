@@ -26,9 +26,9 @@ public interface DataRepository extends BaseRepository<Data> {
 
     List<Data> findAllByAccount(Account account);
 
-    @Query(value = "select dateOnly, COUNT(utm_medium) from data GROUP BY dateOnly", nativeQuery = true)
+    @Query(value = "select date_only, COUNT(utm_medium) from data GROUP BY date_only", nativeQuery = true)
     List<Object> statisticUtmMedium();
 
-    @Query(value = "select dateOnly, COUNT(utm_medium) from data GROUP BY dateOnly", nativeQuery = true)
-    List<Object> statisticUtmMediumByMedium();
+    @Query(value = "select date_only, COUNT(utm_medium) from data WHERE utm_medium = :medium  GROUP BY date_only", nativeQuery = true)
+    List<Object> statisticUtmMediumByMedium(String medium);
 }

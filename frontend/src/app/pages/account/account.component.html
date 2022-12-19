@@ -9,6 +9,8 @@
             <button type="" class="btn btn-primary" (click)="createData()">Thêm</button>
             <button type="" class="btn btn-primary" (click)="updateData()" [disabled]="!selectedEntity">Sửa</button>
             <button type="" class="btn btn-warning" (click)="deleteData()" [disabled]="!selectedEntity">Xoá</button>
+
+            <button type="" class="btn btn-primary" [routerLink]="['/utm-medium']" >Cấu hình utm</button>
             
           </div>
           <div class="col-4 text-right">

@@ -21,6 +21,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'shop',        component: ShopComponent },
-    { path: 'utm-medium',        component: UtmMediumComponent }
+    { path: 'utm-medium',        component: UtmMediumComponent },
     { path: 'product',        component: ProductComponent }
 ];

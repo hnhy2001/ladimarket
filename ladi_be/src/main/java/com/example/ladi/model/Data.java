@@ -49,7 +49,7 @@ public class Data {
     @Column(name = "date")
     private Long date;
 
-    @Column(name = "dateOnly")
+    @Column(name = "date_only")
     private Long dateOnly;
 
     @Column(name = "link")
