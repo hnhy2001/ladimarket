@@ -32,4 +32,10 @@ public class DataDto {
     private String note;
     private AccountDto account;
     private Product productDto;
+    private String utm_source;
+    private String utm_medium;
+    private String utm_campation;
+    private String utm_term;
+    private String utm_content;
+    private String variant_url;
 }

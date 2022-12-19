@@ -79,12 +79,15 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     @Override
-    public BaseResponse createData(Data data, String shopCode) {
+    public BaseResponse  createData(Data data, String shopCode) {
         Date nowDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat dateOnlyFormatter = new SimpleDateFormat("yyyyMMdd");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT+7"));
         Long date = Long.parseLong(formatter.format(nowDate));
+        Long dateOnly = Long.parseLong(dateOnlyFormatter.format(nowDate));
         data.setDate(date);
+        data.setDateOnly(dateOnly);
         data.setShopCode(shopCode);
         List<Work> workList = customWorkRepository.finWorkByConditions(null, null, null, shopCode, 1);
         DataDto dataDto = new DataDto();
@@ -125,5 +128,10 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public BaseResponse statisticByUtmMedium() {
+        List<Object> dataList = dataRepository.statisticUtmMediumByMedium();
+        return new BaseResponse(200, "OK", dataList);
     }
 }

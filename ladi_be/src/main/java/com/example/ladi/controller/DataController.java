@@ -64,4 +64,9 @@ public class DataController extends BaseController<Data>{
         return dataService.getAllDataAccountNull(status, shopCode);
     }
 
+    @GetMapping("statisticByUtmMedium")
+    public BaseResponse statisticByUtmMedium(){
+        return dataService.statisticByUtmMedium();
+    }
+
 }

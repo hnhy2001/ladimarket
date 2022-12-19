@@ -8,6 +8,7 @@ import { NotificationsComponent } from '../../pages/notifications/notifications.
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { DataComponent } from 'app/pages/data/data.component';
 import { ShopComponent } from 'app/pages/shop/shop.component';
+import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -18,5 +19,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'work',           component: WorkComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
-    { path: 'shop',        component: ShopComponent }
+    { path: 'shop',        component: ShopComponent },
+    { path: 'utm-medium',        component: UtmMediumComponent }
 ];

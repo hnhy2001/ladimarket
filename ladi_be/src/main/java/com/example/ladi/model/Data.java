@@ -49,6 +49,9 @@ public class Data {
     @Column(name = "date")
     private Long date;
 
+    @Column(name = "dateOnly")
+    private Long dateOnly;
+
     @Column(name = "link")
     private String link;
 
@@ -59,22 +62,22 @@ public class Data {
     private Long dateChanged;
 
     @Column(name = "utm_source")
-    private String utmSource;
+    private String utm_source;
 
     @Column(name = "utm_medium")
-    private String utmMedium;
+    private String utm_medium;
 
     @Column(name = "utm_campaign")
-    private String utmCampation;
+    private String utm_campation;
 
     @Column(name = "utm_term")
-    private String utmTerm;
+    private String utm_term;
 
     @Column(name = "utm_content")
-    private String utmContent;
+    private String utm_content;
 
     @Column(name = "variant_url ")
-    private String variantUrl;
+    private String variant_url;
 
     @Column(name = "price")
     private Double price;

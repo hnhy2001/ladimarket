@@ -25,4 +25,10 @@ public interface DataRepository extends BaseRepository<Data> {
     List<Data> findAllByDate( @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     List<Data> findAllByAccount(Account account);
+
+    @Query(value = "select dateOnly, COUNT(utm_medium) from data GROUP BY dateOnly", nativeQuery = true)
+    List<Object> statisticUtmMedium();
+
+    @Query(value = "select dateOnly, COUNT(utm_medium) from data GROUP BY dateOnly", nativeQuery = true)
+    List<Object> statisticUtmMediumByMedium();
 }
