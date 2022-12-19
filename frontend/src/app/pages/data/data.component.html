@@ -9,7 +9,7 @@
             <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Giao việc nhanh</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
-            <button type="" class="btn btn-info" (click)="openChangeStatus()">Chuyển TT</button>
+            <button type="" class="btn btn-info" (click)="openChangeStatus()">Thao tác</button>
             <button type="" class="btn btn-info" (click)="exportTOExcel()" [hidden]="this.info.role==='user'">Xuất Excel</button>
             <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
             <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
@@ -31,8 +31,14 @@
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}"  (click)="getByStatus(4)">KNM L2 ({{countList[4]}})</button>
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(5)">KNM L3 ({{countList[5]}})</button>
             <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}"  (click)="getByStatus(6)">Thất bại ({{countList[6]}})</button>
-            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Đã in đơn ({{countList[7]}})</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}"  (click)="getByStatus(7)">Thành công ({{countList[7]}})</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}"  (click)="getByStatus(8)" [hidden]="this.info.role==='user'">Đã in đơn ({{countList[8]}})</button>
           </div>
+
+          <div class="col-12 text-center">
+            <h6>Tổng số đơn: <span class="text-danger">{{listEntity.length}}</span>&nbsp;&nbsp;&nbsp;&nbsp;Doanh số: <span class="text-danger">{{tongDoanhSo.toLocaleString('vi', {style : 'currency', currency : 'VND'})}}</span></h6>
+          </div>
+
         </div>
       </div>
       <div class="card-body">
@@ -58,9 +64,10 @@
             <tr>  
               <th>Mã</th>  
               <th>Ngày</th>  
-              <th>Tên KH</th>  
-              <th>Sản phẩm</th>  
-              <th>SĐT</th>  
+              <th>Tên KH</th>
+              <th>SĐT</th>    
+              <th>Sản phẩm</th>
+              <th>Giá</th>  
               <th>Địa chỉ</th>  
               <th>Xã</th>  
               <th>Huyện</th>  
@@ -70,10 +77,11 @@
           <tbody>  
             <tr *ngFor="let obj of listEntity">  
               <td>{{obj.id}}</td>  
-              <td>{{obj.date | date: 'M/d/yy, h:mm a'}}</td>  
-              <td>{{obj.name}}</td>  
-              <td>{{obj.formcolor}}</td>  
-              <td>{{obj.phone}}</td>  
+              <td>{{obj.date | date: 'dd/MM/YYYY, hh:mm:ss'}}</td>  
+              <td>{{obj.name}}</td>   
+              <td>{{obj.phone}}</td> 
+              <td>{{obj.productDto?obj.productDto.name:''}}</td> 
+              <td>{{obj.price}}</td>
               <td>{{obj.street}}</td>  
               <td>{{obj.ward}}</td>  
               <td>{{obj.district}}</td>  

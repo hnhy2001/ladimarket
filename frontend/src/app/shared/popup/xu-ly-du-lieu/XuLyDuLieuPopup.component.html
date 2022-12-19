@@ -17,11 +17,34 @@
       </tr>
       <tr>
         <td class="text-right">Địa chỉ:</td>
-        <td colspan="3">{{data?data.street:''}}, {{data?data.ward:''}}, {{data?data.district:''}}, {{data?data.state:''}}</td>
+        <td colspan="3"><input [(ngModel)]="data.street" class="form-control"/></td>
+      </tr>
+      <tr>
+        <td class="text-right">T/H/X:</td>
+        <td>
+          <input [(ngModel)]="data.state" class="form-control"/>
+        </td>
+        <td>
+          <input [(ngModel)]="data.district" class="form-control"/>
+        </td>
+        <td>
+          <input [(ngModel)]="data.ward" class="form-control"/>
+        </td>
       </tr>
       <tr>
         <td class="text-right">Sản phẩm:</td>
         <td colspan="3"><input [(ngModel)]="data.product" name="product" class="form-control" /></td>
+      </tr>
+      <tr>
+        <td class="text-right">Chọn loại sản phẩm:</td>
+        <td colspan="3">
+          <ng-select [items]="listProduct" 
+          bindLabel="name" 
+          [(ngModel)]="selectedProductEntity"
+          (change)="onChangeProduct($event)"
+          >
+          </ng-select>
+        </td>
       </tr>
       <tr>
         <td class="text-right">Giá:</td>
@@ -46,7 +69,8 @@
   <button type="" class="btn btn-warning" (click)="save(4)">KNM L2</button>
   <button type="" class="btn btn-warning" (click)="save(5)">KNM L3</button>
   <button type="" class="btn btn-danger" (click)="save(6)">Thất bại</button>
-  <button type="" class="btn btn-success" (click)="save(7)">Đã in đơn</button>
+  <button type="" class="btn btn-success" (click)="save(7)">Thành công</button>
+  <button type="" class="btn btn-success" (click)="save(8)" [hidden]="this.info.role==='user'">Đã in đơn</button>
   <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button type="button" class="btn btn-success" (click)="accept()"><i class="fa fa-check-circle-o mr-1"></i> {{ btnOkText }}</button>
   <button type="button" class="btn btn-danger" (click)="decline()"><i class="fa fa-times-circle "></i> {{ btnCancelText }}</button> -->

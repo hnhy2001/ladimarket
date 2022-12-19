@@ -74,6 +74,10 @@ export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterVi
               }
             case 7:
               {
+                return '<div class = "bg-success div-center text-white">' + 'Thành công' + '</div>';
+              }
+            case 8:
+              {
                 return '<div class = "bg-success div-center text-white">' + 'Đã in đơn' + '</div>';
               }
             default:
@@ -163,6 +167,7 @@ export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterVi
     this.data.forEach((unitItem) => {
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
       unitItem.status = this.status;
+      if(Number(unitItem.status) === 6) unitItem.price = 0;
     });
 
     const entity = {

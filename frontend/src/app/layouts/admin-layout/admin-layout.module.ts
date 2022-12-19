@@ -19,6 +19,7 @@ import { jqxDateTimeInputModule } from 'jqwidgets-ng/jqxdatetimeinput';
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ShopComponent } from 'app/pages/shop/shop.component';
 import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
+import { ProductComponent } from 'app/pages/product/product.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
     DataComponent,
     ShopComponent,
     UtmMediumComponent
+    ProductComponent
   ]
 })
 

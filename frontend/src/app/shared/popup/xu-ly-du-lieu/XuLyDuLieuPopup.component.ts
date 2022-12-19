@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
 import moment from 'moment';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'jhi-XuLyDuLieuPopup',
@@ -13,15 +14,40 @@ import moment from 'moment';
 export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   @Input() data: any = {};
   REQUEST_DATA_URL ="/api/v1/data";
-  constructor(private activeModal: NgbActiveModal,private service: DanhMucService,private notificationService: NotificationService) {
+  REQUEST_PRODUCT_URL ="/api/v1/product";
+  listProduct = [];
+  selectedProductEntity: any;
+  info:any;
+  constructor(private activeModal: NgbActiveModal,
+    private service: DanhMucService,
+    private notificationService: NotificationService,
+    private dmService: DanhMucService,
+    private localStorage: LocalStorageService
+  ) 
+  {
+    this.info = this.localStorage.retrieve("authenticationToken");
   }
 
   ngOnInit(): void {
-    
+    this.loadDataProduct();
+
   }
 
   ngAfterViewInit(): void {
 
+  }
+
+  public loadDataProduct() {
+    this.dmService.getOption(null, this.REQUEST_PRODUCT_URL, "?status=1&shopCode="+this.data.shopCode).subscribe(
+        (res: HttpResponse<any>) => {
+            this.listProduct = res.body.RESULT;
+            console.log(this.data);
+            this.selectedProductEntity = this.data.productDto;
+        },
+        () => {
+            console.error();
+        }
+    );
   }
 
 
@@ -53,8 +79,10 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   // }
 
   save(i:any):void{
+    if(i===6) this.data.price = 0;
     this.data.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
     this.data.status = i === -1 ? this.data.status : i;
+    this.data.productDto = this.selectedProductEntity;
     const entity = {
       dataList: [this.data]
     }
@@ -67,6 +95,10 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
         this.notificationService.showError('Đã có lỗi xảy ra',"Thông báo lỗi!");
       }
     );
+  }
+
+  onChangeProduct(event:any){
+    this.data.price = event.giaBan;
   }
 
 
