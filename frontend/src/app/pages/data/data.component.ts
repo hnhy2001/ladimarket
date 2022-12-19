@@ -212,7 +212,7 @@ export class DataComponent implements OnInit, AfterViewInit{
         return;
         var date = JSON.parse(JSON.stringify(this.dateRange));
         let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
-        let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
+        let endDate = moment(date.endDate).format('YYYYMMDD') + '000000';
         const status = (this.statusDto !== '') ? this.statusDto : '0,1,2,3,4,5,6,7,8';
         this.dmService.getOption(null, this.REQUEST_URL,"?status=" + status + '&startDate=' + startDate + '&endDate=' + endDate +'&shopCode='+this.shopCode ).subscribe(
             (res: HttpResponse<any>) => {
