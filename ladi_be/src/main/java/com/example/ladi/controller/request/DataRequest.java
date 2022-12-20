@@ -1,18 +1,11 @@
 package com.example.ladi.controller.request;
 
-import com.example.ladi.dto.AccountDto;
-import com.example.ladi.model.Product;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.repository.NoRepositoryBean;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.ladi.model.Product;
+
 
 public class DataRequest {
+
     private Long id;
 
     private String name;
@@ -43,37 +36,29 @@ public class DataRequest {
 
     private Product productDto;
 
-    public DataRequest() {
-    }
+    private String utm_source;
 
-    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, String utmSource, String utmMedium, String utmCampation, String utmTerm, String utmContent, String variantUrl, Double price, String message, String note, String shopCode, Long nhanVienId, Product productDto) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.street = street;
-        this.country = country;
-        this.state = state;
-        this.district = district;
-        this.ward = ward;
-        this.product = product;
-        this.status = status;
-        this.date = date;
-        this.link = link;
-        this.ipAddress = ipAddress;
-        this.dateChanged = dateChanged;
-        this.utmSource = utmSource;
-        this.utmMedium = utmMedium;
-        this.utmCampation = utmCampation;
-        this.utmTerm = utmTerm;
-        this.utmContent = utmContent;
-        this.variantUrl = variantUrl;
-        this.price = price;
-        this.message = message;
-        this.note = note;
-        this.shopCode = shopCode;
-        this.nhanVienId = nhanVienId;
-        this.productDto = productDto;
-    }
+    private String utm_medium;
+
+    private String utm_campation;
+
+    private String utm_term;
+
+    private String utm_content;
+
+    private String variant_url;
+
+    private Double price;
+
+    private String message;
+
+    private String note;
+
+    private String shopCode;
+
+    private Long nhanVienId;
+
+    private Long dateOnly;
 
     public Long getId() {
         return id;
@@ -187,52 +172,60 @@ public class DataRequest {
         this.dateChanged = dateChanged;
     }
 
-    public String getUtmSource() {
-        return utmSource;
+    public Product getProductDto() {
+        return productDto;
     }
 
-    public void setUtmSource(String utmSource) {
-        this.utmSource = utmSource;
+    public void setProductDto(Product productDto) {
+        this.productDto = productDto;
     }
 
-    public String getUtmMedium() {
-        return utmMedium;
+    public String getUtm_source() {
+        return utm_source;
     }
 
-    public void setUtmMedium(String utmMedium) {
-        this.utmMedium = utmMedium;
+    public void setUtm_source(String utm_source) {
+        this.utm_source = utm_source;
     }
 
-    public String getUtmCampation() {
-        return utmCampation;
+    public String getUtm_medium() {
+        return utm_medium;
     }
 
-    public void setUtmCampation(String utmCampation) {
-        this.utmCampation = utmCampation;
+    public void setUtm_medium(String utm_medium) {
+        this.utm_medium = utm_medium;
     }
 
-    public String getUtmTerm() {
-        return utmTerm;
+    public String getUtm_campation() {
+        return utm_campation;
     }
 
-    public void setUtmTerm(String utmTerm) {
-        this.utmTerm = utmTerm;
+    public void setUtm_campation(String utm_campation) {
+        this.utm_campation = utm_campation;
     }
 
-    public String getUtmContent() {
-        return utmContent;
+    public String getUtm_term() {
+        return utm_term;
     }
 
-    public void setUtmContent(String utmContent) {
-        this.utmContent = utmContent;
+    public void setUtm_term(String utm_term) {
+        this.utm_term = utm_term;
     }
 
-    public String getVariantUrl() {
-        return variantUrl;
+    public String getUtm_content() {
+        return utm_content;
     }
 
-    public void setVariantUrl(String variantUrl) {
-        this.variantUrl = variantUrl;
+    public void setUtm_content(String utm_content) {
+        this.utm_content = utm_content;
+    }
+
+    public String getVariant_url() {
+        return variant_url;
+    }
+
+    public void setVariant_url(String variant_url) {
+        this.variant_url = variant_url;
     }
 
     public Double getPrice() {
@@ -275,31 +268,46 @@ public class DataRequest {
         this.nhanVienId = nhanVienId;
     }
 
-    public void setProductDto(Product productDto) {
-        this.productDto = productDto;
+    public Long getDateOnly() {
+        return dateOnly;
     }
 
-    public Product getProductDto(){return this.productDto;}
+    public void setDateOnly(Long dateOnly) {
+        this.dateOnly = dateOnly;
+    }
 
-    private String utmSource;
+    public DataRequest(){}
 
-    private String utmMedium;
+    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, Product productDto, String utm_source, String utm_medium, String utm_campation, String utm_term, String utm_content, String variant_url, Double price, String message, String note, String shopCode, Long nhanVienId, Long dateOnly) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.street = street;
+        this.country = country;
+        this.state = state;
+        this.district = district;
+        this.ward = ward;
+        this.product = product;
+        this.status = status;
+        this.date = date;
+        this.link = link;
+        this.ipAddress = ipAddress;
+        this.dateChanged = dateChanged;
+        this.productDto = productDto;
+        this.utm_source = utm_source;
+        this.utm_medium = utm_medium;
+        this.utm_campation = utm_campation;
+        this.utm_term = utm_term;
+        this.utm_content = utm_content;
+        this.variant_url = variant_url;
+        this.price = price;
+        this.message = message;
+        this.note = note;
+        this.shopCode = shopCode;
+        this.nhanVienId = nhanVienId;
+        this.dateOnly = dateOnly;
+    }
 
-    private String utmCampation;
 
-    private String utmTerm;
 
-    private String utmContent;
-
-    private String variantUrl;
-
-    private Double price;
-
-    private String message;
-
-    private String note;
-
-    private String shopCode;
-
-    private Long nhanVienId;
 }

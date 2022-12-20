@@ -250,9 +250,9 @@ export class DataComponent implements OnInit, AfterViewInit{
             return;
         }
         const listWork = [];
-            for(let i = 0; i <this.data.length; i++) {
+            for(let i = 0; i <this.listEntity.length; i++) {
                 if(indexs.includes(i)){
-                    listWork.push(this.data[i]);
+                    listWork.push(this.listEntity[i]);
                 }
             }
 
@@ -275,9 +275,9 @@ export class DataComponent implements OnInit, AfterViewInit{
             return;
         }
         const listWork = [];
-            for(let i = 0; i <this.data.length; i++) {
+            for(let i = 0; i <this.listEntity.length; i++) {
                 if(indexs.includes(i)){
-                    listWork.push(this.data[i]);
+                    listWork.push(this.listEntity[i]);
                 }
             }
 

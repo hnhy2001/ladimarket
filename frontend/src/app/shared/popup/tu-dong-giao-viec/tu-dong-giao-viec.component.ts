@@ -240,9 +240,6 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     const entity ={
       dataList: list
     }
-    console.log(entity);
-    return;
-
     this.service.postOption(entity, this.REQUEST_DATA_URL, "/assignWork").subscribe(
       (res: HttpResponse<any>) => {
         this.activeModal.close();

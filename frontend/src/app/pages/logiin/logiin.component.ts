@@ -49,7 +49,7 @@ export class LogiinComponent implements OnInit {
             else if(res.body.RESULT.role === "marketing")
               this.router.navigate(['/utm-medium']);
             else {
-              this.router.navigate(['/data']);
+              this.router.navigate(['/work']);
             }
           }, 200);
           

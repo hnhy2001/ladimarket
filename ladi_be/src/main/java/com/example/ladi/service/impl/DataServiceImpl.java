@@ -136,15 +136,18 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     public BaseResponse statisticByUtmMedium() {
-        List<Object> dataList = new ArrayList<>();
         List <UtmMedium> utmMediumList = utmMediumRepository.findAll();
-        Map<String,List<Object>> map = new HashMap<String,List<Object>>();
-        map.put("All",dataRepository.statisticUtmMedium());
+        List <String> codeList = new ArrayList<>();
+        codeList.add("ALL");
+        List <List<Object>> dataList = new ArrayList<>();
+        dataList.add(dataRepository.statisticUtmMedium());
+        Map<String,List> map = new HashMap<String,List>();
         for (int i = 0;i<utmMediumList.size();i++){
-            String code = utmMediumList.get(i).getCode();
-            map.put(code ,dataRepository.statisticUtmMediumByMedium(code));
+            codeList.add(utmMediumList.get(i).getCode());
+            dataList.add(dataRepository.statisticUtmMediumByMedium(utmMediumList.get(i).getCode()));
         }
-        dataList.add(map);
-        return new BaseResponse(200, "OK", dataList);
+        map.put("code",codeList);
+        map.put("data",dataList);
+        return new BaseResponse(200, "OK", map);
     }
 }

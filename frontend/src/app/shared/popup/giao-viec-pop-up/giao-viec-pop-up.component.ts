@@ -154,7 +154,6 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   getData(): void {
-    console.log(this.data);
     this.source.localdata = this.customDate(this.data);
     this.dataAdapter = new jqx.dataAdapter(this.source);
   }
