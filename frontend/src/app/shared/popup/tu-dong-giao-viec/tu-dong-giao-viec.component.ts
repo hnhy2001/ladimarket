@@ -150,6 +150,8 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.getOption(null, this.REQUEST_DATA_URL,`/getAllDataAccountNull?status=0,3,4,5&shopCode=KHBOM`).subscribe(
       (res: HttpResponse<any>) => {
           this.listWork = res.body.RESULT;
+          this.listWork = this.listWork.sort((a, b) => 0.5 - Math.random());
+          console.log(this.listWork);
           this.numOfWork = this.listWork.length;
           if(this.listWork.length === 0){
             this.notificationService.showWarning('Danh sách công việc trống','Cảnh báo!');
@@ -238,6 +240,9 @@ export class TuDongGiaoViecComponent implements OnInit, OnDestroy, AfterViewInit
     const entity ={
       dataList: list
     }
+    console.log(entity);
+    return;
+
     this.service.postOption(entity, this.REQUEST_DATA_URL, "/assignWork").subscribe(
       (res: HttpResponse<any>) => {
         this.activeModal.close();

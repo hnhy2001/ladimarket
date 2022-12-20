@@ -10,6 +10,7 @@ import { DataComponent } from 'app/pages/data/data.component';
 import { ShopComponent } from 'app/pages/shop/shop.component';
 import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 import { ProductComponent } from 'app/pages/product/product.component';
+import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -22,5 +23,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'upgrade',        component: UpgradeComponent },
     { path: 'shop',        component: ShopComponent },
     { path: 'utm-medium',        component: UtmMediumComponent },
+    { path: 'utm-statistic',        component: UtmStatisticComponent },
     { path: 'product',        component: ProductComponent }
 ];

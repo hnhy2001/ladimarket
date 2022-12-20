@@ -20,6 +20,7 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ShopComponent } from 'app/pages/shop/shop.component';
 import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 import { ProductComponent } from 'app/pages/product/product.component';
+import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ProductComponent } from 'app/pages/product/product.component';
     DataComponent,
     ShopComponent,
     UtmMediumComponent,
-    ProductComponent
+    ProductComponent,
+    UtmStatisticComponent
   ]
 })
 

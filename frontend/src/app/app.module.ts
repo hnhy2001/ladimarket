@@ -34,6 +34,7 @@ import { GanShopComponent } from "./shared/popup/gan-shop/gan-shop.component";
 import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thong-tin-cau-hinh.component";
 import { ThemSuaProductComponent } from "./shared/popup/them-sua-product/them-sua-product.component";
 import { ThemSuaUtmComponent } from "./shared/popup/them-sua-utm/them-sua-utm.component";
+import { UtmStatisticComponent } from "./pages/utm-statistic/utm-statistic.component";
 
 
 @NgModule({
