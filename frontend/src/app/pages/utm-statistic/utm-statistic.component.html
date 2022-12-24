@@ -9,7 +9,21 @@
           </div>
         </div>
         <div class="card-body">
-            
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th *ngFor="let code of listCode">{{code}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let date of listDate, index as i">
+                  <td>{{date[0]}}</td>
+                  <td>{{listData[0][i][1]}}</td>
+                  <td>{{listData[0][i][1]}}</td>
+                </tr>
+              </tbody>
+            </table>
         </div>
       </div>
     </div> 

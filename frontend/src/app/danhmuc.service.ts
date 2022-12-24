@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DanhMucService {
-  // public resourceUrl = 'https://dhftech.store';
+  public resourceUrl = 'https://dhftech.store';
 
-  public resourceUrl = 'http://localhost:8080';
+  // public resourceUrl = 'http://localhost:8080';
 
   constructor(protected http: HttpClient, ) {
   }
@@ -61,6 +61,5 @@ export class DanhMucService {
   putOption(entity: any, requestUrl: any, option: any): Observable<HttpResponse<any>> {
     return this.http.put<any>(this.resourceUrl + requestUrl + option, entity, { observe: 'response' });
   }
-
 
 }
