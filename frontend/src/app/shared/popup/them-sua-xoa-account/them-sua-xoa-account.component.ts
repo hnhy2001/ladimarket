@@ -75,42 +75,50 @@ export class ThemSuaXoaAccountComponent implements OnInit {
         shop: this.listSelect.toString()
       }
       if(!this.data){
-        this.dmService.postOption(entity, "/api/v1/account/create", '').subscribe(
-          (res: HttpResponse<any>) => {
-            if(res.body.CODE === 200){
-              this.notification.showSuccess("Tạo account thành công", "Success");
-              this.accept();
-            }
-            else{
+        if(entity.role == "user" && entity.shop == ""){
+          this.notification.showError("Vui lòng lựa chọn shop cho user!", "Fail");
+        }else{
+          this.dmService.postOption(entity, "/api/v1/account/create", '').subscribe(
+            (res: HttpResponse<any>) => {
+              if(res.body.CODE === 200){
+                this.notification.showSuccess("Tạo account thành công", "Success");
+                this.accept();
+              }
+              else{
+                this.notification.showError("Tạo account thất bại", "Fail");
+                this.dismiss();
+              }
+            },
+            () => {
               this.notification.showError("Tạo account thất bại", "Fail");
-              this.dismiss();
+              console.error();
             }
-          },
-          () => {
-            this.notification.showError("Tạo account thất bại", "Fail");
-            console.error();
-          }
-        );
+          );
+        }
       }
       else{
         entity.id = this.data.id;
-        this.dmService.putOption(entity, "/api/v1/account/update", '').subscribe(
-          (res: HttpResponse<any>) => {
-            if(res.body.CODE === 200){
-              this.notification.showSuccess("Cập nhật tài khoản thành công", "Success");
-              this.accept();
-            }
-            else{
+        if(entity.role == "user" && entity.shop == ""){
+          this.notification.showError("Vui lòng lựa chọn shop cho user!", "Fail");
+        }else{
+          this.dmService.putOption(entity, "/api/v1/account/update", '').subscribe(
+            (res: HttpResponse<any>) => {
+              if(res.body.CODE === 200){
+                this.notification.showSuccess("Cập nhật tài khoản thành công", "Success");
+                this.accept();
+              }
+              else{
+                this.notification.showError("Cập nhật tài khoản thất bại", "Fail");
+                this.dismiss();
+              }
+            },
+            () => {
               this.notification.showError("Cập nhật tài khoản thất bại", "Fail");
-              this.dismiss();
+              console.error();
+              
             }
-          },
-          () => {
-            this.notification.showError("Cập nhật tài khoản thất bại", "Fail");
-            console.error();
-            
-          }
-        );
+          );
+        }
       }
     }
     
