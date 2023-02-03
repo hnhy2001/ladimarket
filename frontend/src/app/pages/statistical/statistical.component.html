@@ -1,0 +1,19 @@
+<div class="row">
+
+    <div class="col-md-12">
+      <div class="card">
+        <div style="width: 40%;">
+            <canvas
+            baseChart
+            [chartType]="'line"
+            [datasets]="chartData"
+            [labels="chartLabels"]
+            [options]="ChartOptions"
+            [legend]="true"
+            (chartClick)="onChartClick($envent)">
+            </canvas>
+        </div>
+      </div>
+    </div> 
+  </div>
+  

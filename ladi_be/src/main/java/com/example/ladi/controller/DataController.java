@@ -69,4 +69,8 @@ public class DataController extends BaseController<Data>{
         return dataService.statisticByUtmMedium();
     }
 
+    @GetMapping("statisticalRevenueByDay")
+    public BaseResponse statisticalRevenueByDay(@RequestParam String date){
+        return dataService.statisticcalrevenueByDay(date);
+    }
 }

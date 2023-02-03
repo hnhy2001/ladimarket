@@ -3,11 +3,10 @@ package com.example.ladi.service.impl;
 import com.example.ladi.configurations.JwtTokenProvider;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.request.AssignJobRequest;
-import com.example.ladi.controller.request.AssignWorkRequest;
 import com.example.ladi.controller.request.DataRequest;
 import com.example.ladi.dto.AccountDto;
 import com.example.ladi.dto.DataDto;
-import com.example.ladi.dto.WorkDto;
+import com.example.ladi.dto.StatisticalRevenueByDayDto;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
 import com.example.ladi.model.UtmMedium;
@@ -20,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.*;
-import java.util.logging.SimpleFormatter;
 
 @Service
 public class DataServiceImpl extends BaseServiceImpl<Data> implements DataService {
@@ -149,5 +146,11 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         map.put("code",codeList);
         map.put("data",dataList);
         return new BaseResponse(200, "OK", map);
+    }
+
+    @Override
+    public BaseResponse statisticcalrevenueByDay(String date) {
+        Object object = dataRepository.statisticcalrevenueByDay(Long.parseLong(date));
+        return new BaseResponse(200, "Test", String.format("%.0f", object));
     }
 }

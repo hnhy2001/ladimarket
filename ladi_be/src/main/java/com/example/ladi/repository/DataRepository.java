@@ -31,4 +31,9 @@ public interface DataRepository extends BaseRepository<Data> {
 
     @Query(value = "select date_only, COUNT(utm_medium) from data WHERE utm_medium = :medium  GROUP BY date_only", nativeQuery = true)
     List<Object> statisticUtmMediumByMedium(String medium);
+
+    @Query(value = "select sum(price) from data where date_only = :date", nativeQuery = true)
+    Object statisticcalrevenueByDay(Long date);
+
+
 }

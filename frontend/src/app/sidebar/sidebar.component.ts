@@ -45,6 +45,8 @@ export class SidebarComponent implements OnInit {
                     { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' },
                     { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'user' },
                     { path: '/utm-medium',          title: 'Cấu hình utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
+                    { path: '/statistical',          title: 'Thống kê',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
+
                 ];
                 if(res.body.CODE === 200){
                     const listShop = res.body.RESULT;
