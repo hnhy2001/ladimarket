@@ -21,6 +21,7 @@ import { ShopComponent } from 'app/pages/shop/shop.component';
 import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 import { ProductComponent } from 'app/pages/product/product.component';
 import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.component';
+import { jqxPivotGridModule } from 'jqwidgets-ng/jqxpivotgrid';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.com
     FormsModule,
     NgbModule,
     jqxGridModule,
+    jqxPivotGridModule,
     jqxDateTimeInputModule,
     NgxDaterangepickerMd.forRoot()
   ],

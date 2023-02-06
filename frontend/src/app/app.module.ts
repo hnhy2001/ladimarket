@@ -35,6 +35,7 @@ import { ThongTinCauHinhComponent } from "./shared/popup/thong-tin-cau-hinh/thon
 import { ThemSuaProductComponent } from "./shared/popup/them-sua-product/them-sua-product.component";
 import { ThemSuaUtmComponent } from "./shared/popup/them-sua-utm/them-sua-utm.component";
 import { UtmStatisticComponent } from "./pages/utm-statistic/utm-statistic.component";
+import { jqxPivotGridModule } from "jqwidgets-ng/jqxpivotgrid";
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { UtmStatisticComponent } from "./pages/utm-statistic/utm-statistic.compo
     FormsModule,
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
     NgSelectModule,
-    jqxGridModule
+    jqxGridModule,
+    jqxPivotGridModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }
