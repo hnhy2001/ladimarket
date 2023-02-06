@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
+import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 @Repository
 public interface DataRepository extends BaseRepository<Data> {
@@ -38,7 +41,10 @@ public interface DataRepository extends BaseRepository<Data> {
     List<StatisticalRevenueByDayDto> statisticcalrevenueByDay();
 
     @Query(nativeQuery = true)
-    List<KetQuaThongKeUtmDto> thongKeUtmTheoThoiGian(Long startDate, Long endDate);
+    List<KetQuaThongKeUtmDto> thongKeUtmTheoThoiGian_admin(Long startDate, Long endDate);
+
+    @Query(nativeQuery = true)
+    List<KetQuaThongKeUtmDto> thongKeUtmTheoThoiGian(Long startDate, Long endDate, List<String> list);
 
 
 }

@@ -164,8 +164,27 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     @Override
-    public BaseResponse ketQuaThongKeUtm(String startDate, String endDate) {
-        List<KetQuaThongKeUtmDto> listResult = dataRepository.thongKeUtmTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate));
+    public BaseResponse ketQuaThongKeUtm(String startDate, String endDate, String jwt) {
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+        String bearerToken = getJwtFromRequest(jwt);
+        String userName = jwtTokenProvider.getAccountUserNameFromJWT(bearerToken);
+        Account account = accountRepository.findByUserName(userName);
+        List<String> utmCodeList = new ArrayList<>();
+        List<KetQuaThongKeUtmDto> listResult = new ArrayList<>();
+        if (account.getRole().equals("admin")) {
+            listResult = dataRepository.thongKeUtmTheoThoiGian_admin(Long.parseLong(startDate), Long.parseLong(endDate));
+        } else if (account.getRole().equals("marketing")) {
+            List<UtmMedium> utmMediumList = utmMediumRepository.findAllByAccount(account);
+            if (utmMediumList.isEmpty()){
+                return new BaseResponse(200, "OK", null);
+            }
+            for (UtmMedium item : utmMediumList){
+                utmCodeList.add(item.getCode().toLowerCase());
+            }
+            listResult = dataRepository.thongKeUtmTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate), utmCodeList);
+        }else {
+            return new BaseResponse(200, "OK", null);
+        }
         return new BaseResponse(200, "OK", listResult);
     }
 }

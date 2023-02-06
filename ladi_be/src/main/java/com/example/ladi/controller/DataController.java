@@ -75,7 +75,7 @@ public class DataController extends BaseController<Data>{
     }
 
     @GetMapping("thongKeUtm")
-    public BaseResponse thongKeUtm(@RequestParam String startDate, @RequestParam String endDate){
-        return dataService.ketQuaThongKeUtm(startDate, endDate);
+    public BaseResponse thongKeUtm(@RequestParam String startDate, @RequestParam String endDate, @RequestHeader(name = "Authorization") String jwt){
+        return dataService.ketQuaThongKeUtm(startDate, endDate, jwt);
     }
 }
