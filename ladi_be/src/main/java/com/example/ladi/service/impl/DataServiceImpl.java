@@ -4,9 +4,7 @@ import com.example.ladi.configurations.JwtTokenProvider;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.request.AssignJobRequest;
 import com.example.ladi.controller.request.DataRequest;
-import com.example.ladi.dto.AccountDto;
-import com.example.ladi.dto.DataDto;
-import com.example.ladi.dto.StatisticalRevenueByDayDto;
+import com.example.ladi.dto.*;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
 import com.example.ladi.model.UtmMedium;
@@ -149,8 +147,25 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     }
 
     @Override
-    public BaseResponse statisticcalrevenueByDay(String date) {
-        Object object = dataRepository.statisticcalrevenueByDay(Long.parseLong(date));
-        return new BaseResponse(200, "Test", String.format("%.0f", object));
+    public BaseResponse statisticcalrevenueByDay() {
+        List<StatisticalRevenueByDayDto> dataList = dataRepository.statisticcalrevenueByDay();
+        List<StatisticalRevenueByDayResult> resultList = new ArrayList<>();
+        for(StatisticalRevenueByDayDto item : dataList){
+            StatisticalRevenueByDayResult statisticalRevenueByDayResult = new StatisticalRevenueByDayResult();
+            statisticalRevenueByDayResult.setDate(item.getDate());
+            if (item.getPrice() != null){
+                statisticalRevenueByDayResult.setPrice(String.format("%.0f", item.getPrice()));
+            }else {
+                statisticalRevenueByDayResult.setPrice("0");
+            }
+            resultList.add(statisticalRevenueByDayResult);
+        }
+        return new BaseResponse(200, "Test", resultList);
+    }
+
+    @Override
+    public BaseResponse ketQuaThongKeUtm(String startDate, String endDate) {
+        List<KetQuaThongKeUtmDto> listResult = dataRepository.thongKeUtmTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate));
+        return new BaseResponse(200, "OK", listResult);
     }
 }

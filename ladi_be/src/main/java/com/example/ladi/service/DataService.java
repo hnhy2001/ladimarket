@@ -18,5 +18,7 @@ public interface DataService extends BaseService<Data> {
     public BaseResponse assignWork(AssignJobRequest assignJobRequest);
     public BaseResponse getAllDataAccountNull(String status, String shopCode);
     public BaseResponse statisticByUtmMedium();
-    public BaseResponse statisticcalrevenueByDay(String date);
+    public BaseResponse statisticcalrevenueByDay();
+
+    public BaseResponse ketQuaThongKeUtm(String startDate, String endDate);
 }

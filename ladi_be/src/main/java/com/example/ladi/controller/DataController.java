@@ -70,7 +70,12 @@ public class DataController extends BaseController<Data>{
     }
 
     @GetMapping("statisticalRevenueByDay")
-    public BaseResponse statisticalRevenueByDay(@RequestParam String date){
-        return dataService.statisticcalrevenueByDay(date);
+    public BaseResponse statisticalRevenueByDay(){
+        return dataService.statisticcalrevenueByDay();
+    }
+
+    @GetMapping("thongKeUtm")
+    public BaseResponse thongKeUtm(@RequestParam String startDate, @RequestParam String endDate){
+        return dataService.ketQuaThongKeUtm(startDate, endDate);
     }
 }

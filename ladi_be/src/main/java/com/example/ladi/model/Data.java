@@ -1,11 +1,27 @@
 package com.example.ladi.model;
 
+import com.example.ladi.dto.KetQuaThongKeUtmDto;
+import com.example.ladi.dto.StatisticalRevenueByDayDto;
 import lombok.*;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@NamedNativeQuery(name = "Data.statisticcalrevenueByDay",
+        query = "select date_only as date, sum(price) as price from data GROUP BY date_only ORDER BY date_only DESC LIMIT 50",
+        resultSetMapping = "Mapping.StatisticalRevenueByDayDto")
+@SqlResultSetMapping(name = "Mapping.StatisticalRevenueByDayDto", classes = @ConstructorResult(targetClass = StatisticalRevenueByDayDto.class
+        , columns = {@ColumnResult(name = "date", type = Long.class),
+                     @ColumnResult(name = "price", type = Double.class)}))
+
+@NamedNativeQuery(name = "Data.thongKeUtmTheoThoiGian",
+                  query = "SELECT date_only as date, utm_medium as utmName,COUNT(id) as count  FROM `data` WHERE date_only <= :endDate AND date_only >= :startDate   GROUP BY utm_medium, date_only",
+                  resultSetMapping = "Mapping.KetQuaThongKeUtmDto")
+@SqlResultSetMapping(name = "Mapping.KetQuaThongKeUtmDto", classes = @ConstructorResult(targetClass = KetQuaThongKeUtmDto.class,
+        columns = {@ColumnResult(name = "date", type = Long.class),
+                    @ColumnResult(name = "utmName", type = String.class),
+                    @ColumnResult(name = "count", type = int.class)}))
 @Entity
 @Table(name = "data")
 @AllArgsConstructor
