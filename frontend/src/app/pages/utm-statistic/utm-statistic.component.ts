@@ -3,6 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DanhMucService } from 'app/danhmuc.service';
 import { NotificationService } from 'app/notification.service';
 import{ jqxPivotGridComponent } from 'jqwidgets-ng/jqxpivotgrid';   
+import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
+import * as moment from 'moment';
+import dayjs from 'dayjs/esm';
 @Component({
     selector: 'utm-statistic-cmp',
     templateUrl: 'utm-statistic.component.html'
@@ -20,6 +23,20 @@ export class UtmStatisticComponent implements OnInit {
 
     height: any = $(window).height()! - 240;
     pivotDataSource: null;
+    dateRange: TimePeriod = {
+        startDate: dayjs().startOf('year'),
+        endDate: dayjs().endOf('year')
+      };;
+
+    ranges: DateRanges = {
+        ['Hôm nay']: [dayjs(), dayjs()],
+        ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+        ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
+        ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
+        ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+        ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
+        ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
+    };
 
     
     constructor(
@@ -42,7 +59,10 @@ export class UtmStatisticComponent implements OnInit {
       }
     
     public loadData() {
-        this.dmService.getOption(null, this.REQUEST_URL, "/statisticByUtmMedium").subscribe(
+        var date = JSON.parse(JSON.stringify(this.dateRange));
+        let startDate = moment(date.startDate).format('YYYYMMDD');
+        let endDate = moment(date.endDate).format('YYYYMMDD');
+        this.dmService.getOption(null, this.REQUEST_URL, "/thongKeUtm?startDate="+startDate + "&endDate="+endDate).subscribe(
             (res: HttpResponse<any>) => {
                 this.listCode = res.body.RESULT.code;
                 this.listData = res.body.RESULT.data;
@@ -87,7 +107,7 @@ export class UtmStatisticComponent implements OnInit {
           rows: [{ dataField: 'date'}],
           columns: [{ dataField: 'name' , width: '50%'}],
           values: [
-            { dataField: 'count', text:' '},
+            { dataField: 'count', text:'UTM'},
 
           ],
         });
