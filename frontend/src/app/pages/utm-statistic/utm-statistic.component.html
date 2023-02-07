@@ -5,7 +5,17 @@
         <div class="card-header">
           <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
           <div class="row">
-            UTM Statistic
+            <div class="col-4"></div>
+            <div class="col-4">
+              <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
+              [(ngModel)]="dateRange" 
+              [ranges]="ranges" 
+              [showCustomRangeLabel]="true"
+              [alwaysShowCalendars]="true"
+              (ngModelChange)="loadData()"/>
+            </div>
+            <div class="col-4"></div>
+            
           </div>
         </div>
         <div class="card-body">
@@ -16,7 +26,7 @@
               [source]="pivotDataSource"
               [treeStyleRows] = "false"
               [autoResize] = "false"
-              [multipleSelectionEnabled] = "true"
+              [multipleSelectionEnabled] = "false"
             >
           </jqxPivotGrid>
         </div>
