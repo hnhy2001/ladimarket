@@ -1,5 +1,6 @@
 package com.example.ladi.model;
 
+import com.example.ladi.dto.KetQuaThongKeTopUtmDto;
 import com.example.ladi.dto.KetQuaThongKeUtmDto;
 import com.example.ladi.dto.StatisticalRevenueByDayDto;
 import lombok.*;
@@ -18,10 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @NamedNativeQuery(name = "Data.thongKeUtmTheoThoiGian_admin",
                   query = "SELECT date_only as date, utm_medium as utmName,COUNT(id) as count  FROM `data` WHERE date_only <= :endDate AND date_only >= :startDate   GROUP BY utm_medium, date_only",
                   resultSetMapping = "Mapping.KetQuaThongKeUtmDto")
-//@SqlResultSetMapping(name = "Mapping.KetQuaThongKeUtmDto", classes = @ConstructorResult(targetClass = KetQuaThongKeUtmDto.class,
-//        columns = {@ColumnResult(name = "date", type = Long.class),
-//                    @ColumnResult(name = "utmName", type = String.class),
-//                    @ColumnResult(name = "count", type = int.class)}))
+
 @NamedNativeQuery(name = "Data.thongKeUtmTheoThoiGian",
         query = "SELECT date_only as date, utm_medium as utmName,COUNT(id) as count  FROM `data` WHERE date_only <= :endDate AND date_only >= :startDate AND utm_medium in (:list) GROUP BY utm_medium, date_only",
         resultSetMapping = "Mapping.KetQuaThongKeUtmDto")
@@ -29,6 +27,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         columns = {@ColumnResult(name = "date", type = Long.class),
                 @ColumnResult(name = "utmName", type = String.class),
                 @ColumnResult(name = "count", type = int.class)}))
+
+@NamedNativeQuery(name = "Data.thongKeTopUtmTheoThoiGian",
+        query = "SELECT utm_medium as utmName, COUNT(id) as count From `data` WHERE date_only <= :endDate AND  date_only >= :startDate GROUP BY utm_medium ORDER BY count DESC",
+        resultSetMapping = "Mapping.KetQuaThongKeTopUtmDto")
+@SqlResultSetMapping(name = "Mapping.KetQuaThongKeTopUtmDto", classes = @ConstructorResult(targetClass = KetQuaThongKeTopUtmDto.class,
+        columns = {
+                @ColumnResult(name = "utmName", type = String.class),
+                @ColumnResult(name = "count", type = int.class)}))
+
+
 @Entity
 @Table(name = "data")
 @AllArgsConstructor

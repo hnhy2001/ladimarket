@@ -19,6 +19,6 @@ public interface DataService extends BaseService<Data> {
     public BaseResponse getAllDataAccountNull(String status, String shopCode);
     public BaseResponse statisticByUtmMedium();
     public BaseResponse statisticcalrevenueByDay();
-
     public BaseResponse ketQuaThongKeUtm(String startDate, String endDate, String jwt);
+    public BaseResponse ketQuaThongKeTopUtm(String startDate, String endDate);
 }

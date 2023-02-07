@@ -1,5 +1,6 @@
 package com.example.ladi.repository;
 
+import com.example.ladi.dto.KetQuaThongKeTopUtmDto;
 import com.example.ladi.dto.KetQuaThongKeUtmDto;
 import com.example.ladi.dto.StatisticalRevenueByDayDto;
 import com.example.ladi.model.Account;
@@ -46,5 +47,6 @@ public interface DataRepository extends BaseRepository<Data> {
     @Query(nativeQuery = true)
     List<KetQuaThongKeUtmDto> thongKeUtmTheoThoiGian(Long startDate, Long endDate, List<String> list);
 
-
+    @Query(nativeQuery = true)
+    List<KetQuaThongKeTopUtmDto> thongKeTopUtmTheoThoiGian(Long startDate, Long endDate);
 }

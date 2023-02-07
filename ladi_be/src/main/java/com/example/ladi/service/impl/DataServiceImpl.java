@@ -187,4 +187,10 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         }
         return new BaseResponse(200, "OK", listResult);
     }
+
+    @Override
+    public BaseResponse ketQuaThongKeTopUtm(String startDate, String endDate) {
+
+        return new BaseResponse(200, "OK", dataRepository.thongKeTopUtmTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate)));
+    }
 }
