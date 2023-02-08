@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+
           <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
@@ -18,17 +18,46 @@
             
           </div>
         </div>
-        <div class="card-body">
-          <jqxPivotGrid
-              #pivotGrid1
-              [width]="'100%'" 
-              [height]="height"
-              [source]="pivotDataSource"
-              [treeStyleRows] = "false"
-              [autoResize] = "false"
-              [multipleSelectionEnabled] = "false"
-            >
-          </jqxPivotGrid>
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-10">
+              <jqxPivotGrid
+                #pivotGrid1
+                [width]="'100%'" 
+                [height]="height"
+                [source]="pivotDataSource"
+                [treeStyleRows] = "false"
+                [autoResize] = "false"
+                [multipleSelectionEnabled] = "false"
+              >
+              </jqxPivotGrid>
+            </div>
+            <div class="col-2">
+              <table class="table table-bordered">  
+                <thead >  
+                  <tr style="height: 27px">  
+                    <th colspan="3" style="color: #fff;
+                        font-weight: 600;
+                        background: #3268b1;
+                        font-size: 11px;
+                        height: 27px;
+                        padding: 0px"
+                    >
+                      TOP UTM
+                    </th>
+                  </tr>  
+                </thead>  
+                <tbody>  
+                  <tr *ngFor="let obj of listEntityTop; index as i">  
+                    <td>{{i+1}}</td>  
+                    <td>{{obj.utmMedium}}</td>  
+                    <td>{{obj.count}}</td>   
+
+                  </tr>  
+                </tbody>  
+              </table> 
+            </div>
+          </div>
         </div>
       </div>
     </div> 

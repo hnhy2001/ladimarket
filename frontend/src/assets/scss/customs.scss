@@ -40,7 +40,7 @@
 // grid
 .jqx-grid-column-header{
     font-weight: 600;
-    background: #fff;
+    background: #fff !important;
 }
 .jqx-grid-cell-filter-row,.jqx-grid-pager,.jqx-grid-cell-alt,.jqx-grid-cell,.jqx-fill-state-pressed{
     background: #fff;
@@ -48,6 +48,20 @@
 .jqx-grid-cell-selected{
     background-color: #d1d1d1 !important;
     border-color: #999 !important;
+}
+.jqx-widget-header{
+    color: #fff;
+    font-weight: 600 !important;
+    background:#3268b1 !important;
+    font-size: 11px;
+}
+.jqx-grid-cell-normal{
+    color:  #000;
+    text-align: center;
+    font-weight: 500 !important
+}
+.jqx-reset{
+    display: none;
 }
 
 .div-center{
