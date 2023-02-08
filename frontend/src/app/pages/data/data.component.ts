@@ -122,8 +122,8 @@ export class DataComponent implements OnInit, AfterViewInit{
     data:any = [];
     // date
     dateRange: TimePeriod = {
-        startDate: dayjs().startOf('month'),
-        endDate: dayjs().endOf('month')
+        startDate: dayjs().subtract(6, 'days'),
+        endDate: dayjs().add(1, 'days')
       };;
     date: object;
     ranges: DateRanges = {
