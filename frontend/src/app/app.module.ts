@@ -23,6 +23,7 @@ import { LogiinComponent } from './pages/logiin/logiin.component';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HeadersInterceptor } from "./headers.interceptor";
 import { ThemSuaXoaAccountComponent } from './shared/popup/them-sua-xoa-account/them-sua-xoa-account.component';
+
 import { GiaoViecPopUpComponent } from './shared/popup/giao-viec-pop-up/giao-viec-pop-up.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TuDongGiaoViecComponent } from "./shared/popup/tu-dong-giao-viec/tu-dong-giao-viec.component";
@@ -36,6 +37,9 @@ import { ThemSuaProductComponent } from "./shared/popup/them-sua-product/them-su
 import { ThemSuaUtmComponent } from "./shared/popup/them-sua-utm/them-sua-utm.component";
 import { UtmStatisticComponent } from "./pages/utm-statistic/utm-statistic.component";
 import { jqxPivotGridModule } from "jqwidgets-ng/jqxpivotgrid";
+import { ThemSuaXoaCostTypeComponent } from "./shared/popup/them-sua-xoa-cost-type/them-sua-xoa-cost-type.component";
+import { ThemSuaXoaCostComponent } from "./shared/popup/them-sua-xoa-cost/them-sua-xoa-cost.component";
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 
 
 @NgModule({
@@ -54,7 +58,9 @@ import { jqxPivotGridModule } from "jqwidgets-ng/jqxpivotgrid";
     ThemSuaProductComponent,
     GanShopComponent,
     ThemSuaUtmComponent,
-    ThongTinCauHinhComponent
+    ThongTinCauHinhComponent,
+    ThemSuaXoaCostTypeComponent,
+    ThemSuaXoaCostComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -74,7 +80,8 @@ import { jqxPivotGridModule } from "jqwidgets-ng/jqxpivotgrid";
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
     NgSelectModule,
     jqxGridModule,
-    jqxPivotGridModule
+    jqxPivotGridModule,
+    NgxDaterangepickerMd
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }

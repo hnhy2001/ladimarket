@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DanhMucService {
-  public resourceUrl = 'https://dhftech.store';
+  // public resourceUrl = 'https://dhftech.store';
 
-  // public resourceUrl = 'http://localhost:8080';
+  public resourceUrl = 'http://localhost:8080';
 
   constructor(protected http: HttpClient, ) {
   }
@@ -49,10 +49,6 @@ export class DanhMucService {
   }
 
   getOption(req: any, requestUrl: any, option: any): Observable<HttpResponse<any>> {
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   Authorization: `${this.token}`,
-    // });
 
     const options = createRequestOption(req);
     return this.http.get<any>(this.resourceUrl + requestUrl + option, { params: options, observe: 'response' });

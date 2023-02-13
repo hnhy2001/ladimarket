@@ -11,6 +11,8 @@ import { ShopComponent } from 'app/pages/shop/shop.component';
 import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 import { ProductComponent } from 'app/pages/product/product.component';
 import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.component';
+import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
+import { CostComponent } from 'app/pages/cost/cost.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -24,6 +26,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'shop',        component: ShopComponent },
     { path: 'utm-medium',        component: UtmMediumComponent },
     { path: 'utm-statistic',        component: UtmStatisticComponent },
-    { path: 'product',        component: ProductComponent }
+    { path: 'product',        component: ProductComponent },
+    {path:'costType', component: CostTypeComponent},
+    {path:'cost', component:CostComponent}
 
 ];

@@ -22,6 +22,8 @@ import { UtmMediumComponent } from 'app/pages/utm-medium/utm-medium.component';
 import { ProductComponent } from 'app/pages/product/product.component';
 import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.component';
 import { jqxPivotGridModule } from 'jqwidgets-ng/jqxpivotgrid';
+import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
+import { CostComponent } from 'app/pages/cost/cost.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { jqxPivotGridModule } from 'jqwidgets-ng/jqxpivotgrid';
     ShopComponent,
     UtmMediumComponent,
     ProductComponent,
-    UtmStatisticComponent
+    UtmStatisticComponent,
+    CostTypeComponent,
+    CostComponent
   ]
 })
 
