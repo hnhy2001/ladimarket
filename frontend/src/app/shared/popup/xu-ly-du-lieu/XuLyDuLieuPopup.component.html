@@ -52,7 +52,16 @@
       </tr>
       <tr>
         <td class="text-right">Ghi chú:</td>
-        <td colspan="3"><input [(ngModel)]="data.message" name="product" class="form-control" /></td>
+        <td colspan="2"><input [(ngModel)]="data.message" name="product" class="form-control" /></td>
+        <td>
+          <select name="" id="" class="form-control" [(ngModel)]="data.message">
+            <option value="KNM">KNM</option>
+            <option value="Sai SĐT">Sai SĐT</option>
+            <option value="KH Không đặt">KH Không đặt</option>
+            <option value="KH yêu cầu huỷ đơn">KH yêu cầu huỷ đơn</option>
+            <option value="KH y/c sỉ-SLL">KH y/c sỉ-SLL</option>
+          </select>
+        </td>
       </tr>
       <tr>
         <td colspan="4" class="text-center">
