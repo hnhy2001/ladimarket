@@ -19,9 +19,11 @@ import java.util.List;
 @Service
 public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostService {
     CostRepository costRepository;
-    public CostServiceImpl(CostRepository costRepository){
+
+    public CostServiceImpl(CostRepository costRepository) {
         this.costRepository = costRepository;
     }
+
     @Override
     protected BaseRepository<Cost> getRepository() {
         return this.costRepository;
@@ -36,11 +38,11 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     @Override
     public BaseResponse postCost(PostCostRequest postCostRequest) {
         Cost cost = new Cost();
-        if (postCostRequest.getId() == null){
+        if (postCostRequest.getId() == null) {
             cost = modelMapper.map(postCostRequest, Cost.class);
             cost.setCostType(costTypeRepository.findAllById(postCostRequest.getCostTypeId()));
             costRepository.save(cost);
-        }else {
+        } else {
             cost = modelMapper.map(postCostRequest, Cost.class);
             cost.setCostType(costTypeRepository.findAllById(postCostRequest.getCostTypeId()));
             costRepository.save(cost);
@@ -52,25 +54,7 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     @Override
     public BaseResponse getCost() {
         List<Cost> costList = costRepository.findAll();
-        List<CostDto> costDtoList = new ArrayList<>();
-        for (Cost item : costList) {
-              CostDto costDto = CostDto.builder()
-                      .id(item.getId())
-                      .code(item.getCode())
-                      .name(item.getName())
-                      .status(item.getStatus())
-                      .costPerDay(item.getCostPerDay())
-                      .numOfOrder(item.getNumOfOrder())
-                      .fromDate(item.getFromDate())
-                      .toDate(item.getToDate())
-                      .totalCost(item.getTotalCost())
-                      .numOfOrder(item.getNumOfOrder())
-                      .build();
-            if (item.getCostType() != null){
-                costDto.setCostType(item.getCostType().getId());
-            }
-            costDtoList.add(costDto);
-        }
+        List<CostDto> costDtoList = mapCostToCostDto(costList);
         return new BaseResponse(200, "OK", costDtoList);
     }
 
@@ -78,5 +62,23 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     public BaseResponse laySoDonTheoThoiGian(String startDate, String endDate) {
 
         return new BaseResponse(200, "OK", costRepository.laySoDonTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate)));
+    }
+
+    @Override
+    public BaseResponse getAllCostByTimeRange(String startDate, String endDate) {
+        List<Cost> costList = costRepository.findAllCostByTimeRange(Long.parseLong(startDate), Long.parseLong(endDate));
+        return new BaseResponse(200, "OK", mapCostToCostDto(costList));
+    }
+
+    public List<CostDto> mapCostToCostDto(List<Cost> costList) {
+        List<CostDto> costDtoList = new ArrayList<>();
+        for (Cost item : costList) {
+            CostDto costDto = CostDto.builder().id(item.getId()).code(item.getCode()).name(item.getName()).status(item.getStatus()).costPerDay(item.getCostPerDay()).numOfOrder(item.getNumOfOrder()).fromDate(item.getFromDate()).toDate(item.getToDate()).totalCost(item.getTotalCost()).numOfOrder(item.getNumOfOrder()).build();
+            if (item.getCostType() != null) {
+                costDto.setCostType(item.getCostType().getId());
+            }
+            costDtoList.add(costDto);
+        }
+        return costDtoList;
     }
 }

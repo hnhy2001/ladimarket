@@ -25,7 +25,6 @@ import { jqxPivotGridModule } from 'jqwidgets-ng/jqxpivotgrid';
 import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
 import { CostComponent } from 'app/pages/cost/cost.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +34,7 @@ import { CostComponent } from 'app/pages/cost/cost.component';
     jqxGridModule,
     jqxPivotGridModule,
     jqxDateTimeInputModule,
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
   ],
   declarations: [
     DashboardComponent,

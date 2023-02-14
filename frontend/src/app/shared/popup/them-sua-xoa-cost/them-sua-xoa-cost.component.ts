@@ -181,6 +181,7 @@ export class ThemSuaXoaCostComponent implements OnInit {
 
   getCostByDay():void{
     this.costPerDay = (this.totalCost / this.numOfDay);
+    this.costPerDay = parseFloat(this.costPerDay.toFixed(0));
   }
 
   cost():void{

@@ -9,6 +9,10 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 import $ from "jquery";
 import { GanShopComponent } from 'app/shared/popup/gan-shop/gan-shop.component';
 import { LocalStorageService } from 'ngx-webstorage';
+import * as Highcharts from 'highcharts'
+import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
+import dayjs from 'dayjs/esm';
+// import * as Highcharts from 'highcharts';
 import moment from 'moment';
 @Component({
     selector: 'cost-cmp',
@@ -17,11 +21,25 @@ import moment from 'moment';
 
 export class CostComponent implements OnInit, AfterViewInit {
     @ViewChild('gridReference') myGrid: jqxGridComponent;
-    source: any
+    chartOptions: any;
+    source: any;
+    visibleTrigger = false
+    visible={display:"none"};
     listStatus = [
         { id: 0, label: "Chờ xử lý" },
         { id: 1, label: "Đang xử lý" },
     ];
+    dateRange: TimePeriod = {
+        startDate: dayjs().startOf('month'),
+        endDate: dayjs().endOf('month')
+    };
+    ranges: DateRanges = {
+        ['Hôm nay']: [dayjs(), dayjs()],
+        ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+        ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+    };
+    dateChart= [];
+    valueChart= [];
     dataAdapter: any;
     columns: any[] =
         [
@@ -35,44 +53,58 @@ export class CostComponent implements OnInit, AfterViewInit {
             },
             { text: 'code', editable: false, datafield: 'code', 'width': '10%' },
             { text: 'Tên chi phí', editable: false, datafield: 'name', 'width': '10%' },
-            { text: 'Trạng thái', editable: false, datafield: 'status', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
-                switch (value){
-                    case 0: 
-                    {
-                        return '<div class="div-center text-white bg-danger">' + 'Khóa' + '</div>';
-                    }
-                    case 1: 
-                    {
-                        return '<div class="bg-success div-center text-white">' + 'Kích hoạt' + '</div>';
-                    }
-                   
-                    default:
-                    {
-                        return '<div></div>';
+            {
+                text: 'Trạng thái', editable: false, datafield: 'status', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
+                    switch (value) {
+                        case 0:
+                            {
+                                return '<div class="div-center text-white bg-danger">' + 'Khóa' + '</div>';
+                            }
+                        case 1:
+                            {
+                                return '<div class="bg-success div-center text-white">' + 'Kích hoạt' + '</div>';
+                            }
+
+                        default:
+                            {
+                                return '<div></div>';
+                            }
                     }
                 }
-            }},
-            { text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%' },
+            },
+            {
+                text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
+                    return '<div class="div-center">' + this.formatCurrency(value) + '</div>';
+                }
+            },
             { text: 'Số ngày', editable: false, datafield: 'numOfDay', 'width': '10%' },
-            { text: 'Tổng chi phí', editable: false, datafield: 'totalCost', 'width': '10%' },
-            { text: 'Từ ngày', editable: false, datafield: 'fromDate', 'width': '10%' , cellsrenderer: (row: number, column: any, value: number): string => {
-                if(value){
-                    let temp = value.toString().slice(0,4) + "/" + value.toString().slice(4,6) + "/" + value.toString().slice(6);
-                    return '<div class="div-center">' + temp + '</div>';
-                }else{
-                    return '<div class="div-center"></div>';
+            {
+                text: 'Tổng chi phí', editable: false, datafield: 'totalCost', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
+                    return '<div class="div-center">' + value + ' VND</div>';
                 }
-            }},
-            { text: 'Đến ngày', editable: false, datafield: 'toDate', 'width': '10%' , cellsrenderer: (row: number, column: any, value: number): string => {
-                if(value){
-                    let temp = value.toString().slice(0,4) + "/" + value.toString().slice(4,6) + "/" + value.toString().slice(6);
-                    return '<div class="div-center">' + temp + '</div>';
-                }else{
-                    return '<div class="div-center"></div>';
+            },
+            {
+                text: 'Từ ngày', editable: false, datafield: 'fromDate', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
+                    if (value) {
+                        let temp = value.toString().slice(0, 4) + "/" + value.toString().slice(4, 6) + "/" + value.toString().slice(6);
+                        return '<div class="div-center">' + temp + '</div>';
+                    } else {
+                        return '<div class="div-center"></div>';
+                    }
                 }
-            }},
+            },
+            {
+                text: 'Đến ngày', editable: false, datafield: 'toDate', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
+                    if (value) {
+                        let temp = value.toString().slice(0, 4) + "/" + value.toString().slice(4, 6) + "/" + value.toString().slice(6);
+                        return '<div class="div-center">' + temp + '</div>';
+                    } else {
+                        return '<div class="div-center"></div>';
+                    }
+                }
+            },
             { text: 'Số đơn', editable: false, datafield: 'numOforder', 'width': '10%' },
-            { text: 'Loại chi phí', editable: false, datafield: 'costType', 'width': '5%'}
+            { text: 'Loại chi phí', editable: false, datafield: 'costType', 'width': '5%' }
         ];
 
     REQUEST_URL = "/api/v1/cost";
@@ -84,15 +116,16 @@ export class CostComponent implements OnInit, AfterViewInit {
     selectedEntity: any;
     height: any = $(window).height()! - 270;
     localization: any = {
-      pagergotopagestring: 'Trang',
-      pagershowrowsstring: 'Hiển thị',
-      pagerrangestring: ' của ',
-      emptydatastring: 'Không có dữ liệu hiển thị',
-      filterstring: 'Nâng cao',
-      filterapplystring: 'Áp dụng',
-      filtercancelstring: 'Huỷ bỏ'
+        pagergotopagestring: 'Trang',
+        pagershowrowsstring: 'Hiển thị',
+        pagerrangestring: ' của ',
+        emptydatastring: 'Không có dữ liệu hiển thị',
+        filterstring: 'Nâng cao',
+        filterapplystring: 'Áp dụng',
+        filtercancelstring: 'Huỷ bỏ'
     };
     pageSizeOptions = ['50', '100', '200'];
+
     constructor(
         private dmService: DanhMucService,
         private notificationService: NotificationService,
@@ -125,28 +158,47 @@ export class CostComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.loadData();
+        // this.loadData();
     }
     ngAfterViewInit(): void {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
-      }
-    public loadData() {
-        if(this.info.role !== 'admin') return;
-        this.selectedEntity = null;
-        this.dmService.getOption(null, this.REQUEST_URL, "/getCost").subscribe(
+    }
+    public  loadData() {
+        var date = JSON.parse(JSON.stringify(this.dateRange));
+        date.endDate = date.endDate.replace("23:59:59", "00:00:00");
+        let startDate = moment(date.startDate, 'YYYYMMDD');
+        let endDate = moment(date.endDate, 'YYYYMMDD');
+        this.dmService.getOption(null, this.REQUEST_URL, "/getallcostbytimerange?startDate=" + startDate.format("YYYYMMDD")+'&endDate=' + endDate.format("YYYYMMDD")).subscribe(
             (res: HttpResponse<any>) => {
-                this.listEntity = res.body;
+                this.listEntity = res.body.RESULT;
                 setTimeout(() => {
                     this.source.localdata = res.body.RESULT;
-                    console.log(this.source.localdata);
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                     this.myGrid.clearselection();
-                }, 100);
+                    this.loadDataChart(this.listEntity);
+                }, 200);
             },
             () => {
                 console.error();
             }
         );
+
+    }
+    public loadDataChart(arr:any){
+        let a = [];
+        let b = []
+        for(let item of arr){
+            let date =  item.fromDate + "-" + item.toDate;
+            let value =  item.totalCost;
+            a.push(date);
+            b.push(value);
+        }
+        this.dateChart = a;
+        this.valueChart = b;
+        console.log(this.dateChart);
+        console.log(this.valueChart);
+        
+        this.createChart();
     }
     public updateData() {
         if (!this.selectedEntity) {
@@ -218,14 +270,52 @@ export class CostComponent implements OnInit, AfterViewInit {
                 }
             })
             .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
-        
+
     }
     public onRowSelect(event: any): void {
         this.selectedEntity = event.args.row;
     }
-    public onRowdblclick(event:any):void{
+    public onRowdblclick(event: any): void {
         this.selectedEntity = event.args.row.bounddata;
         this.updateData();
     }
-    
+    public formatCurrency(value: number): String {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(value);
+    }
+    toggleCollapse(): void {
+        if(this.visibleTrigger == false){
+            this.visible.display = "block";
+            this.visibleTrigger = true;
+        }else{
+            this.visibleTrigger = false;
+            this.visible.display = "none";
+        }
+    }
+    createChart(): void {
+        this.chartOptions = {
+            chart: {
+                type: "column"
+            },
+            title: {
+                text: 'Thống kê chi phí'
+            },
+            xAxis: {
+                categories: this.dateChart,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Chi phí'
+                }
+            },
+            series: [{
+                name: 'Thời gian',
+                data: this.valueChart,
+            }]
+        }
+        this.chartOptions.series.setVisible
+        Highcharts.chart("chart", this.chartOptions);
+    }
+
 }
