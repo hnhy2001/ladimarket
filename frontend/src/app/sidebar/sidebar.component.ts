@@ -25,6 +25,7 @@ export class SidebarComponent implements OnInit {
     public menuItems: any[];
     private info:any;
     REQUEST_URL_SHOP = '/api/v1/shop'
+    isCollapsed = false;
     constructor(
         private localStorage: LocalStorageService,
         private dmService: DanhMucService,
