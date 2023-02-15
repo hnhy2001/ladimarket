@@ -93,14 +93,31 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
         else {
             if (this.typeShow == 1) {
                 let totalCost = 0.0;
+                let dayCostList = [];
+
                 for(let item of this.listEntity){
-                    totalCost = totalCost + item.totalCost;
+                    if(item.fromDate == item.toDate){
+                        dayCostList.push(item);
+                    }else{
+                        totalCost = totalCost + item.totalCost;
+                    }
                 }
                 let date = moment().format("YYYY") + "/" + this.month;
                 let numOfDay = parseInt(moment(date).endOf("month").format("YYYYMMDD").slice(6)) - parseInt(moment(date).startOf("month").format("YYYYMMDD").slice(6)) + 1;
                 for(let i = 0; i < numOfDay; i++){
                     this.dateChart.push(this.formatDay(i+1));
                     this.valueChart.push(totalCost/numOfDay)
+                    for(let item of dayCostList){
+                        let sum = 0;
+                        if(this.dateChart[i] == item.fromDate.toString().slice(6)+"/"+item.fromDate.toString().slice(4,6)+"/"+item.fromDate.toString().slice(0,4)){
+                            this.valueChart[i] = this.valueChart[i] + item.totalCost;
+                        }
+                    }
+                }
+                for(let i = 0; i<numOfDay; i++){
+                    for(let item of dayCostList){
+
+                    }
                 }
                 this.createChart();
             }else if(this.typeShow == 2){
@@ -199,7 +216,20 @@ export class StatiscalCostComponent implements OnInit, AfterViewInit {
         }
     }
     formatDay(day){
-        let dateValue = day + "/" + this.month + "/" + moment().format("YYYY")
+        let dateValue;
+        if(this.month<10){
+            if(day<10){
+                dateValue = "0"+day + "/0" + this.month + "/" + moment().format("YYYY");
+            }else{
+                dateValue = day + "/0" + this.month + "/" + moment().format("YYYY");
+            }
+        }else{
+            if(day<10){
+                dateValue = "0"+day + "/" + this.month + "/" + moment().format("YYYY");
+            }else{
+                dateValue = day + "/" + this.month + "/" + moment().format("YYYY");
+            }
+        }
         return dateValue;
     }
     formatMonth(fromDate){

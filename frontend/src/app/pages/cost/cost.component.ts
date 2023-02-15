@@ -80,7 +80,7 @@ export class CostComponent implements OnInit, AfterViewInit {
             { text: 'Số ngày', editable: false, datafield: 'numOfDay', 'width': '10%' },
             {
                 text: 'Tổng chi phí', editable: false, datafield: 'totalCost', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
-                    return '<div class="div-center">' + value + ' VND</div>';
+                    return '<div class="div-center">' + this.formatCurrency(value) + '</div>';;
                 }
             },
             {
