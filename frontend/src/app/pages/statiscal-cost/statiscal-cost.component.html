@@ -1,0 +1,39 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+        <div class="row">
+          <div class="col-9">
+            <!-- <input class="col-6 mr-2" type="text" ngxDaterangepickerMd [(ngModel)]="dateRange" [ranges]="ranges"
+              [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" (ngModelChange)="loadData()" /> -->
+            <select [(ngModel)]="typeShow" class="form-control" class="col-2 mr-2" (change) = "statistic()">
+              <option value=1>Ngày</option>
+              <option value=2>Tháng</option>
+              <option value=3>Năm</option>
+            </select>
+            <select [(ngModel)]="month" class="form-control" class="col-2 mr-2" *ngIf="typeShow == 1" (change) = "statistic()">
+              <option value=1>Tháng 1</option>
+              <option value=2>Tháng 2</option>
+              <option value=3>Tháng 3</option>
+              <option value=4>Tháng 4</option>
+              <option value=5>Tháng 5</option>
+              <option value=6>Tháng 6</option>
+              <option value=7>Tháng 7</option>
+              <option value=8>Tháng 8</option>
+              <option value=9>Tháng 9</option>
+              <option value=10>Tháng 10</option>
+              <option value=11>Tháng 11</option>
+              <option value=12>Tháng 12</option>
+            </select>
+            <input type="text" [(ngModel)]="year" *ngIf="typeShow == 2" placeholder="Năm" (change) = "statistic()"> 
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart" id="chart" style="margin-top: 25px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -73,7 +73,7 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     public List<CostDto> mapCostToCostDto(List<Cost> costList) {
         List<CostDto> costDtoList = new ArrayList<>();
         for (Cost item : costList) {
-            CostDto costDto = CostDto.builder().id(item.getId()).code(item.getCode()).name(item.getName()).status(item.getStatus()).costPerDay(item.getCostPerDay()).numOfOrder(item.getNumOfOrder()).fromDate(item.getFromDate()).toDate(item.getToDate()).totalCost(item.getTotalCost()).numOfOrder(item.getNumOfOrder()).build();
+            CostDto costDto = CostDto.builder().id(item.getId()).code(item.getCode()).name(item.getName()).status(item.getStatus()).costPerDay(item.getCostPerDay()).numOfDay(item.getNumOfDay()).fromDate(item.getFromDate()).toDate(item.getToDate()).totalCost(item.getTotalCost()).numOfOrder(item.getNumOfOrder()).build();
             if (item.getCostType() != null) {
                 costDto.setCostType(item.getCostType().getId());
             }

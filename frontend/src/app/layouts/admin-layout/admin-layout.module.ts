@@ -24,6 +24,7 @@ import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.com
 import { jqxPivotGridModule } from 'jqwidgets-ng/jqxpivotgrid';
 import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
 import { CostComponent } from 'app/pages/cost/cost.component';
+import { StatiscalCostComponent } from 'app/pages/statiscal-cost/statiscal-cost.component';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { CostComponent } from 'app/pages/cost/cost.component';
     ProductComponent,
     UtmStatisticComponent,
     CostTypeComponent,
-    CostComponent
+    CostComponent,
+    StatiscalCostComponent
   ]
 })
 

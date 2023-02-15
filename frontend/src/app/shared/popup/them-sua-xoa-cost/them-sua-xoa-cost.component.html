@@ -24,15 +24,14 @@
         <option value="1">Kích hoạt</option>
       </select>
     </div>
-    <div class="form-group form-outline mb-1 mt-1 col-12 col-sm-12">
+    <div class="form-group form-outline mb-1">
       <label>Thời gian</label>
-      <input class="" type="text" ngxDaterangepickerMd 
-              [(ngModel)]="dateRange" 
-              [ranges]="ranges" 
-              [showCustomRangeLabel]="true"
-              [alwaysShowCalendars]="true"
-              (ngModelChange)="loadDate()"/>
+      <select [(ngModel)]="timeValue" name="listSelect" placeholder="Thời gian" class="form-control form-control-lg" style="height:2.5rem ;" (change) = "getNumOfDay()" [disabled] = "costPerOrder ">
+        <option value=1>Ngày</option>
+        <option value=2>Tháng</option>
+      </select>
     </div>
+      
     <div class="form-group form-outline mb-1 mt-1">
       <label>Chi phí theo ngày</label>
       <input type="text" [(ngModel)]="costPerDay" [disabled] = "true" placeholder="costPerDay"
@@ -45,12 +44,12 @@
     </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Tổng chi phí</label>
-      <input type="text" [(ngModel)]="totalCost" placeholder="totalCost" [disabled] = "costPerOrder"
+      <input type="text" [(ngModel)]="totalCost" placeholder="totalCost" [disabled] = "costPerOrder "
       (change)="getCostByDay()" class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Số đơn</label>
-      <input type="text" [(ngModel)]="numOfOrder" [disabled] = "true" placeholder="numOfOrder"
+      <input type="text" [(ngModel)]="numOfOrder" [disabled] = "!costPerOrder" placeholder="numOfOrder"
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
     <div class="form-group form-outline mb-1 mt-1" *ngIf="costPerOrder">

@@ -48,6 +48,7 @@ export class SidebarComponent implements OnInit {
                     { path: '/utm-statistic',          title: 'Thống kê utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
                     { path: '/costType',          title: 'Loại chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
                     { path: '/cost',          title: 'Chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
+                    { path: '/statiscal-cost',          title: 'Thống kê chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
                 ];
                 if(res.body.CODE === 200){
                     const listShop = res.body.RESULT;

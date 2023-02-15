@@ -19,6 +19,7 @@ export class ThemSuaXoaCostComponent implements OnInit {
   code = '';
   name = '';
   status = 1;
+  timeValue = 1;
   costPerDay :number;
   numOfDay :number;
   totalCost :number;
@@ -29,15 +30,6 @@ export class ThemSuaXoaCostComponent implements OnInit {
   costPerOrderValue :number;
   costPerOrder = false;
   listCostType = [];
-  dateRange: TimePeriod = {
-    startDate: dayjs(),
-    endDate: dayjs()
-  };
-  ranges: DateRanges = {
-    ['Hôm nay']: [dayjs(), dayjs()],
-    ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
-    ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
-  };
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
   constructor(
@@ -78,6 +70,8 @@ export class ThemSuaXoaCostComponent implements OnInit {
       (res: HttpResponse<any>) => {
         if(res.body.RESULT.isCountOrder == 1){
           this.costPerOrder = true;
+          this.timeValue = 1;
+          this.numOfDay = 1;
         }else{
           this.costPerOrder = false;
         }
@@ -90,7 +84,6 @@ export class ThemSuaXoaCostComponent implements OnInit {
 
   create() {
     if (this.validData()) {
-      var date = JSON.parse(JSON.stringify(this.dateRange));
       let entity = {
         id: '',
         code: this.code,
@@ -99,13 +92,20 @@ export class ThemSuaXoaCostComponent implements OnInit {
         costPerDay: this.costPerDay,
         numOfDay: this.numOfDay,
         totalCost: this.totalCost,
-        fromDate: moment(date.startDate).format("YYYYMMDD"),
-        toDate: moment(date.startDate).format("YYYYMMDD"),
+        fromDate: '',
+        toDate: '',
         numOfOrder: this.numOfOrder,
         costTypeId: this.costType
       }
-      console.log(this.fromDate);
-      console.log(entity);
+      if(this.timeValue == 1){
+        entity.fromDate = moment().startOf("day").format("YYYYMMDD");
+        entity.toDate = moment().endOf("day").format("YYYYMMDD");
+        this.numOfDay = 1;
+      }else{
+        entity.fromDate = moment().startOf("month").format("YYYYMMDD");
+        entity.toDate = moment().endOf("month").format("YYYYMMDD");
+        this.numOfDay = parseInt(entity.fromDate.slice(6)) - parseInt(entity.toDate.slice(6))
+      }
       if (!this.data) {
         this.dmService.postOption(entity, "/api/v1/cost/postcost", '').subscribe(
           (res: HttpResponse<any>) => {
@@ -162,26 +162,17 @@ export class ThemSuaXoaCostComponent implements OnInit {
     return true;
   }
 
-  loadDate():void {
-    var date = JSON.parse(JSON.stringify(this.dateRange));
-    date.endDate = date.endDate.replace("23:59:59", "00:00:00");
-    let startDate = moment(date.startDate,'YYYYMMDD');
-    let endDate = moment(date.endDate,'YYYYMMDD');
-    this.numOfDay = endDate.diff(startDate, 'days')+1;
-    this.dmService.getOption(null, this.REQUEST_URL,"/laysodontheothoigian?startDate=" + startDate.format("YYYYMMDD") + '&endDate=' + endDate.format("YYYYMMDD")).subscribe(
-      (res: HttpResponse<any>) => {
-        this.numOfOrder = res.body.RESULT.count;
-        // alert(this.numOfOrder);
-      },
-      () => {
-        console.error();
-      }
-    );
-  }
-
   getCostByDay():void{
     this.costPerDay = (this.totalCost / this.numOfDay);
     this.costPerDay = parseFloat(this.costPerDay.toFixed(0));
+  }
+
+  getNumOfDay(): void{
+    if(this.timeValue == 1){
+      this.numOfDay = 1;
+    }else{
+      this.numOfDay = parseInt(moment().endOf("month").format("YYYYMMDD")) - parseInt(moment().startOf("month").format("YYYYMMDD")) + 1;
+    }
   }
 
   cost():void{
