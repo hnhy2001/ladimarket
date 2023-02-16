@@ -23,13 +23,17 @@ export class ThemSuaXoaCostComponent implements OnInit {
   costPerDay :number;
   numOfDay :number;
   totalCost :number;
-  fromDate = parseInt(this.now.format("YYYYMMDD"));
-  toDate = parseInt(this.now.format("YYYYMMDD"));
+  fromDate = '';
+  toDate = '';
   numOfOrder :number;
   costType: any;
   costPerOrderValue :number;
   costPerOrder = false;
   listCostType = [];
+  selectList = [];
+  selectDayValue = moment().format("DD");
+  selectMonthValue = moment().format("MM");
+  selectYearValue = moment().format("YYYY");
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
   constructor(
@@ -62,7 +66,9 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.numOfOrder = this.data.numOfOrder;
       this.costType = this.data.costType;
     }
-    this.getByIdCostType()
+    this.getByIdCostType();
+    this.getNumOfDay();
+    this.setSelectList();
   }
 
   getByIdCostType(){
@@ -92,19 +98,10 @@ export class ThemSuaXoaCostComponent implements OnInit {
         costPerDay: this.costPerDay,
         numOfDay: this.numOfDay,
         totalCost: this.totalCost,
-        fromDate: '',
-        toDate: '',
+        fromDate: this.fromDate,
+        toDate: this.toDate,
         numOfOrder: this.numOfOrder,
         costTypeId: this.costType
-      }
-      if(this.timeValue == 1){
-        entity.fromDate = moment().startOf("day").format("YYYYMMDD");
-        entity.toDate = moment().endOf("day").format("YYYYMMDD");
-        this.numOfDay = 1;
-      }else{
-        entity.fromDate = moment().startOf("month").format("YYYYMMDD");
-        entity.toDate = moment().endOf("month").format("YYYYMMDD");
-        this.numOfDay = parseInt(entity.fromDate.slice(6)) - parseInt(entity.toDate.slice(6))
       }
       if (!this.data) {
         this.dmService.postOption(entity, "/api/v1/cost/postcost", '').subscribe(
@@ -171,13 +168,34 @@ export class ThemSuaXoaCostComponent implements OnInit {
     if(this.timeValue == 1){
       this.numOfDay = 1;
     }else{
-      this.numOfDay = parseInt(moment().endOf("month").format("YYYYMMDD")) - parseInt(moment().startOf("month").format("YYYYMMDD")) + 1;
+      this.numOfDay = parseInt(moment(this.selectMonthValue).endOf("month").format("DD"));
     }
   }
 
   cost():void{
     this.totalCost = this.costPerOrderValue * this.numOfOrder;
     this.getCostByDay();
+  }
+
+  setSelectList(){
+    if(this.timeValue == 1){
+      let arr = [];
+      let numOfDay = parseInt(moment(this.selectYearValue + this.selectMonthValue).endOf("month").format("DD"));
+      for(let i =0; i< numOfDay; i++){
+        if(i<9){
+          arr.push("0"+(i+1));
+        }else{
+          arr.push(""+(i+1));
+        }
+      }
+      this.selectList = arr;
+      this.fromDate = moment(this.selectYearValue+"/"+this.selectMonthValue+"/"+this.selectDayValue).format("YYYYMMDD");
+      this.toDate = moment(this.selectYearValue+"/"+this.selectMonthValue+"/"+this.selectDayValue).format("YYYYMMDD");
+    }else{
+      this.fromDate = moment(this.selectYearValue+"/"+this.selectMonthValue).startOf('month').format("YYYYMMDD");
+      this.toDate = moment(this.selectYearValue+"/"+this.selectMonthValue).endOf('month').format("YYYYMMDD");
+    }
+    this.getNumOfDay()
   }
 
   loadDataByCostPerOerDer():void{
