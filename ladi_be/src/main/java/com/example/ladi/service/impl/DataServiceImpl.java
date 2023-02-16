@@ -195,4 +195,9 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
 
         return new BaseResponse(200, "OK", dataRepository.thongKeTopUtmTheoThoiGian(Long.parseLong(startDate), Long.parseLong(endDate)));
     }
+
+    @Override
+    public BaseResponse statisticalRevenueByDate(String startDate, String endDate, String shopCode) {
+        return new BaseResponse(200, "OK", dataRepository.statisticalRevenueByDate(Long.parseLong(startDate), Long.parseLong(endDate), shopCode));
+    }
 }

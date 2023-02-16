@@ -2,6 +2,7 @@ package com.example.ladi.model;
 
 import com.example.ladi.dto.KetQuaThongKeTopUtmDto;
 import com.example.ladi.dto.KetQuaThongKeUtmDto;
+import com.example.ladi.dto.StatisticalRevenueByDateDto;
 import com.example.ladi.dto.StatisticalRevenueByDayDto;
 import lombok.*;
 
@@ -35,6 +36,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         columns = {
                 @ColumnResult(name = "utmName", type = String.class),
                 @ColumnResult(name = "count", type = int.class)}))
+
+@NamedNativeQuery(name = "Data.statisticalRevenueByDate",
+        query = "SELECT date_only as date, SUM(price) as revenue  from `data` WHERE date_only >= :startDate AND date_only <= :endDate AND status = 8 AND shopcode = :codeShop GROUP BY date_only",
+        resultSetMapping = "Mapping.StatisticalRevenueByDateDto")
+@SqlResultSetMapping(name = "Mapping.StatisticalRevenueByDateDto", classes = @ConstructorResult(targetClass = StatisticalRevenueByDateDto.class,
+        columns = {@ColumnResult(name = "date", type = Long.class),
+                @ColumnResult(name = "revenue", type = Long.class)}))
 
 
 @Entity

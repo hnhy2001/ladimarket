@@ -14,6 +14,7 @@ import { UtmStatisticComponent } from 'app/pages/utm-statistic/utm-statistic.com
 import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
 import { CostComponent } from 'app/pages/cost/cost.component';
 import { StatiscalCostComponent } from 'app/pages/statiscal-cost/statiscal-cost.component';
+import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal-revenue.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -30,6 +31,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'product',        component: ProductComponent },
     {path:'costType', component: CostTypeComponent},
     {path:'cost', component:CostComponent},
-    {path:'statiscal-cost', component:StatiscalCostComponent}
+    {path:'statiscal-cost', component:StatiscalCostComponent},
+    {path:'statiscal-revenue', component:StatiscalRevenueComponent}
+
+
 
 ];
