@@ -90,3 +90,14 @@ z-index: 1100;
 .border-bottom {
     border-bottom: 1px solid gray;
 }
+.nav li:hover {
+    color: #08b3bb;
+    background-color: #d0f0f2;
+}
+
+.active >a{
+    color: #08b3bb !important;
+}
+.active >a i{
+    color: #08b3bb !important;
+}
