@@ -18,31 +18,59 @@
             </a>
         </li>
 
-        <li>
-
-          
-          
-    </ul>
-    <!-- <ul class="nav">
-      <li (click)="collapse.toggle()"
-          [attr.aria-expanded]="!isCollapsed"
-          aria-controls="collapseExample"
+        <li (click)="isCollapsedCP = !isCollapsedCP"
+          [attr.aria-expanded]="!isCollapsedCP"
+          aria-controls="collapseCP"
           class="border-bottom"
           >
         <a>
           <i class="nc-icon nc-single-copy-04"></i>
-          <p>Chi phí <span style="right: 0px;">></span></p>
+          <p>Chi phí 
+            <span *ngIf="isCollapsedCP" style="right: 0px; position: absolute;"><i class="nc-icon nc-minimal-right" style="font-size:12px"></i></span>
+            <span *ngIf="!isCollapsedCP" style="right: 0px; position: absolute;"><i class="nc-icon nc-minimal-up" style="font-size:12px"></i></span>
+          </p>
         </a>
       </li>
-      <ul #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" style="list-style: none; padding-left: 0px;" class="border-bottom">
+      <ul #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedCP" style="list-style: none; padding-left: 0px;" class="border-bottom">
         <li class="nav-item" >
-          <a>Loại chi phí</a>
+          <a routerLink="/costType">Loại chi phí</a>
         </li>
         <li class="nav-item">
-          <a >Thống kê chi phí</a>
+          <a routerLink="/cost">Bản ghi chi phí</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/statiscal-cost">Thống kê chi phí</a>
         </li>
       </ul>
-    </ul> -->
+
+      <li (click)="isCollapsedBC = !isCollapsedBC"
+          [attr.aria-expanded]="!isCollapsedBC"
+          aria-controls="collapseBC"
+          class="border-bottom"
+          >
+        <a>
+          <i class="nc-icon nc-single-copy-04"></i>
+          <p>Báo cáo
+            <span *ngIf="isCollapsedBC" style="right: 0px; position: absolute;"><i class="nc-icon nc-minimal-right" style="font-size:12px"></i></span>
+            <span *ngIf="!isCollapsedBC" style="right: 0px; position: absolute;"><i class="nc-icon nc-minimal-up" style="font-size:12px"></i></span>
+          </p>
+        </a>
+      </li>
+      <ul #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedBC" style="list-style: none; padding-left: 0px;" class="border-bottom">
+        <li class="nav-item" >
+          <a routerLink="/utm-statistic">Thống kê UTM</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/statiscal-revenue">Thống kê doanh thu</a>
+        </li>
+      </ul>
+
+        
+
+    </ul>
+    <ul class="nav">
+      
+    </ul>
 
    
 </div>
