@@ -88,4 +88,9 @@ public class DataController extends BaseController<Data>{
     public BaseResponse statisticalRevenueByDate(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String shopCode){
         return dataService.statisticalRevenueByDate(startDate, endDate, shopCode);
     }
+
+    @GetMapping("thongkeutm")
+    public BaseResponse statisticUtmByDate(@RequestParam String startDate, @RequestParam String endDate){
+        return dataService.statisticUtmByDate(startDate, endDate);
+    }
 }

@@ -1,9 +1,6 @@
 package com.example.ladi.repository;
 
-import com.example.ladi.dto.KetQuaThongKeTopUtmDto;
-import com.example.ladi.dto.KetQuaThongKeUtmDto;
-import com.example.ladi.dto.StatisticalRevenueByDateDto;
-import com.example.ladi.dto.StatisticalRevenueByDayDto;
+import com.example.ladi.dto.*;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
 import org.springframework.data.jpa.repository.Query;
@@ -53,4 +50,7 @@ public interface DataRepository extends BaseRepository<Data> {
 
     @Query(nativeQuery = true)
     List<StatisticalRevenueByDateDto> statisticalRevenueByDate(Long startDate, Long endDate, String codeShop);
+
+    @Query(nativeQuery = true)
+    List<StatisticUtmByDateDto> statisticUtmByDate(Long startDate, Long endDate);
 }

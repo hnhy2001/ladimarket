@@ -67,7 +67,7 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     @Override
     public BaseResponse getAllCostByTimeRange(String startDate, String endDate) {
         List<Cost> costList = costRepository.findAllCostByTimeRange(Long.parseLong(startDate), Long.parseLong(endDate));
-        return new BaseResponse(200, "OK", mapCostToCostDto(costList));
+        return new BaseResponse(200, "OK", costList);
     }
 
     public List<CostDto> mapCostToCostDto(List<Cost> costList) {

@@ -103,7 +103,7 @@ export class CostComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
-            { text: 'Số đơn', editable: false, datafield: 'numOforder', 'width': '10%' },
+            { text: 'Số đơn', editable: false, datafield: 'numOfOrder', 'width': '10%' },
             { text: 'Loại chi phí', editable: false, datafield: 'costType', 'width': '5%' }
         ];
 

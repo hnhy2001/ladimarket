@@ -26,25 +26,19 @@ export class ThemSuaXoaCostComponent implements OnInit {
   fromDate = '';
   toDate = '';
   numOfOrder :number;
-  costType: any;
+  costType = 0;
   costPerOrderValue :number;
   costPerOrder = false;
   listCostType = [];
   selectList = [];
-  selectDayValue = moment().format("DD");
-  selectMonthValue = moment().format("MM");
-  selectYearValue = moment().format("YYYY");
+  updateValue = false;
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
   constructor(
     private activeModal: NgbActiveModal,
     private dmService: DanhMucService,
     private notification: NotificationService
-  ) {
-
-  }
-
-
+  ) {}
 
   ngOnInit(): void {
     this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getAll").subscribe(
@@ -66,9 +60,14 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.numOfOrder = this.data.numOfOrder;
       this.costType = this.data.costType;
     }
-    this.getByIdCostType();
-    this.getNumOfDay();
-    this.setSelectList();
+    if(!this.data){
+      this.getByIdCostType();
+      this.updateValue = false;
+    }
+    else{
+      this.updateValue = true;
+    }
+
   }
 
   getByIdCostType(){
@@ -80,6 +79,15 @@ export class ThemSuaXoaCostComponent implements OnInit {
           this.numOfDay = 1;
         }else{
           this.costPerOrder = false;
+        }
+        if(res.body.RESULT.priod == 1){
+          this.fromDate = moment().startOf("day").format("YYYYMMDD");
+          this.toDate = moment().endOf("day").format("YYYYMMDD");
+          this.numOfDay = 1;
+        }else{
+          this.fromDate = moment().startOf("month").format("YYYYMMDD");
+          this.toDate = moment().endOf("month").format("YYYYMMDD");
+          this.numOfDay = parseInt(moment().endOf("month").format('DD'));
         }
       },
       () => {
@@ -156,6 +164,11 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.notification.showError("name Không được để trống", "Fail");
       return false;
     }
+
+    if(this.costType == 0){
+      this.notification.showError("cost type Không được để trống", "Fail");
+      return false;
+    }
     return true;
   }
 
@@ -164,38 +177,9 @@ export class ThemSuaXoaCostComponent implements OnInit {
     this.costPerDay = parseFloat(this.costPerDay.toFixed(0));
   }
 
-  getNumOfDay(): void{
-    if(this.timeValue == 1){
-      this.numOfDay = 1;
-    }else{
-      this.numOfDay = parseInt(moment(this.selectMonthValue).endOf("month").format("DD"));
-    }
-  }
-
   cost():void{
     this.totalCost = this.costPerOrderValue * this.numOfOrder;
     this.getCostByDay();
-  }
-
-  setSelectList(){
-    if(this.timeValue == 1){
-      let arr = [];
-      let numOfDay = parseInt(moment(this.selectYearValue + this.selectMonthValue).endOf("month").format("DD"));
-      for(let i =0; i< numOfDay; i++){
-        if(i<9){
-          arr.push("0"+(i+1));
-        }else{
-          arr.push(""+(i+1));
-        }
-      }
-      this.selectList = arr;
-      this.fromDate = moment(this.selectYearValue+"/"+this.selectMonthValue+"/"+this.selectDayValue).format("YYYYMMDD");
-      this.toDate = moment(this.selectYearValue+"/"+this.selectMonthValue+"/"+this.selectDayValue).format("YYYYMMDD");
-    }else{
-      this.fromDate = moment(this.selectYearValue+"/"+this.selectMonthValue).startOf('month').format("YYYYMMDD");
-      this.toDate = moment(this.selectYearValue+"/"+this.selectMonthValue).endOf('month').format("YYYYMMDD");
-    }
-    this.getNumOfDay()
   }
 
   loadDataByCostPerOerDer():void{
