@@ -13,4 +13,5 @@ public class StatisticUtmByDateDto {
     private int count;
     private Long date;
     private String utmMedium;
+    private Long price;
 }

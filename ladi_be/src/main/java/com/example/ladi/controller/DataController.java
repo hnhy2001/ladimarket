@@ -90,7 +90,7 @@ public class DataController extends BaseController<Data>{
     }
 
     @GetMapping("thongkeutm")
-    public BaseResponse statisticUtmByDate(@RequestParam String startDate, @RequestParam String endDate){
-        return dataService.statisticUtmByDate(startDate, endDate);
+    public BaseResponse statisticUtmByDate(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String shopCode){
+        return dataService.statisticUtmByDate(startDate, endDate, shopCode);
     }
 }

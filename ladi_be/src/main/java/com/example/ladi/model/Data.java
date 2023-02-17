@@ -42,12 +42,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
                 @ColumnResult(name = "revenue", type = Long.class)}))
 
 @NamedNativeQuery(name = "Data.statisticUtmByDate",
-        query = "SELECT COUNT(id) as count, date_only as date, utm_medium as utmMedium From `data` WHERE date_only <= :endDate AND date_only >= :startDate GROUP By date_only, utm_medium  ",
+        query = "SELECT COUNT(id) as count, date_only as date, utm_medium as utmMedium, SUM(price) as price From `data` WHERE date_only <= :endDate AND date_only >= :startDate AND shopcode = :shopCode GROUP By date_only, utm_medium  ",
         resultSetMapping = "Mapping.StatisticUtmByDateDto")
 @SqlResultSetMapping(name = "Mapping.StatisticUtmByDateDto", classes = @ConstructorResult(targetClass = StatisticUtmByDateDto.class,
         columns = {@ColumnResult(name = "count", type = Integer.class),
                 @ColumnResult(name = "date", type = Long.class),
-                @ColumnResult(name = "utmMedium", type = String.class)}))
+                @ColumnResult(name = "utmMedium", type = String.class),
+                @ColumnResult(name = "price", type = Long.class),
+        }))
 
 
 

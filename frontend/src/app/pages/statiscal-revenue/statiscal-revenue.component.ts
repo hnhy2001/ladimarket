@@ -41,6 +41,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     };
     dateChart = [];
     valueChart = [];
+    optionChart = 1;
     dataAdapter: any;
     typeShow = 1;
     month = 1;
@@ -53,6 +54,8 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     info: any;
     selectedEntity: any;
     height: any = $(window).height()! - 270;
+    data = '';
+    value = '';
 
     constructor(
         private dmService: DanhMucService,
@@ -70,17 +73,39 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
     }
     public loadData() {
-        this.dmService.getOption(null, this.REQUEST_URL, "/thongkedoanhthutheongay?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
-            (res: HttpResponse<any>) => {
-                this.listEntity = res.body.RESULT;
-                setTimeout(() => {
-                    this.loadDataChart();
-                }, 200);
-            },
-            () => {
-                console.error();
-            }
-        );
+        if(this.optionChart == 1){
+            this.data = "Thời gian";
+            this.value = "Doanh thu";
+            this.dmService.getOption(null, this.REQUEST_URL, "/thongkedoanhthutheongay?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
+                (res: HttpResponse<any>) => {
+                    this.listEntity = res.body.RESULT;
+                    setTimeout(() => {
+                        this.loadDataChart();
+                    }, 200);
+                },
+                () => {
+                    console.error();
+                }
+            );
+        }else{
+            this.data = "UTM";
+            this.value = "Doanh thu";
+            var date = JSON.parse(JSON.stringify(this.dateRange));
+            date.endDate = date.endDate.replace("23:59:59","00:00:00");
+            this.startDate = moment(date.startDate).format('YYYYMMDD');
+            this.endDate = moment(date.endDate).format('YYYYMMDD');
+            this.dmService.getOption(null, this.REQUEST_URL, "/thongkeutm?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
+                (res: HttpResponse<any>) => {
+                    this.listEntity = res.body.RESULT;
+                    setTimeout(() => {
+                        this.loadDataChart();
+                    }, 200);
+                },
+                () => {
+                    console.error();
+                }
+            );
+        }
 
     }
     changeTypeShow() {
@@ -89,115 +114,131 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     public loadDataChart() {
         this.dateChart = [];
         this.valueChart = [];
-
-        if (this.typeShow == 1) {
-            let date = moment().format("YYYY") + "/" + this.month;
-            let numOfDay = parseInt(moment(date).endOf("month").format("DD"));
-            for (let i = 0; i < numOfDay; i++) {
-                this.dateChart.push(this.formatDay(i + 1));
-                console.log("ok");
-                this.valueChart.push(0)
+        if(this.optionChart == 1){
+            if (this.typeShow == 1) {
+                let date = moment().format("YYYY") + "/" + this.month;
+                let numOfDay = parseInt(moment(date).endOf("month").format("DD"));
+                for (let i = 0; i < numOfDay; i++) {
+                    this.dateChart.push(this.formatDay(i + 1));
+                    this.valueChart.push(0)
+                    for (let item of this.listEntity) {
+                        if (this.dateChart[i] == item.date.toString().slice(6) + "/" + item.date.toString().slice(4, 6) + "/" + item.date.toString().slice(0, 4)) {
+                            this.valueChart[i] = (this.valueChart[i] + item.revenue) * (1 - this.refundRate / 100.0);
+    
+                        }
+                    }
+                }
+                this.createChart();
+            } else if (this.typeShow == 2) {
+                let results = [
+                    {
+                        date: "Tháng 01",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 02",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 03",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 04",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 05",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 06",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 07",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 08",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 09",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 10",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 11",
+                        value: 0
+                    },
+                    {
+                        date: "Tháng 12",
+                        value: 0
+                    }
+                ];
+                for (let item of results) {
+                    for (let i of this.listEntity) {
+                        if (item.date == this.formatMonth(i.date)) {
+                            item.value = (item.value + i.revenue);
+                        }
+                    }
+                }
+                for (let item of results) {
+                    this.dateChart.push(item.date);
+                    this.valueChart.push(item.value);
+                }
+                this.valueChart = this.valueChart.map(item => item * (1-this.refundRate/100.0));
+                this.createChart();
+    
+            } else {
+                let temp = [];
                 for (let item of this.listEntity) {
-                    if (this.dateChart[i] == item.date.toString().slice(6) + "/" + item.date.toString().slice(4, 6) + "/" + item.date.toString().slice(0, 4)) {
-                        this.valueChart[i] = (this.valueChart[i] + item.revenue) * (1 - this.refundRate / 100.0);
-
+                    temp.push(this.formatYear(item.date));
+                }
+                let set = new Set(temp);
+                let mocks = [...set];
+                let results = [];
+                for (let item of mocks) {
+                    let resultItem = {
+                        date: item,
+                        value: 0
+                    }
+                    results.push(resultItem);
+                }
+    
+                for (let item of results) {
+                    for (let i of this.listEntity) {
+                        if (item.date == this.formatYear(i.date)) {
+                            item.value = item.value + i.revenue;
+                        }
                     }
                 }
-            }
-            this.createChart();
-        } else if (this.typeShow == 2) {
-            let results = [
-                {
-                    date: "Tháng 01",
-                    value: 0
-                },
-                {
-                    date: "Tháng 02",
-                    value: 0
-                },
-                {
-                    date: "Tháng 03",
-                    value: 0
-                },
-                {
-                    date: "Tháng 04",
-                    value: 0
-                },
-                {
-                    date: "Tháng 05",
-                    value: 0
-                },
-                {
-                    date: "Tháng 06",
-                    value: 0
-                },
-                {
-                    date: "Tháng 07",
-                    value: 0
-                },
-                {
-                    date: "Tháng 08",
-                    value: 0
-                },
-                {
-                    date: "Tháng 09",
-                    value: 0
-                },
-                {
-                    date: "Tháng 10",
-                    value: 0
-                },
-                {
-                    date: "Tháng 11",
-                    value: 0
-                },
-                {
-                    date: "Tháng 12",
-                    value: 0
+                for (let item of results) {
+                    this.dateChart.push(item.date);
+                    this.valueChart.push(item.value);
                 }
-            ];
-            for (let item of results) {
-                for (let i of this.listEntity) {
-                    if (item.date == this.formatMonth(i.date)) {
-                        item.value = (item.value + i.revenue);
+                this.createChart();
+            }
+        }else{
+            let mocks = []
+            for(let item of this.listEntity){
+                mocks.push(item.utmMedium)
+            }
+            let set = new Set(mocks);
+            this.dateChart = [...set];
+            for(let i = 0; i < this.dateChart.length; i++){
+                this.valueChart.push(0);
+                for(let item of this.listEntity){
+                    if(this.dateChart[i] == item.utmMedium){
+                        this.valueChart[i] = this.valueChart[i] + item.price;
                     }
                 }
+                this.createChart()
             }
-            for (let item of results) {
-                this.dateChart.push(item.date);
-                this.valueChart.push(item.value);
-            }
-            this.valueChart = this.valueChart.map(item => item * (1-this.refundRate/100.0));
-            this.createChart();
-
-        } else {
-            let temp = [];
-            for (let item of this.listEntity) {
-                temp.push(this.formatYear(item.date));
-            }
-            let set = new Set(temp);
-            let mocks = [...set];
-            let results = [];
-            for (let item of mocks) {
-                let resultItem = {
-                    date: item,
-                    value: 0
-                }
-                results.push(resultItem);
-            }
-
-            for (let item of results) {
-                for (let i of this.listEntity) {
-                    if (item.date == this.formatYear(i.date)) {
-                        item.value = item.value + i.revenue;
-                    }
-                }
-            }
-            for (let item of results) {
-                this.dateChart.push(item.date);
-                this.valueChart.push(item.value);
-            }
-            this.createChart();
         }
     }
     formatDay(day) {
@@ -255,7 +296,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                 type: "column"
             },
             title: {
-                text: 'Thống kê chi phí'
+                text: 'Thống kê' + this.data
             },
             xAxis: {
                 categories: this.dateChart,
@@ -264,11 +305,11 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Chi phí'
+                    text: this.value
                 }
             },
             series: [{
-                name: 'Thời gian',
+                name: this.data,
                 data: this.valueChart,
             }]
         }
