@@ -25,7 +25,8 @@ export class SidebarComponent implements OnInit {
     public menuItems: any[];
     private info:any;
     REQUEST_URL_SHOP = '/api/v1/shop'
-    isCollapsed = false;
+    isCollapsedCP = true;
+    isCollapsedBC = true;
     constructor(
         private localStorage: LocalStorageService,
         private dmService: DanhMucService,
@@ -46,17 +47,12 @@ export class SidebarComponent implements OnInit {
                     { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' },
                     { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'user' },
                     { path: '/utm-medium',          title: 'Cấu hình utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
-                    { path: '/utm-statistic',          title: 'Thống kê utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
-                    { path: '/costType',          title: 'Loại chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
-                    { path: '/cost',          title: 'Chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
-                    { path: '/statiscal-cost',          title: 'Thống kê chi phí',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
-                    { path: '/statiscal-revenue',          title: 'Thống kê doanh thu',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
 
                 ];
                 if(res.body.CODE === 200){
                     const listShop = res.body.RESULT;
                     for(let i = 0; i < listShop.length; i++){
-                        const entity = { path: '/data',title: listShop[i].name,icon:'nc-basket',class: '',role:'user', params:listShop[i].code };
+                        const entity = { path: '/data',title: listShop[i].name,icon:'nc-basket',class: 'border-bottom',role:'user', params:listShop[i].code };
                         ROUTES.push(entity);
                     }
                     this.getMenu();
