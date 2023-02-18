@@ -77,11 +77,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
     }
     public loadData() {
-        var date = JSON.parse(JSON.stringify(this.dateRange));
-        date.endDate = date.endDate.replace("23:59:59","00:00:00");
-        this.startDate = moment(date.startDate).format('YYYYMMDD');
-        this.endDate = moment(date.endDate).format('YYYYMMDD');
-        if(this.optionChart == 1){
+        if (this.optionChart == 1) {
             this.data = " theo thời gian";
             this.value = "Doanh thu";
             this.dmService.getOption(null, this.REQUEST_URL, "/thongkedoanhthutheongay?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
@@ -95,9 +91,13 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                     console.error();
                 }
             );
-        }else{
+        } else {
             this.data = " theo UTM";
             this.value = "Doanh thu";
+            var date = JSON.parse(JSON.stringify(this.dateRange));
+            date.endDate = date.endDate.replace("23:59:59", "00:00:00");
+            this.startDate = moment(date.startDate).format('YYYYMMDD');
+            this.endDate = moment(date.endDate).format('YYYYMMDD');
             this.dmService.getOption(null, this.REQUEST_URL, "/thongkeutm?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
                 (res: HttpResponse<any>) => {
                     this.listEntity = res.body.RESULT;
@@ -118,7 +118,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     public loadDataChart() {
         this.dateChart = [];
         this.valueChart = [];
-        if(this.optionChart == 1){
+        if (this.optionChart == 1) {
             if (this.typeShow == 1) {
                 let date = moment().format("YYYY") + "/" + this.month;
                 let numOfDay = parseInt(moment(date).endOf("month").format("DD"));
@@ -128,7 +128,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                     for (let item of this.listEntity) {
                         if (this.dateChart[i] == item.date.toString().slice(6) + "/" + item.date.toString().slice(4, 6) + "/" + item.date.toString().slice(0, 4)) {
                             this.valueChart[i] = (this.valueChart[i] + item.revenue) * (1 - this.refundRate / 100.0);
-    
+
                         }
                     }
                 }
@@ -195,9 +195,9 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                     this.dateChart.push(item.date);
                     this.valueChart.push(item.value);
                 }
-                this.valueChart = this.valueChart.map(item => item * (1-this.refundRate/100.0));
+                this.valueChart = this.valueChart.map(item => item * (1 - this.refundRate / 100.0));
                 this.createChart();
-    
+
             } else {
                 let temp = [];
                 for (let item of this.listEntity) {
@@ -213,7 +213,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                     }
                     results.push(resultItem);
                 }
-    
+
                 for (let item of results) {
                     for (let i of this.listEntity) {
                         if (item.date == this.formatYear(i.date)) {
@@ -227,17 +227,17 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                 }
                 this.createChart();
             }
-        }else{
+        } else {
             let mocks = []
-            for(let item of this.listEntity){
+            for (let item of this.listEntity) {
                 mocks.push(item.utmMedium)
             }
             let set = new Set(mocks);
             this.dateChart = [...set];
-            for(let i = 0; i < this.dateChart.length; i++){
+            for (let i = 0; i < this.dateChart.length; i++) {
                 this.valueChart.push(0);
-                for(let item of this.listEntity){
-                    if(this.dateChart[i] == item.utmMedium){
+                for (let item of this.listEntity) {
+                    if (this.dateChart[i] == item.utmMedium) {
                         this.valueChart[i] = this.valueChart[i] + item.price;
                     }
                 }
@@ -263,7 +263,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
         return dateValue;
     }
     formatMonth(date) {
-        
+
         let dateValue = "Tháng " + date.toString().slice(4, 6);
         return dateValue;
     }
