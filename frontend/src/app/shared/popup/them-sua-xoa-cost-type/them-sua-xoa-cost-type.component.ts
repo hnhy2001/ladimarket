@@ -15,7 +15,7 @@ export class ThemSuaXoaCostTypeComponent implements OnInit {
 
   code = '';
   name = '';
-  priod =  0;
+  priod =  1;
   status = 1;
   isCountOrder = 0;
   REQUEST_URL = '/api/v1/costtype';

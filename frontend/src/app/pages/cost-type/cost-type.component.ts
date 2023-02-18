@@ -32,7 +32,7 @@ export class CostTypeComponent implements OnInit, AfterViewInit {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'code', editable: false, datafield: 'code', 'width': '20%' },
+            { text: 'Mã loại chi phí', editable: false, datafield: 'code', 'width': '20%' },
             { text: 'Tên loại chi phí', editable: false, datafield: 'name', 'width': '25%' },
             { text: 'Trạng thái', editable: false, datafield: 'status', 'width': '15%', cellsrenderer: (row: number, column: any, value: number): string => {
                 switch (value){
@@ -51,7 +51,7 @@ export class CostTypeComponent implements OnInit, AfterViewInit {
                     }
                 }
             }},
-            { text: 'Theo thời gian', editable: false, datafield: 'priod', 'width': '15%',cellsrenderer: (row: number, column: any, value: number): string => {
+            { text: 'Khung áp dụng', editable: false, datafield: 'priod', 'width': '15%',cellsrenderer: (row: number, column: any, value: number): string => {
                 switch (value){
                     case 1: 
                     {
@@ -72,7 +72,7 @@ export class CostTypeComponent implements OnInit, AfterViewInit {
                     }
                 }
             }},
-            { text: 'Chi phí theo số lượng đơn hàng', editable: false, datafield: 'isCountOrder', 'width': '20%',ellsrenderer: (row: number, column: any, value: number): string => {
+            { text: 'Lấy theo số lượng đơn hàng', editable: false, datafield: 'isCountOrder', 'width': '20%',cellsrenderer: (row: number, column: any, value: number): string => {
                 switch (value){
                     case 0: 
                     {

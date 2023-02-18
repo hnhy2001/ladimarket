@@ -16,14 +16,6 @@
       <input type="text" [(ngModel)]="name" placeholder="name"
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
-
-    <div class="form-group form-outline mb-1">
-      <label>Trạng thái</label>
-      <select [(ngModel)]="status" class="form-control">
-        <option value="0">Khóa</option>
-        <option value="1">Kích hoạt</option>
-      </select>
-    </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Chi phí theo ngày</label>
       <input type="text" [(ngModel)]="costPerDay" [disabled] = "true" placeholder="costPerDay"
@@ -35,11 +27,6 @@
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
     <div class="form-group form-outline mb-1 mt-1">
-      <label>Tổng chi phí</label>
-      <input type="text" [(ngModel)]="totalCost" placeholder="totalCost" [disabled] = "costPerOrder "
-      (change)="getCostByDay()" class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
-    <div class="form-group form-outline mb-1 mt-1">
       <label>Số đơn</label>
       <input type="text" [(ngModel)]="numOfOrder" [disabled] = "!costPerOrder" placeholder="numOfOrder" (change)="cost()"
               class="form-control form-control-lg" style="height:2.5rem ;">
@@ -49,6 +36,12 @@
       <input type="text" [(ngModel)]="costPerOrderValue" placeholder="numOfOrder" (change)="cost()"
         class="form-control form-control-lg" style="height:2.5rem;">
     </div>
+    <div class="form-group form-outline mb-1 mt-1">
+      <label>Tổng chi phí</label>
+      <input type="text" [(ngModel)]="totalCost" placeholder="totalCost" [disabled] = "costPerOrder "
+      (change)="getCostByDay()" class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+
     <div class="form-group form-outline mb-1">
       <label>Danh sách loại chi phí</label>
       <ng-select [(ngModel)]="costType" name="listSelect" [clearable]="true" placeholder="Danh sách loại chi phí" (change)="loadDataByCostPerOerDer()" [disabled] = "this.updateValue">

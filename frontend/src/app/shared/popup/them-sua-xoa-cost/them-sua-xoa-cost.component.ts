@@ -58,10 +58,9 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.fromDate = this.data.fromDate;
       this.toDate = this.data.toDate;
       this.numOfOrder = this.data.numOfOrder;
-      this.costType = this.data.costType;
+      this.costType = this.data.costName;
     }
     if(!this.data){
-      this.getByIdCostType();
       this.updateValue = false;
     }
     else{

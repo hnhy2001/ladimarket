@@ -51,33 +51,14 @@ export class CostComponent implements OnInit, AfterViewInit {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'code', editable: false, datafield: 'code', 'width': '10%' },
-            { text: 'Tên chi phí', editable: false, datafield: 'name', 'width': '10%' },
-            {
-                text: 'Trạng thái', editable: false, datafield: 'status', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
-                    switch (value) {
-                        case 0:
-                            {
-                                return '<div class="div-center text-white bg-danger">' + 'Khóa' + '</div>';
-                            }
-                        case 1:
-                            {
-                                return '<div class="bg-success div-center text-white">' + 'Kích hoạt' + '</div>';
-                            }
-
-                        default:
-                            {
-                                return '<div></div>';
-                            }
-                    }
-                }
-            },
+            { text: 'Mã bản ghi', editable: false, datafield: 'code', 'width': '10%' },
+            { text: 'Tên bản ghi', editable: false, datafield: 'name', 'width': '20%' },
             {
                 text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
                     return '<div class="div-center">' + this.formatCurrency(value) + '</div>';
                 }
             },
-            { text: 'Số ngày', editable: false, datafield: 'numOfDay', 'width': '10%' },
+            { text: 'Số ngày', editable: false, datafield: 'numOfDay', 'width': '5%' },
             {
                 text: 'Tổng chi phí', editable: false, datafield: 'totalCost', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
                     return '<div class="div-center">' + this.formatCurrency(value) + '</div>';;
@@ -103,8 +84,8 @@ export class CostComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
-            { text: 'Số đơn', editable: false, datafield: 'numOfOrder', 'width': '10%' },
-            { text: 'Loại chi phí', editable: false, datafield: 'costType', 'width': '5%' }
+            { text: 'Số đơn', editable: false, datafield: 'numOfOrder', 'width': '5%' },
+            { text: 'Loại chi phí', editable: false, datafield: 'costName', 'width': '15%'}
         ];
 
     REQUEST_URL = "/api/v1/cost";
@@ -147,11 +128,11 @@ export class CostComponent implements OnInit, AfterViewInit {
                     { name: 'totalCost', type: 'number' },
                     { name: 'fromDate', type: 'number' },
                     { name: 'toDate', type: 'number' },
-                    { name: 'numOforder', type: 'number' },
-                    { name: 'costType', type: 'number' },
+                    { name: 'numOfOrder', type: 'number' },
+                    { name: 'costName', type: 'string' },
                 ],
             id: 'id',
-            datatype: 'array'
+            datatype: 'json'
         };
         this.dataAdapter = new jqx.dataAdapter(this.source);
         this.info = this.localStorage.retrieve('authenticationtoken');
@@ -171,8 +152,13 @@ export class CostComponent implements OnInit, AfterViewInit {
         this.dmService.getOption(null, this.REQUEST_URL, "/getallcostbytimerange?startDate=" + startDate.format("YYYYMMDD")+'&endDate=' + endDate.format("YYYYMMDD")).subscribe(
             (res: HttpResponse<any>) => {
                 this.listEntity = res.body.RESULT;
+                for (let index = 0; index < this.listEntity.length; index++) {
+                    this.listEntity[index].costName = this.listEntity[index].costType ? this.listEntity[index].costType.name : '' 
+                    
+                }
                 setTimeout(() => {
                     this.source.localdata = res.body.RESULT;
+                    
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                     this.myGrid.clearselection();
                     this.loadDataChart(this.listEntity);
@@ -195,8 +181,6 @@ export class CostComponent implements OnInit, AfterViewInit {
         }
         this.dateChart = a;
         this.valueChart = b;
-        console.log(this.dateChart);
-        console.log(this.valueChart);
         
         this.createChart();
     }

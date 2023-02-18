@@ -1,19 +1,20 @@
 <div class="row">
-
-  <div class="col-md-12">
+   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-9">
+          <div class="col-3">
             <!-- <input class="col-6 mr-2" type="text" ngxDaterangepickerMd [(ngModel)]="dateRange" [ranges]="ranges"
               [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" (ngModelChange)="loadData()" /> -->
-            <select [(ngModel)]="typeShow" class="form-control" class="col-2 mr-2" (change) = "statistic()">
-              <option value=1>Ngày</option>
-              <option value=2>Tháng</option>
-              <option value=3>Năm</option>
+            <select [(ngModel)]="typeShow" class="form-control" (change)="statistic()">
+              <option value=1>Trong tháng</option>
+              <option value=2>Trong năm</option>
+              <option value=3>Các năm</option>
             </select>
-            <select [(ngModel)]="month" class="form-control" class="col-2 mr-2" *ngIf="typeShow == 1" (change) = "statistic()">
+          </div>
+          <div class="col-3">
+            <select [(ngModel)]="month" class="form-control" *ngIf="typeShow == 1" (change)="statistic()">
               <option value=1>Tháng 1</option>
               <option value=2>Tháng 2</option>
               <option value=3>Tháng 3</option>
@@ -27,7 +28,14 @@
               <option value=11>Tháng 11</option>
               <option value=12>Tháng 12</option>
             </select>
+          </div>
+          <div class="col-3">
             <input type="text" [(ngModel)]="year" *ngIf="typeShow == 2" placeholder="Năm" (change) = "statistic()"> 
+          </div>
+          
+          <div class="col-3 text-right">
+            <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="chart" routerLink="/cost">
+              Bản ghi chi phí</a>
           </div>
         </div>
       </div>
