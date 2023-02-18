@@ -37,7 +37,11 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     ranges: DateRanges = {
         ['Hôm nay']: [dayjs(), dayjs()],
         ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+        ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
+        // ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
         ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+        ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
+        // ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
     };
     dateChart = [];
     valueChart = [];
@@ -73,8 +77,12 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
     }
     public loadData() {
+        var date = JSON.parse(JSON.stringify(this.dateRange));
+        date.endDate = date.endDate.replace("23:59:59","00:00:00");
+        this.startDate = moment(date.startDate).format('YYYYMMDD');
+        this.endDate = moment(date.endDate).format('YYYYMMDD');
         if(this.optionChart == 1){
-            this.data = "Thời gian";
+            this.data = " theo thời gian";
             this.value = "Doanh thu";
             this.dmService.getOption(null, this.REQUEST_URL, "/thongkedoanhthutheongay?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
                 (res: HttpResponse<any>) => {
@@ -88,12 +96,8 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                 }
             );
         }else{
-            this.data = "UTM";
+            this.data = " theo UTM";
             this.value = "Doanh thu";
-            var date = JSON.parse(JSON.stringify(this.dateRange));
-            date.endDate = date.endDate.replace("23:59:59","00:00:00");
-            this.startDate = moment(date.startDate).format('YYYYMMDD');
-            this.endDate = moment(date.endDate).format('YYYYMMDD');
             this.dmService.getOption(null, this.REQUEST_URL, "/thongkeutm?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
                 (res: HttpResponse<any>) => {
                     this.listEntity = res.body.RESULT;
