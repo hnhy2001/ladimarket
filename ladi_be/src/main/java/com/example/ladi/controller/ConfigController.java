@@ -23,4 +23,9 @@ public class ConfigController extends BaseController<Config> {
     public BaseResponse getByCODE(@RequestBody FindConfigByCODERequest findConfigByCODERequest){
         return configService.getByCODE(findConfigByCODERequest);
     }
+
+    @GetMapping("getconfigbydate")
+    public BaseResponse getConfigByDate(@RequestParam String startDate, @RequestParam String endDate){
+        return configService.getConfigByDate(startDate, endDate);
+    }
 }

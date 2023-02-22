@@ -6,6 +6,7 @@ import { NotificationService } from 'app/notification.service';
 import moment from 'moment';
 import { DateRanges, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 import dayjs from 'dayjs/esm';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-them-sua-xoa-cost',
@@ -20,14 +21,14 @@ export class ThemSuaXoaCostComponent implements OnInit {
   name = '';
   status = 1;
   timeValue = 1;
-  costPerDay :number;
-  numOfDay :number;
-  totalCost :number;
+  costPerDay: any;
+  numOfDay: number;
+  totalCost: number;
   fromDate = '';
   toDate = '';
-  numOfOrder :number;
+  numOfOrder: number;
   costType = 0;
-  costPerOrderValue :number;
+  costPerOrderValue: number;
   costPerOrder = false;
   listCostType = [];
   selectList = [];
@@ -37,8 +38,9 @@ export class ThemSuaXoaCostComponent implements OnInit {
   constructor(
     private activeModal: NgbActiveModal,
     private dmService: DanhMucService,
-    private notification: NotificationService
-  ) {}
+    private notification: NotificationService,
+    private locale : LocalStorageService
+  ) { }
 
   ngOnInit(): void {
     this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getAll").subscribe(
@@ -60,30 +62,34 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.numOfOrder = this.data.numOfOrder;
       this.costType = this.data.costName;
     }
-    if(!this.data){
+    if (!this.data) {
       this.updateValue = false;
     }
-    else{
+    else {
       this.updateValue = true;
     }
 
   }
 
-  getByIdCostType(){
+  getByIdCostType() {
     this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getById?id=" + this.costType).subscribe(
       (res: HttpResponse<any>) => {
-        if(res.body.RESULT.isCountOrder == 1){
+        if (res.body.RESULT.isCountOrder == 1) {
+          this.fromDate = moment().startOf("month").format("YYYYMMDD");
+          this.toDate = moment().endOf("month").format("YYYYMMDD");
+          this.numOfDay = parseInt(moment().endOf("month").format('DD'));
           this.costPerOrder = true;
           this.timeValue = 1;
           this.numOfDay = 1;
-        }else{
+          this.getData();
+        } else {
           this.costPerOrder = false;
         }
-        if(res.body.RESULT.priod == 1){
+        if (res.body.RESULT.priod == 1) {
           this.fromDate = moment().startOf("day").format("YYYYMMDD");
           this.toDate = moment().endOf("day").format("YYYYMMDD");
           this.numOfDay = 1;
-        }else{
+        } else {
           this.fromDate = moment().startOf("month").format("YYYYMMDD");
           this.toDate = moment().endOf("month").format("YYYYMMDD");
           this.numOfDay = parseInt(moment().endOf("month").format('DD'));
@@ -94,6 +100,37 @@ export class ThemSuaXoaCostComponent implements OnInit {
       });
   }
 
+  getData() {
+    if (this.costPerOrder) {
+      this.dmService.postOption({code : 'CPVC'}, "/api/v1/config", "/getByCODE").subscribe(
+        (res: HttpResponse<any>) => {
+          if(this.fromDate >= res.body.RESULT.fromDate && this.toDate <= res.body.RESULT.toDate){
+            this.costPerOrderValue = res.body.RESULT.value;
+          }else{
+            this.costPerOrderValue = res.body.RESULT.defaultValue;
+          }
+          this.dmService.getOption(null, "/api/v1/data", "/thongkeutm?startDate=" + this.fromDate + '&endDate=' + this.toDate + "&shopCode=KHBOM").subscribe(
+            (res: HttpResponse<any>) => {
+              let count = 0;
+              for (let item of res.body.RESULT) {
+                count = count + item.count;
+              }
+              this.numOfOrder = count;
+              console.log(this.costPerOrderValue);
+              this.totalCost = this.numOfOrder * this.costPerOrderValue;
+              this.costPerDay = (this.totalCost / this.numOfDay).toFixed(0);
+            },
+            () => {
+              console.error();
+            }
+          );
+        },
+        () => {
+          console.error();
+        }
+      );
+    }
+  }
 
   create() {
     if (this.validData()) {
@@ -105,8 +142,8 @@ export class ThemSuaXoaCostComponent implements OnInit {
         costPerDay: this.costPerDay,
         numOfDay: this.numOfDay,
         totalCost: this.totalCost,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
+        fromDate: parseInt(this.fromDate),
+        toDate: parseInt(this.toDate),
         numOfOrder: this.numOfOrder,
         costTypeId: this.costType
       }
@@ -154,6 +191,8 @@ export class ThemSuaXoaCostComponent implements OnInit {
   }
 
   validData() {
+    this.code = this.fromDate + this.toDate;
+    this.name = this.locale.retrieve("authenticationtoken").userName;
     if (this.code == "") {
       this.notification.showError("code Không được để trống", "Fail");
       return false;
@@ -164,24 +203,26 @@ export class ThemSuaXoaCostComponent implements OnInit {
       return false;
     }
 
-    if(this.costType == 0){
+    if (this.costType == 0) {
       this.notification.showError("cost type Không được để trống", "Fail");
       return false;
     }
     return true;
   }
 
-  getCostByDay():void{
+  getCostByDay(): void {
     this.costPerDay = (this.totalCost / this.numOfDay);
     this.costPerDay = parseFloat(this.costPerDay.toFixed(0));
   }
 
-  cost():void{
+  cost(): void {
+    console.log(this.costPerOrderValue);
+    console.log(this.numOfOrder);
     this.totalCost = this.costPerOrderValue * this.numOfOrder;
     this.getCostByDay();
   }
 
-  loadDataByCostPerOerDer():void{
+  loadDataByCostPerOerDer(): void {
     this.getByIdCostType();
   }
   public decline(): void {

@@ -35,14 +35,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
                 @ColumnResult(name = "count", type = int.class)}))
 
 @NamedNativeQuery(name = "Data.statisticalRevenueByDate",
-        query = "SELECT date_only as date, SUM(price) as revenue  from `data` WHERE date_only >= :startDate AND date_only <= :endDate AND status = 8 AND shopcode = :codeShop GROUP BY date_only",
+        query = "SELECT date_only as date, SUM(price) as revenue  from `data` WHERE date_only >= :startDate AND date_only <= :endDate AND status in (7,8) AND shopcode = :codeShop GROUP BY date_only",
         resultSetMapping = "Mapping.StatisticalRevenueByDateDto")
 @SqlResultSetMapping(name = "Mapping.StatisticalRevenueByDateDto", classes = @ConstructorResult(targetClass = StatisticalRevenueByDateDto.class,
         columns = {@ColumnResult(name = "date", type = Long.class),
                 @ColumnResult(name = "revenue", type = Long.class)}))
 
 @NamedNativeQuery(name = "Data.statisticUtmByDate",
-        query = "SELECT COUNT(id) as count, date_only as date, utm_medium as utmMedium, SUM(price) as price From `data` WHERE date_only <= :endDate AND date_only >= :startDate AND shopcode = :shopCode GROUP By date_only, utm_medium  ",
+        query = "SELECT COUNT(id) as count, date_only as date, utm_medium as utmMedium, SUM(price) as price From `data` WHERE date_only <= :endDate AND date_only >= :startDate AND shopcode = :shopCode And status in (7,8) GROUP By date_only, utm_medium  ",
         resultSetMapping = "Mapping.StatisticUtmByDateDto")
 @SqlResultSetMapping(name = "Mapping.StatisticUtmByDateDto", classes = @ConstructorResult(targetClass = StatisticUtmByDateDto.class,
         columns = {@ColumnResult(name = "count", type = Integer.class),

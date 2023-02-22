@@ -30,4 +30,13 @@ public class Config extends BaseEntity{
 
     @Column(name = "note")
     private String note;
+
+    @Column(name = "default_value")
+    private String defaultValue;
+
+    @Column(name = "from_date")
+    private Long fromDate;
+
+    @Column(name = "to_date")
+    private Long toDate;
 }

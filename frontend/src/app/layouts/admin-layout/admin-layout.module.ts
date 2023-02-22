@@ -26,6 +26,7 @@ import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
 import { CostComponent } from 'app/pages/cost/cost.component';
 import { StatiscalCostComponent } from 'app/pages/statiscal-cost/statiscal-cost.component';
 import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal-revenue.component';
+import { ConfigComponent } from 'app/pages/config/config.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal
     CostTypeComponent,
     CostComponent,
     StatiscalCostComponent,
-    StatiscalRevenueComponent
+    StatiscalRevenueComponent,
+    ConfigComponent
   ]
 })
 

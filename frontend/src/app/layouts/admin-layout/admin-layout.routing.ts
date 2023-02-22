@@ -15,25 +15,24 @@ import { CostTypeComponent } from 'app/pages/cost-type/cost-type.component';
 import { CostComponent } from 'app/pages/cost/cost.component';
 import { StatiscalCostComponent } from 'app/pages/statiscal-cost/statiscal-cost.component';
 import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal-revenue.component';
+import { ConfigComponent } from 'app/pages/config/config.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'table',          component: TableComponent },
-    { path: 'data',           component: DataComponent },
-    { path: 'typography',     component: TypographyComponent },
-    { path: 'account',        component: AccountComponent },
-    { path: 'work',           component: WorkComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
-    { path: 'shop',        component: ShopComponent },
-    { path: 'utm-medium',        component: UtmMediumComponent },
-    { path: 'utm-statistic',        component: UtmStatisticComponent },
-    { path: 'product',        component: ProductComponent },
-    {path:'costType', component: CostTypeComponent},
-    {path:'cost', component:CostComponent},
-    {path:'statiscal-cost', component:StatiscalCostComponent},
-    {path:'statiscal-revenue', component:StatiscalRevenueComponent}
-
-
-
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'table', component: TableComponent },
+    { path: 'data', component: DataComponent },
+    { path: 'typography', component: TypographyComponent },
+    { path: 'account', component: AccountComponent },
+    { path: 'work', component: WorkComponent },
+    { path: 'notifications', component: NotificationsComponent },
+    { path: 'upgrade', component: UpgradeComponent },
+    { path: 'shop', component: ShopComponent },
+    { path: 'utm-medium', component: UtmMediumComponent },
+    { path: 'utm-statistic', component: UtmStatisticComponent },
+    { path: 'product', component: ProductComponent },
+    { path: 'costType', component: CostTypeComponent },
+    { path: 'cost', component: CostComponent },
+    { path: 'statiscal-cost', component: StatiscalCostComponent },
+    { path: 'statiscal-revenue', component: StatiscalRevenueComponent },
+    { path: 'config', component: ConfigComponent },
 ];

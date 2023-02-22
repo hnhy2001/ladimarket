@@ -4,18 +4,6 @@
     <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
   </div>
   <div class="d-inline mt-1">
-
-    <div class="form-group form-outline mb-1">
-      <label>Code</label>
-      <input type="text" [(ngModel)]="code" placeholder="Code "
-        class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
-
-    <div class="form-group form-outline mb-1 mt-1">
-      <label>Tên</label>
-      <input type="text" [(ngModel)]="name" placeholder="name"
-        class="form-control form-control-lg" style="height:2.5rem ;">
-    </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Chi phí theo ngày</label>
       <input type="text" [(ngModel)]="costPerDay" [disabled] = "true" placeholder="costPerDay"
@@ -28,12 +16,12 @@
     </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Số đơn</label>
-      <input type="text" [(ngModel)]="numOfOrder" [disabled] = "!costPerOrder" placeholder="numOfOrder" (change)="cost()"
+      <input type="text" [(ngModel)]="numOfOrder" placeholder="numOfOrder" [disabled]="true" (change)="cost()"
               class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
     <div class="form-group form-outline mb-1 mt-1" *ngIf="costPerOrder">
       <label>Chi phí/đơn</label>
-      <input type="text" [(ngModel)]="costPerOrderValue" placeholder="numOfOrder" (change)="cost()"
+      <input type="text" [(ngModel)]="costPerOrderValue" placeholder="numOfOrder" [disabled]="true" (change)="cost()"
         class="form-control form-control-lg" style="height:2.5rem;">
     </div>
     <div class="form-group form-outline mb-1 mt-1">

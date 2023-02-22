@@ -26,4 +26,9 @@ public class CongifServiceImpl extends BaseServiceImpl<Config> implements Config
         }
         return new BaseResponse(200, "OK", config);
     }
+
+    @Override
+    public BaseResponse getConfigByDate(String startDate, String endate) {
+        return new BaseResponse(200, "OK", configRepository.findConfigByDate(Long.parseLong(startDate), Long.parseLong(endate)));
+    }
 }

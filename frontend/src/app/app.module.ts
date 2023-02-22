@@ -40,6 +40,7 @@ import { jqxPivotGridModule } from "jqwidgets-ng/jqxpivotgrid";
 import { ThemSuaXoaCostTypeComponent } from "./shared/popup/them-sua-xoa-cost-type/them-sua-xoa-cost-type.component";
 import { ThemSuaXoaCostComponent } from "./shared/popup/them-sua-xoa-cost/them-sua-xoa-cost.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+import { ThemSuaXoaConfigComponent } from "./shared/popup/them-sua-xoa-config/them-sua-xoa-config.component";
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
     ThemSuaUtmComponent,
     ThongTinCauHinhComponent,
     ThemSuaXoaCostTypeComponent,
-    ThemSuaXoaCostComponent
+    ThemSuaXoaCostComponent,
+    ThemSuaXoaConfigComponent
   ],
   imports: [
     BrowserAnimationsModule,

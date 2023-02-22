@@ -6,4 +6,5 @@ import com.example.ladi.model.Config;
 
 public interface ConfigService extends BaseService<Config>{
     public BaseResponse getByCODE(FindConfigByCODERequest findConfigByCODERequest);
+    public BaseResponse getConfigByDate(String startDate, String endDate);
 }
