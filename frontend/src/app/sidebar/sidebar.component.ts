@@ -23,7 +23,7 @@ export let ROUTES: RouteInfo[] = [];
 
 export class SidebarComponent implements OnInit {
     public menuItems: any[];
-    private info:any;
+    info:any;
     REQUEST_URL_SHOP = '/api/v1/shop'
     isCollapsedCP = true;
     isCollapsedBC = true;
@@ -45,9 +45,9 @@ export class SidebarComponent implements OnInit {
                     { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',       class: '', role: '' },
                     { path: '/account',         title: 'Tài khoản',             icon:'nc-badge',    class: '', role: '' },
                     { path: '/shop',          title: 'Shop',              icon:'nc-shop',      class: '', role:'' },
-                    { path: '/work',          title: 'Chấm công',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'user' },
+                    { path: '/config',          title: 'Cấu hình',              icon:'nc-settings-gear-65',      class: '', role:'admin' },
+                    { path: '/work',          title: 'Chấm công',              icon:'nc-tap-01',      class: 'border-bottom ', role:'user' },
                     { path: '/utm-medium',          title: 'Cấu hình utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
-                    { path: '/config',          title: 'Cấu hình',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
 
                 ];
                 if(res.body.CODE === 200){
