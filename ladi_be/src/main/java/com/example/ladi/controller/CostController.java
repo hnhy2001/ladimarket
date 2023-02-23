@@ -42,4 +42,10 @@ public class CostController extends BaseController<Cost>{
     public BaseResponse getAllCostByTimeRange(@RequestParam String startDate, @RequestParam String endDate){
         return costService.getAllCostByTimeRange(startDate, endDate);
     }
+
+    @GetMapping("/test")
+    public BaseResponse test(){
+        costService.createCostTransport();
+        return costService.createCostTransport();
+    }
 }

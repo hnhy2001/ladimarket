@@ -14,15 +14,21 @@
       <input type="text" [(ngModel)]="numOfDay" [disabled] = "true" placeholder="numOfDay"
         class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
-    <div class="form-group form-outline mb-1 mt-1">
+    <div class="form-group form-outline mb-1 mt-1" *ngIf = "!checkMakerting">
       <label>Số đơn</label>
       <input type="text" [(ngModel)]="numOfOrder" placeholder="numOfOrder" [disabled]="true" (change)="cost()"
               class="form-control form-control-lg" style="height:2.5rem ;">
     </div>
-    <div class="form-group form-outline mb-1 mt-1" *ngIf="costPerOrder">
+    <div class="form-group form-outline mb-1 mt-1" *ngIf="costPerOrder ">
       <label>Chi phí/đơn</label>
       <input type="text" [(ngModel)]="costPerOrderValue" placeholder="numOfOrder" [disabled]="true" (change)="cost()"
         class="form-control form-control-lg" style="height:2.5rem;">
+    </div>
+    <div class="form-group form-outline mb-1" *ngIf = "checkMakerting">
+      <label>Từ ngày - Đến ngày</label>
+      <br>
+      <input class="form-control" type="text" ngxDaterangepickerMd [(ngModel)]="dateRange" [ranges]="ranges"
+        [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" (change)="checkDate()"/>
     </div>
     <div class="form-group form-outline mb-1 mt-1">
       <label>Tổng chi phí</label>

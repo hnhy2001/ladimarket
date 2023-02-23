@@ -16,6 +16,19 @@ export class ThemSuaXoaCostComponent implements OnInit {
   @Input() data?: any;
   @Input() id?: any;
   @Input() title?: any;
+  dateRange: TimePeriod = {
+    startDate: dayjs(),
+    endDate: dayjs()
+  };
+  ranges: DateRanges = {
+    ['Hôm nay']: [dayjs(), dayjs()],
+    ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
+    ['7 Ngày qua']: [dayjs().subtract(6, 'days'), dayjs()],
+    // ['30 Ngày qua']: [dayjs().subtract(29, 'days'), dayjs()],
+    ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
+    ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
+    // ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
+  };
   now = moment()
   code = '';
   name = '';
@@ -33,13 +46,14 @@ export class ThemSuaXoaCostComponent implements OnInit {
   listCostType = [];
   selectList = [];
   updateValue = false;
+  checkMakerting = false;
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
   constructor(
     private activeModal: NgbActiveModal,
     private dmService: DanhMucService,
     private notification: NotificationService,
-    private locale : LocalStorageService
+    private locale: LocalStorageService
   ) { }
 
   ngOnInit(): void {
@@ -86,9 +100,7 @@ export class ThemSuaXoaCostComponent implements OnInit {
           this.costPerOrder = false;
         }
         if (res.body.RESULT.priod == 1) {
-          this.fromDate = moment().startOf("day").format("YYYYMMDD");
-          this.toDate = moment().endOf("day").format("YYYYMMDD");
-          this.numOfDay = 1;
+          this.checkDate();
         } else {
           this.fromDate = moment().startOf("month").format("YYYYMMDD");
           this.toDate = moment().endOf("month").format("YYYYMMDD");
@@ -100,13 +112,29 @@ export class ThemSuaXoaCostComponent implements OnInit {
       });
   }
 
+  checkDate() {
+    this.numOfDay = 1;
+    this.checkMakerting = true;
+    var date = JSON.parse(JSON.stringify(this.dateRange));
+    date.endDate = date.endDate.replace("23:59:59", "00:00:00");
+    this.fromDate = moment(date.startDate, 'YYYYMMDD').format("YYYYMMDD");
+    this.toDate = moment(date.endDate, 'YYYYMMDD').format("YYYYMMDD");
+    if (this.fromDate != this.toDate) {
+      this.notification.showError("Bạn đang nhập khoảng thời gian nhiều hơn 1 ngày", "Fail");
+      this.fromDate = moment(dayjs().toString()).format("YYYYMMDD");
+      this.toDate = moment(dayjs().toString()).format("YYYYMMDD");
+      this.dateRange.startDate = dayjs();
+      this.dateRange.endDate = dayjs();
+      console.log(this.fromDate);
+    }
+  }
   getData() {
     if (this.costPerOrder) {
-      this.dmService.postOption({code : 'CPVC'}, "/api/v1/config", "/getByCODE").subscribe(
+      this.dmService.postOption({ code: 'CPVC' }, "/api/v1/config", "/getByCODE").subscribe(
         (res: HttpResponse<any>) => {
-          if(this.fromDate >= res.body.RESULT.fromDate && this.toDate <= res.body.RESULT.toDate){
+          if (this.fromDate >= res.body.RESULT.fromDate && this.toDate <= res.body.RESULT.toDate) {
             this.costPerOrderValue = res.body.RESULT.value;
-          }else{
+          } else {
             this.costPerOrderValue = res.body.RESULT.defaultValue;
           }
           this.dmService.getOption(null, "/api/v1/data", "/thongkeutm?startDate=" + this.fromDate + '&endDate=' + this.toDate + "&shopCode=KHBOM").subscribe(

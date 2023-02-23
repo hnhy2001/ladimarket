@@ -3,16 +3,19 @@ package com.example.ladi.service.impl;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.request.PostCostRequest;
 import com.example.ladi.dto.CostDto;
+import com.example.ladi.dto.StatisticUtmByDateDto;
+import com.example.ladi.model.Config;
 import com.example.ladi.model.Cost;
 import com.example.ladi.model.CostType;
-import com.example.ladi.repository.BaseRepository;
-import com.example.ladi.repository.CostRepository;
-import com.example.ladi.repository.CostTypeRepository;
+import com.example.ladi.repository.*;
 import com.example.ladi.service.CostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,14 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     CostTypeRepository costTypeRepository;
 
     @Autowired
+    ConfigRepository configRepository;
+
+    @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    DataRepository dataRepository;
+
 
     @Override
     public BaseResponse postCost(PostCostRequest postCostRequest) {
@@ -68,6 +78,42 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     public BaseResponse getAllCostByTimeRange(String startDate, String endDate) {
         List<Cost> costList = costRepository.findAllCostByTimeRange(Long.parseLong(startDate), Long.parseLong(endDate));
         return new BaseResponse(200, "OK", costList);
+    }
+
+    @Scheduled(cron = "0 1 00 * * ?", zone = "Asia/Saigon")
+    public BaseResponse createCostTransport(){
+        Config config = configRepository.findAllByCode("CPVC");
+        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime yesterday = currentDate.minusDays(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String date = yesterday.format(formatter);
+        List<StatisticUtmByDateDto> statisticUtmByDateDtos = dataRepository.statisticUtmByDate(Long.parseLong(date), Long.parseLong(date), "KHBOM");
+        int numOfOrder = 0;
+        for (StatisticUtmByDateDto item : statisticUtmByDateDtos){
+            numOfOrder = numOfOrder + item.getCount();
+        }
+        int totalCost = 1;
+        if (Long.parseLong(date) < config.getFromDate() || Long.parseLong(date) > config.getToDate()){
+            totalCost = Integer.parseInt(config.getDefaultValue()) * numOfOrder;
+        }else {
+            totalCost = Integer.parseInt(config.getValue()) * numOfOrder;
+        }
+        CostType costType = costTypeRepository.findAllById(Long.valueOf(8));
+        Cost cost = Cost.builder()
+                .code(date+date)
+                .name("System")
+                .status(1)
+                .numOfDay(1)
+                .fromDate(Long.parseLong(date))
+                .toDate(Long.parseLong(date))
+                .numOfOrder(numOfOrder)
+                .totalCost(totalCost)
+                .numOfOrder(numOfOrder)
+                .costPerDay(totalCost*1.0)
+                .costType(costType)
+                .build();
+        costRepository.save(cost);
+        return new BaseResponse(200, "OK", cost);
     }
 
     public List<CostDto> mapCostToCostDto(List<Cost> costList) {
