@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   public checkWorkActive = false;
   public info: any;
   public isCollapsed = true;
+  public disableToggle = false;
   @ViewChild("navbar-cmp", { static: false }) button;
 
   constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router, private notificationService: NotificationService,
@@ -95,7 +96,7 @@ export class NavbarComponent implements OnInit {
         if (res.body.CODE === 200) {
           this.notificationService.showSuccess("Check In thành công", 'Thông báo!');
         } else {
-          this.notificationService.showError("Đã có lỗi xảy ra", 'Thông báo!');
+          this.notificationService.showError(res.body.MESSAGE, 'Thông báo!');
           this.checkWorkActive = !this.checkWorkActive;
         }
       },
@@ -118,6 +119,7 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
   getAccountStatus(): void {
+    this.disableToggle = true;
     const entity = {
       nhanVienId: this.info.id
     }
@@ -129,9 +131,11 @@ export class NavbarComponent implements OnInit {
         else {
           this.checkWorkActive = false;
         }
+        this.disableToggle = false;
       },
       () => {
         this.checkWorkActive = false;
+        this.disableToggle = false;
         console.error();
       }
     );

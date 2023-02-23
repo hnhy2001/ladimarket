@@ -81,6 +81,7 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   save(i:any):void{
     if(i===6) this.data.price = 0;
     this.data.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
+    this.data.dateOnly = moment(new Date()).format('YYYYMMDD');
     this.data.status = i === -1 ? this.data.status : i;
     this.data.productDto = this.selectedProductEntity;
     const entity = {

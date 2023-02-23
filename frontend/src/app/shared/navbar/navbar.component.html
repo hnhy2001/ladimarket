@@ -30,7 +30,7 @@
           </div>
         </div> -->
       </form>
-      <ng-toggle *ngIf="this.info.role==='user'" [value]="checkWorkActive" id="toggleActive" [color]="{ unchecked: '#939da2', checked: '#ef8157'}" (change) = "onTriggerWorkActive()"></ng-toggle>
+      <ng-toggle *ngIf="this.info.role==='user'" [value]="checkWorkActive" id="toggleActive" [color]="{ unchecked: '#939da2', checked: '#ef8157'}" (change) = "onTriggerWorkActive()" [disabled]="disableToggle"></ng-toggle>
       <ul class="navbar-nav ml-2">
         <li class="nav-item text-light text-bold text-center mr-2 ml-2">
           {{this.info?this.info.fullName:''}} ({{this.info? this.info.userName:''}})

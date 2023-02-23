@@ -166,6 +166,7 @@ export class ChuyenTrangThaiPopUpComponent implements OnInit, OnDestroy, AfterVi
   public assignWork(): void {
     this.data.forEach((unitItem) => {
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
+      unitItem.dateOnly = moment(new Date()).format('YYYYMMDD')
       unitItem.status = this.status;
       if(Number(unitItem.status) === 6) unitItem.price = 0;
     });

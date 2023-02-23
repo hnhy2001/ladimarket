@@ -51,6 +51,10 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         if (account == null){
             return new BaseResponse(500, "Account not found", "Create Fail");
         }
+        if(workRepository.findAllByIsActiveAndAccount(1, account) != null) {
+            return new BaseResponse(500, "Tài khoản hiện đã đăng nhập ở thiết bị khác", "Create Fail");
+        }
+
         Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getDonXuLy(), createWorkRequest.getGhiChu(), 1, account);
         workRepository.save(work);
         return new BaseResponse(200, "OK", work.getId());
