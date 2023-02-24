@@ -88,6 +88,7 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         Long dateOnly = Long.parseLong(dateOnlyFormatter.format(nowDate));
         data.setDate(date);
         data.setDateOnly(dateOnly);
+        data.setDateChangedOnly(dateOnly);
         data.setShopCode(shopCode);
         List<Work> workList = customWorkRepository.finWorkByConditions(null, null, null, shopCode, 1);
         DataDto dataDto = new DataDto();

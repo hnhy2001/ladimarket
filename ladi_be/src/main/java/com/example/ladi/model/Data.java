@@ -106,6 +106,9 @@ public class Data {
     @Column(name = "date_only")
     private Long dateOnly;
 
+    @Column(name = "date_changed_only")
+    private Long dateChangedOnly;
+
     @Column(name = "link")
     private String link;
 

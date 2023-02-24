@@ -178,7 +178,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
     this.data.forEach((unitItem) => {
       unitItem.nhanVienId = this.selectedStaff;
       unitItem.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss')
-      unitItem.dateOnly = moment(new Date()).format('YYYYMMDD')
+      unitItem.dateChangedOnly = moment(new Date()).format('YYYYMMDD')
       unitItem.status = unitItem.status === 0 ? 1 : unitItem.status;
     });
 

@@ -60,6 +60,8 @@ public class DataRequest {
 
     private Long dateOnly;
 
+    private Long dateChangedOnly;
+
     public Long getId() {
         return id;
     }
@@ -276,9 +278,17 @@ public class DataRequest {
         this.dateOnly = dateOnly;
     }
 
+    public Long getDateChangedOnly() {
+        return dateChangedOnly;
+    }
+
+    public void setDateChangedOnly(Long dateChangedOnly) {
+        this.dateChangedOnly = dateChangedOnly;
+    }
+
     public DataRequest(){}
 
-    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, Product productDto, String utm_source, String utm_medium, String utm_campation, String utm_term, String utm_content, String variant_url, Double price, String message, String note, String shopCode, Long nhanVienId, Long dateOnly) {
+    public DataRequest(Long id, String name, String phone, String street, String country, String state, String district, String ward, String product, int status, Long date, String link, String ipAddress, Long dateChanged, Product productDto, String utm_source, String utm_medium, String utm_campation, String utm_term, String utm_content, String variant_url, Double price, String message, String note, String shopCode, Long nhanVienId, Long dateOnly, Long dateChangedOnly) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -306,6 +316,7 @@ public class DataRequest {
         this.shopCode = shopCode;
         this.nhanVienId = nhanVienId;
         this.dateOnly = dateOnly;
+        this.dateChangedOnly = dateChangedOnly;
     }
 
 
