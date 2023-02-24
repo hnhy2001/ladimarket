@@ -7,26 +7,23 @@
         <div class="row">
           <div class="col-6">
 
-            <select [(ngModel)]="typeShow" class="form-control" (change) = "statistic()" *ngIf ="optionChart==1">
+            <select [(ngModel)]="typeShow" class="form-control" (change)="statistic()" *ngIf="optionChart==1">
               <option value=1>Ngày</option>
               <option value=2>Tháng</option>
               <option value=3>Năm</option>
             </select>
-            
+
             <!-- <input type="text" [(ngModel)]="refundRate" *ngIf="typeShow == 2 && optionChart == 1" placeholder="Năm" (change) = "statistic()"> -->
-            <input class="form-control" type="text" ngxDaterangepickerMd *ngIf ="optionChart==2"
-            [(ngModel)]="dateRange" 
-            [ranges]="ranges" 
-            [showCustomRangeLabel]="true"
-            [alwaysShowCalendars]="true"
-            (ngModelChange)="statistic()"/>
+            <input class="form-control" type="text" ngxDaterangepickerMd *ngIf="optionChart==2" [(ngModel)]="dateRange"
+              [ranges]="ranges" [showCustomRangeLabel]="true" [alwaysShowCalendars]="true"
+              (ngModelChange)="statistic()" />
 
           </div>
           <div class="col-2" *ngIf="typeShow == 2 && optionChart == 1">
-            <input type="text" [(ngModel)]="year" class="form-control"  placeholder="Năm" (change)="statistic()">
+            <input type="text" [(ngModel)]="year" class="form-control" placeholder="Năm" (change)="statistic()">
           </div>
           <div class="col-2" *ngIf="typeShow == 1 && optionChart == 1">
-            <select [(ngModel)]="month"  class="form-control"  (change)="statistic()">
+            <select [(ngModel)]="month" class="form-control" (change)="statistic()">
               <option value=1>Tháng 1</option>
               <option value=2>Tháng 2</option>
               <option value=3>Tháng 3</option>
@@ -46,7 +43,7 @@
               <option value=1>Theo thời gian</option>
               <option value=2>Theo utm</option>
             </select>
-            
+
           </div>
           <div class="col-2">
             <select [(ngModel)]="shopCode" class="form-control">
@@ -56,6 +53,12 @@
         </div>
       </div>
       <div class="card-body">
+        <div class="chart" id="pie-chart" style="margin-top: 25px;" [hidden]="optionChart != 1"></div>
+        <jqxGrid #gridReference [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true"
+          [pageable]="true" [height]="height" [sortable]="true" [filterable]="true" [showfilterrow]="true"
+          [altrows]="true" [enabletooltips]="true" (onRowselect)="onRowSelect($event)"
+          [hidden]="optionChart != 2">
+        </jqxGrid>
         <div class="chart" id="chart" style="margin-top: 25px;"></div>
       </div>
     </div>

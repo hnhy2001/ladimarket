@@ -21,11 +21,17 @@ import moment from 'moment';
 
 export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     @ViewChild('gridReference') myGrid: jqxGridComponent;
+    source: any;
+    dataGridList = [];
     chartOptions: any;
     visibleTrigger = false
     visible = { display: "none" };
     startDate: String;
     endDate: String;
+    moi = 0;
+    dangXuLy = 0;
+    thatBai = 0;
+    thanhCong = 0;
     listStatus = [
         { id: 0, label: "Chờ xử lý" },
         { id: 1, label: "Đang xử lý" },
@@ -43,9 +49,11 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
         ['Tháng trước']: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')],
         // ['3 Tháng trước']: [dayjs().subtract(3, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
     };
+    listPieChart = [];
     dateChart = [];
     valueChart = [];
     optionChart = 1;
+    chartPieOptions: any;
     dataAdapter: any;
     typeShow = 1;
     month = 1;
@@ -60,6 +68,34 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     height: any = $(window).height()! - 270;
     data = '';
     value = '';
+    localization: any = {
+        pagergotopagestring: 'Trang',
+        pagershowrowsstring: 'Hiển thị',
+        pagerrangestring: ' của ',
+        emptydatastring: 'Không có dữ liệu hiển thị',
+        filterstring: 'Nâng cao',
+        filterapplystring: 'Áp dụng',
+        filtercancelstring: 'Huỷ bỏ'
+    };
+    columns: any[] =
+        [
+            {
+                text: '#', sortable: false, filterable: false, editable: false,
+                groupable: false, draggable: false, resizable: false,
+                datafield: '', columntype: 'number', width: '5%',
+                cellsrenderer: (row: number, column: any, value: number): string => {
+                    return '<div style="margin: 4px;">' + (value + 1) + '</div>';
+                }
+            },
+            { text: 'Tên utm', editable: false, datafield: 'utm', 'width': '25%' },
+            { text: 'Tổng tiền', editable: false, datafield: 'price', 'width': '25%', cellsrenderer: (row: number, column: any, value: number): string => {
+                return '<div class="div-center">' + this.formatCurrency(value) + '</div>';
+            }},
+            { text: 'Số lượng', editable: false, datafield: 'count', 'width': '20%' },
+            { text: 'Tiền/Đơn', editable: false, datafield: 'price_order', 'width': '25%', cellsrenderer: (row: number, column: any, value: number): string => {
+                return '<div class="div-center">' + this.formatCurrency(value) + '</div>';;
+            }}
+        ];
 
     constructor(
         private dmService: DanhMucService,
@@ -68,6 +104,21 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
         private modalService: NgbModal,
         private localStorage: LocalStorageService
     ) {
+        this.source =
+        {
+            localdata: [],
+            datafields:
+                [
+                    { name: 'id', type: 'number' },
+                    { name: 'utm', type: 'string' },
+                    { name: 'price', type: 'number' },
+                    { name: 'count', type: 'number' },
+                    { name: 'price_order', type: 'number' },
+                ],
+            id: 'id',
+            datatype: 'array'
+        };
+        this.dataAdapter = new jqx.dataAdapter(this.source);
         this.info = this.localStorage.retrieve('authenticationtoken');
     }
 
@@ -77,6 +128,32 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
     }
     public loadData() {
+        this.moi = 0;
+        this.dangXuLy = 0;
+        this.thatBai = 0;
+        this.thanhCong = 0;
+        this.dmService.getOption(null, this.REQUEST_URL, "/statisticdatabydateandstatus?startDate=" + this.startDate + "&endDate=" + this.endDate + "&shopCode=" + this.shopCode).subscribe(
+            (res: HttpResponse<any>) => {
+                this.listPieChart = res.body.RESULT;
+                setTimeout(() => {
+                    for (let item of this.listPieChart) {
+                        if (item.status == 0) {
+                            this.moi += (item.count);
+                        } else if (item.status == 2 || item.status == 3 || item.status == 4 || item.status == 5 || item.status == 1) {
+                            this.dangXuLy += (item.count);
+                        } else if (item.status == 6) {
+                            this.thatBai += (item.count);
+                        } else {
+                            this.thanhCong += (item.count);
+                        }
+                    }
+                    this.loadDataChart();
+                }, 200);
+            },
+            () => {
+                console.error();
+            }
+        );
         if (this.optionChart == 1) {
             this.data = " theo thời gian";
             this.value = "Doanh thu";
@@ -228,21 +305,39 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                 this.createChart();
             }
         } else {
-            let mocks = []
+            this.dataGridList = [];
+            let mocks = [];
             for (let item of this.listEntity) {
                 mocks.push(item.utmMedium)
             }
             let set = new Set(mocks);
             this.dateChart = [...set];
+            let countList = [];
+            let avgList = [];
             for (let i = 0; i < this.dateChart.length; i++) {
                 this.valueChart.push(0);
+                countList.push(0);
+                avgList.push(0);
                 for (let item of this.listEntity) {
                     if (this.dateChart[i] == item.utmMedium) {
                         this.valueChart[i] = this.valueChart[i] + item.price;
+                        countList[i] = countList[i] + item.count;
                     }
                 }
                 this.createChart()
             }
+            for (let i = 0; i < this.dateChart.length; i++) {
+                let item = {
+                    utm: this.dateChart[i],
+                    price: this.valueChart[i],
+                    count: countList[i],
+                    price_order: parseInt((this.valueChart[i] / countList[i]).toFixed(0))
+                }
+                this.dataGridList.push(item);
+            }
+            this.source.localdata = this.dataGridList;
+            this.dataAdapter = new jqx.dataAdapter(this.source);
+            this.myGrid.clearselection();
         }
     }
     formatDay(day) {
@@ -295,6 +390,56 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
         this.selectedEntity = event.args.row;
     }
     createChart(): void {
+        this.chartPieOptions = {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Thống kê data'
+            },
+            tooltip: {
+                pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.y}'
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [
+                        {
+                            name: 'Đã thành công',
+                            y: this.thanhCong
+                        },
+                        {
+                            name: 'Đã hủy',
+                            y: this.thatBai
+                        },
+                        {
+                            name: 'Mới',
+                            y: this.moi
+                        },
+                        {
+                            name: 'Đang xử lý',
+                            y: this.dangXuLy
+                        }
+                    ],
+                    showInLegend: true
+                }
+            ]
+        };
+
         this.chartOptions = {
             chart: {
                 type: "column"
@@ -318,7 +463,11 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
             }]
         }
         this.chartOptions.series.setVisible
+        Highcharts.chart("pie-chart", this.chartPieOptions)
         Highcharts.chart("chart", this.chartOptions);
+    }
+    public formatCurrency(value: number): String {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(value);
     }
 
 }

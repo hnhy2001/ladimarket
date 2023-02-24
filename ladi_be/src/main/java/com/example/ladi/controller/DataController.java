@@ -93,4 +93,9 @@ public class DataController extends BaseController<Data>{
     public BaseResponse statisticUtmByDate(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String shopCode){
         return dataService.statisticUtmByDate(startDate, endDate, shopCode);
     }
+
+    @GetMapping("statisticdatabydateandstatus")
+    public BaseResponse statisticDataByDateAndStatus(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String shopCode){
+        return dataService.statisticDataByDateAndStatus(startDate, endDate, shopCode);
+    }
 }
