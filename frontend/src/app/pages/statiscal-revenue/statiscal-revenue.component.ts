@@ -56,8 +56,9 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
     chartPieOptions: any;
     dataAdapter: any;
     typeShow = 1;
-    month = 1;
-    year = 2023;
+    today = new Date();
+    month = this.today.getMonth() + 1;
+    year = this.today.getFullYear();
     shopCode = 'KHBOM';
     refundRate = 0;
     shopCodeList = [];
@@ -155,8 +156,8 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
             }
         );
         if (this.optionChart == 1) {
-            this.data = " theo thời gian";
-            this.value = "Doanh thu";
+            this.data = " Doanh thu";
+            this.value = "Theo Doanh thu";
             this.dmService.getOption(null, this.REQUEST_URL, "/thongkedoanhthutheongay?startDate=" + this.startDate + '&endDate=' + this.endDate + "&shopCode=" + this.shopCode).subscribe(
                 (res: HttpResponse<any>) => {
                     this.listEntity = res.body.RESULT;
@@ -170,7 +171,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
             );
         } else {
             this.data = " theo UTM";
-            this.value = "Doanh thu";
+            this.value = "Theo Doanh thu";
             var date = JSON.parse(JSON.stringify(this.dateRange));
             date.endDate = date.endDate.replace("23:59:59", "00:00:00");
             this.startDate = moment(date.startDate).format('YYYYMMDD');
@@ -398,7 +399,7 @@ export class StatiscalRevenueComponent implements OnInit, AfterViewInit {
                 type: 'pie'
             },
             title: {
-                text: 'Thống kê data'
+                text: 'Thống kê theo Trạng Thái'
             },
             tooltip: {
                 pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'

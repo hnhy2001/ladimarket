@@ -5,17 +5,19 @@
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-4">
+          <div class="col-12 col-sm-4">
             <button type="" class="btn btn-primary" (click)="createData()">Thêm</button>
             <button type="" class="btn btn-primary" (click)="updateData()" [disabled]="!selectedEntity">Sửa</button>
             <button type="" class="btn btn-warning" (click)="deleteData()" [disabled]="!selectedEntity">Xoá</button>
 
           </div>
-          <div class="col-8 text-right">
-            <input class="col-6 mr-2" type="text" ngxDaterangepickerMd [(ngModel)]="dateRange" [ranges]="ranges"
+          <div class="col-12 col-sm-4 text-right">
+            <input type="text" ngxDaterangepickerMd class="form-control" [(ngModel)]="dateRange" [ranges]="ranges"
               [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" (ngModelChange)="loadData()" />
+          </div>
+          <div class="col-12 col-sm-4 text-right">
             <a class="btn btn-primary" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="chart" routerLink="/statiscal-cost">
-                Thống kê</a>
+              Thống kê</a>
             <button type="" class="btn btn-primary" (click)="loadData()">Làm mới</button>
           </div>
         </div>

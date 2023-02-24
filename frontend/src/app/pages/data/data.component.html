@@ -5,7 +5,7 @@
       <div class="card-header">
         <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
         <div class="row">
-          <div class="col-8">
+          <div class="col-12 col-sm-8">
             <button type="button" class="btn btn-success" (click)="assignWork()" [hidden]="this.info.role==='user'">Giao việc</button>
             <button type="" class="btn btn-info" (click)="openAutoAssignWork()" [hidden]="this.info.role==='user'">Giao việc nhanh</button>
             <button type="" class="btn btn-info" (click)="onProcessData()">Xử lý</button>
@@ -14,7 +14,7 @@
             <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
             <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
           </div>
-          <div class="col-4">
+          <div class="col-12 col-sm-4">
             <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
             [(ngModel)]="dateRange" 
             [ranges]="ranges" 
@@ -23,11 +23,14 @@
             (ngModelChange)="loadData()"/>
           </div>
 
-          <div class="col-12 text-center">
+          <div class="col-12 col-sm-6 text-right">
             <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}" (click)="getByStatus(0)">Mới ({{countList[0]}})</button>
             <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}"  (click)="getByStatus(1)">Đã tiếp nhận ({{countList[1]}})</button>
             <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}"  (click)="getByStatus(2)">Đang xử lý ({{countList[2]}})</button>
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}"  (click)="getByStatus(3)">KNM L1 ({{countList[3]}})</button>
+            
+          </div>
+          <div class="col-12 col-sm-6 text-left">
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}"  (click)="getByStatus(4)">KNM L2 ({{countList[4]}})</button>
             <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}"  (click)="getByStatus(5)">KNM L3 ({{countList[5]}})</button>
             <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}"  (click)="getByStatus(6)">Thất bại ({{countList[6]}})</button>
