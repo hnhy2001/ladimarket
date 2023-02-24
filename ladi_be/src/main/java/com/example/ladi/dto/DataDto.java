@@ -23,6 +23,7 @@ public class DataDto {
     private int status;
     private String date;
     private String dateOnly;
+    private String dateChangedOnly;
     private String link;
     private String ipAddress;
     private String dateChanged;
