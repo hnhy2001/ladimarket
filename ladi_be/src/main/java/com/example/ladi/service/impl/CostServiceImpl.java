@@ -1,9 +1,11 @@
 package com.example.ladi.service.impl;
 
+import com.example.ladi.configurations.JwtTokenProvider;
 import com.example.ladi.controller.reponse.BaseResponse;
 import com.example.ladi.controller.request.PostCostRequest;
 import com.example.ladi.dto.CostDto;
 import com.example.ladi.dto.StatisticUtmByDateDto;
+import com.example.ladi.model.Account;
 import com.example.ladi.model.Config;
 import com.example.ladi.model.Cost;
 import com.example.ladi.model.CostType;
@@ -13,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,6 +46,9 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
 
     @Autowired
     DataRepository dataRepository;
+
+    @Autowired
+    AccountRepository accountRepository;
 
 
     @Override
@@ -75,9 +81,20 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
     }
 
     @Override
-    public BaseResponse getAllCostByTimeRange(String startDate, String endDate) {
-        List<Cost> costList = costRepository.findAllCostByTimeRange(Long.parseLong(startDate), Long.parseLong(endDate));
-        return new BaseResponse(200, "OK", costList);
+    public BaseResponse getAllCostByTimeRange(String startDate, String endDate, String jwt) {
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+        String bearerToken = getJwtFromRequest(jwt);
+        String userName = jwtTokenProvider.getAccountUserNameFromJWT(bearerToken);
+        Account account = accountRepository.findByUserName(userName);
+        if (account.getRole().equals("admin")) {
+            List<Cost> costList = costRepository.findAllCostByTimeRange(Long.parseLong(startDate), Long.parseLong(endDate));
+            return new BaseResponse(200, "OK", costList);
+        }
+        if (account.getRole().equals("marketing")){
+            List<Cost> costList = costRepository.findAllCostByTimeRangeAndName(Long.parseLong(startDate), Long.parseLong(endDate), account.getUserName());
+            return new BaseResponse(200, "OK", costList);
+        }
+        return new BaseResponse(200, "OK", null);
     }
 
     @Scheduled(cron = "0 1 00 * * ?", zone = "Asia/Saigon")
@@ -126,5 +143,13 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
             costDtoList.add(costDto);
         }
         return costDtoList;
+    }
+
+    private String getJwtFromRequest(String bearerToken) {
+        // Kiểm tra xem header Authorization có chứa thông tin jwt không
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }

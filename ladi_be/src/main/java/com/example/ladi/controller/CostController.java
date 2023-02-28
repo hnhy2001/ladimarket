@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("cost")
 @CrossOrigin
-@PreAuthorize("hasAuthority('admin')")
 public class CostController extends BaseController<Cost>{
     CostService costService;
     public CostController(CostService costService){
@@ -39,8 +38,8 @@ public class CostController extends BaseController<Cost>{
     }
 
     @GetMapping("/getallcostbytimerange")
-    public BaseResponse getAllCostByTimeRange(@RequestParam String startDate, @RequestParam String endDate){
-        return costService.getAllCostByTimeRange(startDate, endDate);
+    public BaseResponse getAllCostByTimeRange(@RequestParam String startDate, @RequestParam String endDate, @RequestHeader(name = "Authorization") String jwt){
+        return costService.getAllCostByTimeRange(startDate, endDate, jwt);
     }
 
     @GetMapping("/test")

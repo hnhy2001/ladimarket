@@ -22,6 +22,14 @@ public class DataRequest {
 
     private String ward;
 
+    public Long getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(Long saleId) {
+        this.saleId = saleId;
+    }
+
     private String product;
 
     private  int status;
@@ -61,6 +69,8 @@ public class DataRequest {
     private Long dateOnly;
 
     private Long dateChangedOnly;
+
+    private Long saleId;
 
     public Long getId() {
         return id;

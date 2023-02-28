@@ -9,6 +9,6 @@ public interface CostService extends BaseService<Cost>{
     public BaseResponse postCost(PostCostRequest postCostRequest);
     public BaseResponse getCost();
     public BaseResponse laySoDonTheoThoiGian(String startDate, String endDate);
-    public BaseResponse getAllCostByTimeRange(String startDate, String endDate);
+    public BaseResponse getAllCostByTimeRange(String startDate, String endDate, String jwt);
     public BaseResponse createCostTransport();
 }

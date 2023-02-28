@@ -12,4 +12,7 @@ public interface CostRepository extends BaseRepository<Cost>{
 
     @Query(value = "select * from cost where from_date >= :startDate and to_date <= :endDate", nativeQuery = true)
     List<Cost> findAllCostByTimeRange(Long startDate, Long endDate);
+
+    @Query(value = "select * from cost where from_date >= :startDate and to_date <= :endDate and name = :userName", nativeQuery = true)
+    List<Cost> findAllCostByTimeRangeAndName(Long startDate, Long endDate, String userName);
 }

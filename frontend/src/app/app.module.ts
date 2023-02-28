@@ -41,6 +41,7 @@ import { ThemSuaXoaCostTypeComponent } from "./shared/popup/them-sua-xoa-cost-ty
 import { ThemSuaXoaCostComponent } from "./shared/popup/them-sua-xoa-cost/them-sua-xoa-cost.component";
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ThemSuaXoaConfigComponent } from "./shared/popup/them-sua-xoa-config/them-sua-xoa-config.component";
+import { ThemSuaXoaCostMarketingComponent } from "./shared/popup/them-sua-xoa-cost-mkt/them-sua-xoa-cost-mkt.component";
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ThemSuaXoaConfigComponent } from "./shared/popup/them-sua-xoa-config/th
     ThongTinCauHinhComponent,
     ThemSuaXoaCostTypeComponent,
     ThemSuaXoaCostComponent,
-    ThemSuaXoaConfigComponent
+    ThemSuaXoaConfigComponent,
+    ThemSuaXoaCostMarketingComponent
   ],
   imports: [
     BrowserAnimationsModule,

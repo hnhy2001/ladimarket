@@ -1,0 +1,35 @@
+<div class="modal-body">
+  <div style="font-size: 18px;">
+    <b>{{title?title:''}}</b>
+    <button class="btn btn-link" style="position: absolute;right: 0px;top: -7px;" (click)="dismiss()">x</button>
+  </div>
+  <div class="d-inline mt-1">
+    <div class="form-group form-outline mb-1 mt-1">
+      <label>Chi phí theo ngày</label>
+      <input type="text" [(ngModel)]="costPerDay" [disabled] = "true" placeholder="costPerDay"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-1 mt-1">
+      <label>Số ngày</label>
+      <input type="text" [(ngModel)]="numOfDay" [disabled] = "true" placeholder="numOfDay"
+        class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+    <div class="form-group form-outline mb-1">
+      <label>Từ ngày - Đến ngày</label>
+      <br>
+      <input class="form-control" type="text" ngxDaterangepickerMd [(ngModel)]="dateRange" [ranges]="ranges"
+        [showCustomRangeLabel]="true" [alwaysShowCalendars]="true" (change)="checkDate()"/>
+    </div>
+    <div class="form-group form-outline mb-1 mt-1">
+      <label>Tổng chi phí</label>
+      <input type="text" [(ngModel)]="totalCost" placeholder="totalCost"
+      (change)="getCostByDay()" class="form-control form-control-lg" style="height:2.5rem ;">
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="" class="btn btn-success" (click)="create()">Lưu</button>
+  <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-success" (click)="accept()"><i class="fa fa-check-circle-o mr-1"></i> {{ btnOkText }}</button>
+  <button type="button" class="btn btn-danger" (click)="decline()"><i class="fa fa-times-circle "></i> {{ btnCancelText }}</button> -->
+</div>

@@ -26,4 +26,6 @@ public class AssignJobRequest {
     public void setDataList(List<DataRequest> dataList) {
         this.dataList = dataList;
     }
+
+
 }

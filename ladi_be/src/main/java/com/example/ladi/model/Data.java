@@ -148,6 +148,13 @@ public class Data {
     @Column(name = "shopcode")
     private String shopCode;
 
+    @Column(name = "cost")
+    private Double cost;
+
+    @ManyToOne
+    @JoinColumn(name = "saleid")
+    Account saleAccount;
+
     @ManyToOne
     @JoinColumn(name = "nhanvienid")
     Account account;

@@ -43,8 +43,8 @@ export class DataComponent implements OnInit, AfterViewInit{
         { text: 'Ngày', editable: false, datafield: 'ngay', width: '10%'},
         { text: 'Tên KH', editable: false, datafield: 'name', width: '15%'},
         { text: 'SĐT', editable: false, datafield: 'phone' , width: '10%'},
-        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '25%'},
-        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '10%',cellsrenderer: (row: number, column: any, value: number): string => {
+        { text: 'Sản phẩm',editable:false ,datafield: 'product' , width: '20%'},
+        { text: 'Trạng thái', editable: false, datafield: 'status' ,  width: '5%',cellsrenderer: (row: number, column: any, value: number): string => {
             switch (value){
                 case 0: 
                 {
@@ -94,6 +94,7 @@ export class DataComponent implements OnInit, AfterViewInit{
             return '<div>' + value.toLocaleString('vi', {style : 'currency', currency : 'VND'}) + '</div>'
         }
         },
+        { text: 'Chi phí', editable: false, datafield: 'cost' ,  width: '10%'},
         // { text: 'Nguồn', editable: false, datafield: 'link' , width: '30%'},
         // { text: 'Địa chỉ', editable: false, datafield: 'street' , width: '10%'},
         // { text: 'Xã', editable: false, datafield: 'ward' , width: '8%'},
@@ -174,7 +175,8 @@ export class DataComponent implements OnInit, AfterViewInit{
                 { name: 'staffName', type: 'string' },
                 { name: 'price', type: 'number' },
                 { name: 'nhanVienId', type: 'number' },
-                { name: 'shopCode', type:'string'}
+                { name: 'shopCode', type:'string'},
+                { name: 'cost', type:'double'}
             ],
             id:'id',
             datatype: 'array'

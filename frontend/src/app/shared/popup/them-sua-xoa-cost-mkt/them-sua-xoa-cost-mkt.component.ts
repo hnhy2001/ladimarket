@@ -10,9 +10,9 @@ import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-them-sua-xoa-cost',
-  templateUrl: './them-sua-xoa-cost.component.html'
+  templateUrl: './them-sua-xoa-cost-mkt.component.html'
 })
-export class ThemSuaXoaCostComponent implements OnInit {
+export class ThemSuaXoaCostMarketingComponent implements OnInit {
   @Input() data?: any;
   @Input() id?: any;
   @Input() title?: any;
@@ -40,13 +40,11 @@ export class ThemSuaXoaCostComponent implements OnInit {
   fromDate = '';
   toDate = '';
   numOfOrder: number;
-  costType = 0;
+  costType = 7;
   costPerOrderValue: number;
   costPerOrder = false;
   listCostType = [];
   selectList = [];
-  updateValue = false;
-  checkMakerting = false;
   REQUEST_URL = '/api/v1/cost';
   REQUEST_URL_COSTTYPE = '/api/v1/costtype';
   constructor(
@@ -57,13 +55,6 @@ export class ThemSuaXoaCostComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getAll").subscribe(
-      (res: HttpResponse<any>) => {
-        this.listCostType = res.body.RESULT;
-      },
-      () => {
-        console.error();
-      });
     if (this.data) {
       this.code = this.data.code;
       this.name = this.data.name;
@@ -76,45 +67,38 @@ export class ThemSuaXoaCostComponent implements OnInit {
       this.numOfOrder = this.data.numOfOrder;
       this.costType = this.data.costName;
     }
-    if (!this.data) {
-      this.updateValue = false;
-    }
-    else {
-      this.updateValue = true;
-    }
 
   }
 
-  getByIdCostType() {
-    this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getById?id=" + this.costType).subscribe(
-      (res: HttpResponse<any>) => {
-        if (res.body.RESULT.isCountOrder == 1) {
-          this.fromDate = moment().startOf("month").format("YYYYMMDD");
-          this.toDate = moment().endOf("month").format("YYYYMMDD");
-          this.numOfDay = parseInt(moment().endOf("month").format('DD'));
-          this.costPerOrder = true;
-          this.timeValue = 1;
-          this.numOfDay = 1;
-          this.getData();
-        } else {
-          this.costPerOrder = false;
-        }
-        if (res.body.RESULT.priod == 1) {
-          this.checkDate();
-        } else {
-          this.fromDate = moment().startOf("month").format("YYYYMMDD");
-          this.toDate = moment().endOf("month").format("YYYYMMDD");
-          this.numOfDay = parseInt(moment().endOf("month").format('DD'));
-        }
-      },
-      () => {
-        console.error();
-      });
-  }
+  // getByIdCostType() {
+  //   this.dmService.getOption(null, this.REQUEST_URL_COSTTYPE, "/getById?id=" + this.costType).subscribe(
+  //     (res: HttpResponse<any>) => {
+  //       if (res.body.RESULT.isCountOrder == 1) {
+  //         this.fromDate = moment().startOf("month").format("YYYYMMDD");
+  //         this.toDate = moment().endOf("month").format("YYYYMMDD");
+  //         this.numOfDay = parseInt(moment().endOf("month").format('DD'));
+  //         this.costPerOrder = true;
+  //         this.timeValue = 1;
+  //         this.numOfDay = 1;
+  //         this.getData();
+  //       } else {
+  //         this.costPerOrder = false;
+  //       }
+  //       if (res.body.RESULT.priod == 1) {
+  //         this.checkDate();
+  //       } else {
+  //         this.fromDate = moment().startOf("month").format("YYYYMMDD");
+  //         this.toDate = moment().endOf("month").format("YYYYMMDD");
+  //         this.numOfDay = parseInt(moment().endOf("month").format('DD'));
+  //       }
+  //     },
+  //     () => {
+  //       console.error();
+  //     });
+  // }
 
   checkDate() {
     this.numOfDay = 1;
-    this.checkMakerting = true;
     var date = JSON.parse(JSON.stringify(this.dateRange));
     date.endDate = date.endDate.replace("23:59:59", "00:00:00");
     this.fromDate = moment(date.startDate, 'YYYYMMDD').format("YYYYMMDD");
@@ -195,6 +179,7 @@ export class ThemSuaXoaCostComponent implements OnInit {
       }
       else {
         entity.id = this.data.id;
+        entity.costTypeId = 7;
         console.log(this.id);
         this.dmService.postOption(entity, "/api/v1/cost/postcost", '').subscribe(
           (res: HttpResponse<any>) => {
@@ -219,7 +204,12 @@ export class ThemSuaXoaCostComponent implements OnInit {
   }
 
   validData() {
-    this.code = this.fromDate.slice(6) + "/" + this.fromDate.slice(4,6) + "/" + this.fromDate.slice(0,4)  + "-" + this.toDate.slice(6) + "/" + this.toDate.slice(4,6) + "/" + this.toDate.slice(0,4);
+    let checkTime = moment().format('DD');
+    if(parseInt(checkTime) - parseInt(this.fromDate.slice(6)) > 2){
+      this.code = this.fromDate.slice(6) + "/" + this.fromDate.slice(4,6) + "/" + this.fromDate.slice(0,4)  + "-" + this.toDate.slice(6) + "/" + this.toDate.slice(4,6) + "/" + this.toDate.slice(0,4) + "(late)";
+    }else{
+      this.code = this.fromDate.slice(6) + "/" + this.fromDate.slice(4,6) + "/" + this.fromDate.slice(0,4)  + "-" + this.toDate.slice(6) + "/" + this.toDate.slice(4,6) + "/" + this.toDate.slice(0,4);
+    }
     this.name = this.locale.retrieve("authenticationtoken").userName;
     if (this.code == "") {
       this.notification.showError("code Không được để trống", "Fail");
@@ -250,9 +240,9 @@ export class ThemSuaXoaCostComponent implements OnInit {
     this.getCostByDay();
   }
 
-  loadDataByCostPerOerDer(): void {
-    this.getByIdCostType();
-  }
+  // loadDataByCostPerOerDer(): void {
+  //   this.getByIdCostType();
+  // }
   public decline(): void {
     this.activeModal.close(false);
   }

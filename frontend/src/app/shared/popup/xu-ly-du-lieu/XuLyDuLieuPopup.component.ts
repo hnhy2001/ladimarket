@@ -80,6 +80,11 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
 
   save(i:any):void{
     if(i===6) this.data.price = 0;
+    // hnhy2001
+    if(i===7){
+      this.data.saleId = this.localStorage.retrieve("authenticationtoken").id;
+    }
+    // hnhy2001
     this.data.dateChanged = moment(new Date()).format('YYYYMMDDHHmmss');
     this.data.dateChangedOnly = moment(new Date()).format('YYYYMMDD');
     this.data.status = i === -1 ? this.data.status : i;
