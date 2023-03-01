@@ -70,7 +70,17 @@ public class DataRequest {
 
     private Long dateChangedOnly;
 
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
     private Long saleId;
+
+    private Double cost;
 
     public Long getId() {
         return id;

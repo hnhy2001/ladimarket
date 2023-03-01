@@ -51,7 +51,7 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'Mã bản ghi', editable: false, datafield: 'code', 'width': '15%' },
+            { text: 'Ngày tạo', editable: false, datafield: 'code', 'width': '15%' },
             { text: 'Tên bản ghi', editable: false, datafield: 'name', 'width': '15%' },
             {
                 text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
