@@ -15,8 +15,6 @@ public class CustomWorkRepositoryImpl implements CustomWorkRepository{
     @Autowired
     EntityManager entityManager;
 
-
-
     @Override
     public String value() {
         return null;

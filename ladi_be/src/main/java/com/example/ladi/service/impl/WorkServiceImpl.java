@@ -6,6 +6,7 @@ import com.example.ladi.controller.request.CheckOutRequest;
 import com.example.ladi.controller.request.CheckWorkActiveRequest;
 import com.example.ladi.controller.request.CreateWorkRequest;
 import com.example.ladi.dto.AccountDto;
+import com.example.ladi.dto.StatisticUtmByDateDto;
 import com.example.ladi.dto.WorkDto;
 import com.example.ladi.model.Account;
 import com.example.ladi.model.Data;
@@ -40,6 +41,9 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
     @Autowired
     CustomDataRepository customDataRepository;
 
+    @Autowired
+    DataRepository dataRepository;
+
     @Override
     protected BaseRepository<Work> getRepository() {
         return workRepository;
@@ -55,7 +59,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
             return new BaseResponse(500, "Tài khoản hiện đã đăng nhập ở thiết bị khác", "Create Fail");
         }
 
-        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getDonXuLy(), createWorkRequest.getGhiChu(), 1, account);
+        Work work = new Work(createWorkRequest.getTimeIn(), createWorkRequest.getTimeOut(), createWorkRequest.getDonGiao(), createWorkRequest.getDonHoanThanh(), createWorkRequest.getDonXuLy(), createWorkRequest.getGhiChu(), 1, createWorkRequest.getDonThanhCong(),  account);
         workRepository.save(work);
         return new BaseResponse(200, "OK", work.getId());
     }
@@ -102,6 +106,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
             }
             dataList.get(i).setAccount(null);
         }
+//
         work.setTimeOut(checkOutRequest.getTimeOut());
         work.setDonGiao(checkOutRequest.getDonGiao());
         work.setDonHoanThanh(checkOutRequest.getDonHoanThanh());
@@ -117,7 +122,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         List<WorkDto> workDtoList = new ArrayList<>();
         for (int i = 0 ; i<workList.size(); i++){
             AccountDto accountDto = new AccountDto(workList.get(i).getAccount().getId(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getUserName(), workList.get(i).getAccount().getShop(), workList.get(i).getAccount().getRole());
-            WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getDonXuLy(), workList.get(i).getGhiChu(), accountDto);
+            WorkDto workDto = new WorkDto(workList.get(i).getId(), workList.get(i).getTimeIn(), workList.get(i).getTimeOut(), workList.get(i).getDonGiao(), workList.get(i).getDonHoanThanh(), workList.get(i).getDonXuLy(), workList.get(i).getGhiChu(),  workList.get(i).getDonThanhCong(),accountDto);
             workDtoList.add(workDto);
         }
         return new BaseResponse(200, "OK", workDtoList);
@@ -142,9 +147,11 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donHoanThanh = customDataRepository.checkOut("7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donXuLy = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donThanhCong = customDataRepository.checkOut("7,8", String.valueOf(startDate), String.valueOf(endDate), account, null).size();
         work.setDonGiao(donGiao);
         work.setDonHoanThanh(donHoanThanh);
         work.setDonXuLy(donXuLy);
+        work.setDonThanhCong(donThanhCong);
         work.setTimeOut(endDate);
         AccountDto accountDto = modelMapper.map(work.getAccount(), AccountDto.class);
         WorkDto workDto = modelMapper.map(work, WorkDto.class);
@@ -170,6 +177,11 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         WorkDto workDto = modelMapper.map(work, WorkDto.class);
         workDto.setAcount(accountDto);
         return new BaseResponse(200, "OK", workDto);
+    }
+
+    @Override
+    public BaseResponse statisticPerformanceSale(String startDate, String endDate) {
+        return new BaseResponse(200, "OK", workRepository.statisticPerformanceSale(Long.parseLong(startDate), Long.parseLong(endDate)));
     }
 
     private String getJwtFromRequest(String bearerToken) {

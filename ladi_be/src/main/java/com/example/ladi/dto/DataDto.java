@@ -40,4 +40,5 @@ public class DataDto {
     private String utm_term;
     private String utm_content;
     private String variant_url;
+    private Double cost;
 }

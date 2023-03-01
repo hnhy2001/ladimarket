@@ -53,4 +53,9 @@ public class WorkController extends BaseController<Work>{
 //        return new BaseResponse(200, "Ok", "hello");
         return workService.infoCheckout(id);
     }
+
+    @GetMapping("statisticperformancesale")
+    public BaseResponse statisticPerformanceSale(@RequestParam String startDate, @RequestParam String endDate){
+        return workService.statisticPerformanceSale(startDate, endDate);
+    }
 }

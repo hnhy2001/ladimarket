@@ -13,4 +13,5 @@ public interface WorkService extends BaseService<Work> {
     public BaseResponse getAllActive(String shopCode);
     public BaseResponse checkWorkActive(CheckWorkActiveRequest checkWorkActive, String shopCode);
     public BaseResponse infoCheckout(Long id);
+    public BaseResponse statisticPerformanceSale(String startDate, String endDate);
 }

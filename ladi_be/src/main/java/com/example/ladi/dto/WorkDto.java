@@ -15,5 +15,6 @@ public class WorkDto {
     private int donHoanThanh;
     private int donXuLy;
     private String ghiChu;
+    private int donThanhCong;
     private AccountDto acount;
 }

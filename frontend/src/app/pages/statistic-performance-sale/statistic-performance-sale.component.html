@@ -1,0 +1,38 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+        <div class="row">
+          <div class="col-12 col-sm-8">
+            <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
+            <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
+          </div>
+          <div class="col-12 col-sm-4">
+            <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
+            [(ngModel)]="dateRange" 
+            [ranges]="ranges" 
+            [showCustomRangeLabel]="true"
+            [alwaysShowCalendars]="true"
+            (ngModelChange)="loadData()"/>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-body">
+        <jqxGrid #gridReference
+          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true" [height]="height"
+          [pageable]="true" [autorowheight]="true" [sortable]="true" 
+          [filterable]="true" [showfilterrow]="true"
+          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
+          (onRowselect)="onRowSelect($event)" [localization]="localization"
+          (onRowdoubleclick)="onRowdblclick($event)"
+          >
+          </jqxGrid>
+      </div>
+    </div>
+  </div> 
+</div>
+
+

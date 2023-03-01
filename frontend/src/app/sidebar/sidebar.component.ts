@@ -49,6 +49,8 @@ export class SidebarComponent implements OnInit {
                     { path: '/work',          title: 'Chấm công',              icon:'nc-tap-01',      class: 'border-bottom ', role:'user' },
                     { path: '/utm-medium',          title: 'Cấu hình utm',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
                     { path: '/cost-marketing',          title: 'Chi phí marketing',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'marketing' },
+                    { path: '/statistic-performance-sale',          title: 'Thống kê hiệu suất sale',              icon:'nc-single-copy-04',      class: 'border-bottom ', role:'admin' },
+
 
                 ];
                 if(res.body.CODE === 200){

@@ -28,6 +28,7 @@ import { StatiscalCostComponent } from 'app/pages/statiscal-cost/statiscal-cost.
 import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal-revenue.component';
 import { ConfigComponent } from 'app/pages/config/config.component';
 import { CostMarketingComponent } from 'app/pages/cost-mkt/cost-mkt.component';
+import { StatisticPerformanceSaleComponent } from 'app/pages/statistic-performance-sale/statistic-performance-sale.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { CostMarketingComponent } from 'app/pages/cost-mkt/cost-mkt.component';
     StatiscalCostComponent,
     StatiscalRevenueComponent,
     ConfigComponent,
-    CostMarketingComponent
+    CostMarketingComponent,
+    StatisticPerformanceSaleComponent
   ]
 })
 
