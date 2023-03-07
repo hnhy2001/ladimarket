@@ -45,7 +45,7 @@
     </ul>
 
     <li (click)="isCollapsedBC = !isCollapsedBC" [attr.aria-expanded]="!isCollapsedBC" aria-controls="collapseBC"
-      class="border-bottom" *ngIf="info.role === 'admin'">
+      class="border-bottom" *ngIf="info.role === 'admin' || info.role === 'marketing'">
       <a>
         <i class="nc-icon nc-chart-pie-36"></i>
         <p>Báo cáo
@@ -57,11 +57,11 @@
       </a>
     </li>
     <ul #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedBC" style="list-style: none; padding-left: 0px;"
-      class="border-bottom" *ngIf="info.role === 'admin'">
-      <li class="nav-item">
+      class="border-bottom" *ngIf="info.role === 'admin' || info.role === 'marketing'">
+      <li class="nav-item" >
         <a routerLink="/utm-statistic">Thống kê UTM</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="info.role === 'admin'">
         <a routerLink="/statiscal-revenue">Thống kê doanh thu</a>
       </li>
     </ul>

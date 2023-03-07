@@ -144,8 +144,8 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Long date = Long.parseLong(formatter.format(nowDate));
         Long startDate = work.getTimeIn();
         Long endDate = date;
-        int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
-        int donHoanThanh = customDataRepository.checkOut("7", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7,8", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donHoanThanh = customDataRepository.checkOut("1,2,3,4,5,6,7,8", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donXuLy = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donThanhCong = customDataRepository.checkOut("7,8", String.valueOf(startDate), String.valueOf(endDate), account, null).size();
         work.setDonGiao(donGiao);

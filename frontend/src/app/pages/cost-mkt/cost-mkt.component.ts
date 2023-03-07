@@ -24,7 +24,7 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
     chartOptions: any;
     source: any;
     visibleTrigger = false
-    visible={display:"none"};
+    visible = { display: "none" };
     listStatus = [
         { id: 0, label: "Chờ xử lý" },
         { id: 1, label: "Đang xử lý" },
@@ -38,8 +38,8 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
         ['Hôm qua']: [dayjs().subtract(1, 'days'), dayjs().subtract(1, 'days')],
         ['Tháng này']: [dayjs().startOf('month'), dayjs().endOf('month')],
     };
-    dateChart= [];
-    valueChart= [];
+    dateChart = [];
+    valueChart = [];
     dataAdapter: any;
     columns: any[] =
         [
@@ -51,8 +51,14 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'Ngày tạo', editable: false, datafield: 'code', 'width': '15%' },
-            { text: 'Tên bản ghi', editable: false, datafield: 'name', 'width': '15%' },
+            {
+                text: 'Ngày tạo', editable: false, datafield: 'code', 'width': '15%', cellsrenderer: (row: number, column: any, value: string): string => {
+                    if(value.includes("(late)")){
+                        return '<div>' + value + '<span style="color: rgb(204, 57, 57);font-size: 24px;" > *</span></div>';
+                    }
+                }
+            },
+            { text: 'Tài khoản marketing', editable: false, datafield: 'name', 'width': '15%' },
             {
                 text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
                     return '<div class="div-center">' + this.formatCurrency(value) + '</div>';
@@ -85,7 +91,7 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
                 }
             },
             { text: 'Số đơn', editable: false, datafield: 'numOfOrder', 'width': '5%' },
-            { text: 'Loại chi phí', editable: false, datafield: 'costName', 'width': '15%'}
+            { text: 'Loại chi phí', editable: false, datafield: 'costName', 'width': '15%' }
         ];
 
     REQUEST_URL = "/api/v1/cost";
@@ -144,21 +150,21 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.myGrid.pagesizeoptions(this.pageSizeOptions);
     }
-    public  loadData() {
+    public loadData() {
         var date = JSON.parse(JSON.stringify(this.dateRange));
         date.endDate = date.endDate.replace("23:59:59", "00:00:00");
         let startDate = moment(date.startDate, 'YYYYMMDD');
         let endDate = moment(date.endDate, 'YYYYMMDD');
-        this.dmService.getOption(null, this.REQUEST_URL, "/getallcostbytimerange?startDate=" + startDate.format("YYYYMMDD")+'&endDate=' + endDate.format("YYYYMMDD")).subscribe(
+        this.dmService.getOption(null, this.REQUEST_URL, "/getallcostbytimerange?startDate=" + startDate.format("YYYYMMDD") + '&endDate=' + endDate.format("YYYYMMDD")).subscribe(
             (res: HttpResponse<any>) => {
                 this.listEntity = res.body.RESULT;
                 for (let index = 0; index < this.listEntity.length; index++) {
-                    this.listEntity[index].costName = this.listEntity[index].costType ? this.listEntity[index].costType.name : '' 
-                    
+                    this.listEntity[index].costName = this.listEntity[index].costType ? this.listEntity[index].costType.name : ''
+
                 }
                 setTimeout(() => {
                     this.source.localdata = res.body.RESULT;
-                    
+
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                     this.myGrid.clearselection();
                     // this.loadDataChart(this.listEntity);
@@ -181,7 +187,7 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
     //     }
     //     this.dateChart = a;
     //     this.valueChart = b;
-        
+
     //     this.createChart();
     // }
     public updateData() {
@@ -267,10 +273,10 @@ export class CostMarketingComponent implements OnInit, AfterViewInit {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND' }).format(value);
     }
     toggleCollapse(): void {
-        if(this.visibleTrigger == false){
+        if (this.visibleTrigger == false) {
             this.visible.display = "block";
             this.visibleTrigger = true;
-        }else{
+        } else {
             this.visibleTrigger = false;
             this.visible.display = "none";
         }

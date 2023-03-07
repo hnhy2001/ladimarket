@@ -51,7 +51,13 @@ export class CostComponent implements OnInit, AfterViewInit {
                     return '<div style="margin: 4px;">' + (value + 1) + '</div>';
                 }
             },
-            { text: 'Ngày tạo', editable: false, datafield: 'code', 'width': '10%' },
+            {
+                text: 'Ngày tạo', editable: false, datafield: 'code', 'width': '15%', cellsrenderer: (row: number, column: any, value: string): string => {
+                    if(value.includes("(late)")){
+                        return '<div>' + value + '<span style="color: rgb(204, 57, 57);font-size: 24px;" > *</span></div>';
+                    }
+                }
+            },
             { text: 'Tên bản ghi', editable: false, datafield: 'name', 'width': '20%' },
             {
                 text: 'Chi phí theo ngày', editable: false, datafield: 'costPerDay', 'width': '10%', cellsrenderer: (row: number, column: any, value: number): string => {
