@@ -32,15 +32,15 @@
     </li>
 
     <ul #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedCP" style="list-style: none; padding-left: 0px;"
-      class="border-bottom" *ngIf="info.role === 'admin'">
+      class="border-bottom" *ngIf="info.role === 'admin' || info.role === 'marketing'">
       <li class="nav-item">
-        <a routerLink="/costType">Loại chi phí</a>
+        <a routerLink="/costType" *ngIf="info.role === 'admin'">Loại chi phí</a>
       </li>
       <li class="nav-item">
-        <a routerLink="/cost">Bản ghi chi phí</a>
+        <a routerLink="/cost" *ngIf="info.role === 'admin'">Bản ghi chi phí</a>
       </li>
       <li class="nav-item">
-        <a routerLink="/statiscal-cost">Thống kê chi phí</a>
+        <a routerLink="/cost-marketing">Chi phí marketing</a>
       </li>
     </ul>
 
@@ -64,6 +64,13 @@
       <li class="nav-item" *ngIf="info.role === 'admin'">
         <a routerLink="/statiscal-revenue">Thống kê doanh thu</a>
       </li>
+      <li class="nav-item">
+        <a routerLink="/statiscal-cost" *ngIf="info.role === 'admin'">Thống kê chi phí</a>
+      </li> 
+      <li class="nav-item">
+        <a routerLink="/statistic-performance-sale" *ngIf="info.role === 'admin'">Thống kê hiệu suất sale</a>
+      </li>
+      
     </ul>
   </ul>
 
