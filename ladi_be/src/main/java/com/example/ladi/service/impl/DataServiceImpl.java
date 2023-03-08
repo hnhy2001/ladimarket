@@ -111,12 +111,12 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     @Override
     public BaseResponse assignWork(AssignJobRequest assignJobRequest) {
         for (DataRequest data : assignJobRequest.getDataList()){
-            Account saleAccount = new Account();
             Account account = accountRepository.findAllById(data.getNhanVienId());
             Data dataResult = modelMapper.map(data, Data.class);
             dataResult.setAccount(account);
             if (data.getStatus() == 7){
-                saleAccount  = accountRepository.findAllById(data.getSaleId());
+                Account saleAccount  = accountRepository.findAllById(data.getSaleId());
+                dataResult.setSaleAccount(saleAccount);
                 Config config = configRepository.findAllByCode("CPVC");
                 if (dataResult.getDateOnly() < config.getFromDate() || dataResult.getDateOnly() > config.getToDate()){
                      dataResult.setCost(Double.parseDouble(config.getDefaultValue()));
@@ -124,7 +124,6 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
                     dataResult.setCost(Double.parseDouble(config.getValue()));
                 }
             }
-            dataResult.setSaleAccount(saleAccount);
             dataRepository.save(dataResult);
         }
         return new BaseResponse(200, "Success!", null);

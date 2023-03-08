@@ -111,6 +111,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         work.setDonGiao(checkOutRequest.getDonGiao());
         work.setDonHoanThanh(checkOutRequest.getDonHoanThanh());
         work.setDonXuLy(checkOutRequest.getDonXuLy());
+        work.setDonThanhCong(checkOutRequest.getDonThanhCong());
         work.setIsActive(-1);
         workRepository.save(work);
         return new BaseResponse(200, "OK", "Checkout Success");
