@@ -19,7 +19,7 @@
     </li>
 
     <li (click)="isCollapsedCP = !isCollapsedCP" [attr.aria-expanded]="!isCollapsedCP" aria-controls="collapseCP"
-      class="border-bottom" *ngIf="info.role === 'admin'">
+      class="border-bottom" *ngIf="info.role === 'admin' || info.role === 'marketing'">
       <a>
         <i class="nc-icon nc-credit-card"></i>
         <p>Chi phí
