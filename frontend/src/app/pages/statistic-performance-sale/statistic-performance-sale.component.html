@@ -1,63 +1,77 @@
-<div class="row">
+  <div class="row">
 
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header">
-        <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
-        <div class="row">
-          <div class="col-12 col-sm-8">
-            <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
-            <button type="" class="btn btn-info" (click)="refresh()">Làm mới</button>
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <!-- <h4 class="card-title"> Kiện hàng bom</h4> -->
+          <div class="row">
+            <div class="col-8 col-sm-4">
+              <!-- <button type="" class="btn btn-info" (click)="onExportData()" [hidden]="this.info.role==='user'">Tổng kết dữ liệu</button> -->
+              <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
+              [(ngModel)]="dateRange" 
+              [ranges]="ranges" 
+              [showCustomRangeLabel]="true"
+              [alwaysShowCalendars]="true"
+              (ngModelChange)="loadData()"/>
+            </div>
+            <div class="col-4 col-sm-8 text-right">
+              <button type="" class="btn btn-sm btn-info" (click)="refresh()">Làm mới</button>
+            </div>
+
           </div>
-          <div class="col-12 col-sm-4">
-            <input class="form-control pl-3" style="margin-top: 10px" type="text" ngxDaterangepickerMd 
-            [(ngModel)]="dateRange" 
-            [ranges]="ranges" 
-            [showCustomRangeLabel]="true"
-            [alwaysShowCalendars]="true"
-            (ngModelChange)="loadData()"/>
-          </div>
-          <div class="col-12 col-sm-12 d-flex justify-content-around">
-            <div class="card col-sm-2" style="height: 80px;">
-              <div class = "card-header" style="height: 40px; width: 100%;" style="background-color:gray;"></div>
-              <div class="card-body" style="font-weight: 900;">
-                  Tổng đơn: {{totalData}} <br>
+          <div class="row">
+            <div class="col-12 col-sm-12 d-flex justify-content-around">
+              <div class="card col-sm-2" style="height: 80px;">
+                <div class="card-header text-light text-bold text-center bg-info" style="height: 40px">
+                  Tổng đơn
+                </div>
+                <div class="card-body text-center mb-1 p-0" style="font-weight: 900;">
+                    {{totalData}} <br>
+                    <div class="progress">
+                      <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+              </div>
+              <div class="card col-sm-2" style="height: 80px;">
+                <div class ="card-header text-light text-bold text-center bg-success" style="height: 40px;">
+                  Đơn thành công
+                </div>
+                <div class="card-body text-center mb-1 p-0" style="font-weight: 900;">
+                    {{successData}} <br>
+                    <div class="progress">
+                      <div class="progress-bar bg-success progress-bar-striped" role="progressbar" [style.width.%]="percentSuccessData" [attr.aria-valuenow]="percentSuccessData" aria-valuemin="0" aria-valuemax="100">{{percentSuccessData}}%</div>
+                    </div>
+                </div>
               </div>
             </div>
-            <div class="card col-sm-2" style="height: 80px;">
-              <div class = "card-header" style="height: 40px; width: 100%;" style="background-color: rgb(56, 94, 221);"></div>
-              <div class="card-body" style="font-weight: 900;">
-                  Đơn thành công: {{successData}} <br>
-                  Tỷ lệ: {{percentSuccessData}}%
-              </div>
-            </div>
           </div>
-          <div class="col-12 col-sm-12 text-center">
-            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}">Mới <br> Số đơn: {{countList[0]}} <br> Tỷ lệ: {{percentList[0]}}%</button>
-            <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}">Đã tiếp nhận <br> Số đơn: {{countList[1]}} <br>Tỷ lệ: {{percentList[1]}}%</button>
-            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}">Đang xử lý <br> Số đơn: {{countList[2]}} <br>Tỷ lệ: {{percentList[2]}}%</button>
-            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}">KNM L1 <br> Số đơn: {{countList[3]}} <br>Tỷ lệ: {{percentList[3]}}%</button>
-            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}">KNM L2 <br> Số đơn: {{countList[4]}} <br>Tỷ lệ: {{percentList[4]}}%</button>
-            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}">KNM L3 <br> Số đơn: {{countList[5]}} <br>Tỷ lệ: {{percentList[5]}}%</button>
-            <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}">Thất bại <br> Số đơn: {{countList[6]}} <br>Tỷ lệ: {{percentList[6]}}%</button>
-            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}">Thành công <br> Số đơn: {{countList[7]}} <br>Tỷ lệ: {{percentList[7]}}%</button>
-            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}" [hidden]="this.info.role==='user'">Đã in đơn <br>Số đơn: {{countList[8]}} <br>Tỷ lệ: {{percentList[8]}}%</button>
+          <div class="row">
+            <div class="col-12 col-sm-12 text-center">
+              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}">Mới <br> Số đơn: {{countList[0]}} <br> Tỷ lệ: {{percentList[0]}}%</button>
+              <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}">Đã tiếp nhận <br> Số đơn: {{countList[1]}} <br>Tỷ lệ: {{percentList[1]}}%</button>
+              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}">Đang xử lý <br> Số đơn: {{countList[2]}} <br>Tỷ lệ: {{percentList[2]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}">KNM L1 <br> Số đơn: {{countList[3]}} <br>Tỷ lệ: {{percentList[3]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}">KNM L2 <br> Số đơn: {{countList[4]}} <br>Tỷ lệ: {{percentList[4]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}">KNM L3 <br> Số đơn: {{countList[5]}} <br>Tỷ lệ: {{percentList[5]}}%</button>
+              <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}">Thất bại <br> Số đơn: {{countList[6]}} <br>Tỷ lệ: {{percentList[6]}}%</button>
+              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}">Thành công <br> Số đơn: {{countList[7]}} <br>Tỷ lệ: {{percentList[7]}}%</button>
+              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}" [hidden]="this.info.role==='user'">Đã in đơn <br>Số đơn: {{countList[8]}} <br>Tỷ lệ: {{percentList[8]}}%</button>
+            </div>
           </div>
         </div>
+        <div class="card-body">
+          <jqxGrid #gridReference
+            [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true" [height]="height"
+            [pageable]="true" [autorowheight]="true" [sortable]="true" 
+            [filterable]="true" [showfilterrow]="true"
+            [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
+            (onRowselect)="onRowSelect($event)" [localization]="localization"
+            (onRowdoubleclick)="onRowdblclick($event)"
+            >
+            </jqxGrid>
+        </div>
       </div>
-      <div class="card-body">
-        <jqxGrid #gridReference
-          [width]="'100%'" [source]="dataAdapter" [columns]="columns" [editable]="true" [height]="height"
-          [pageable]="true" [autorowheight]="true" [sortable]="true" 
-          [filterable]="true" [showfilterrow]="true"
-          [altrows]="true"  [enabletooltips]="true"  [selectionmode]="'checkbox'"
-          (onRowselect)="onRowSelect($event)" [localization]="localization"
-          (onRowdoubleclick)="onRowdblclick($event)"
-          >
-          </jqxGrid>
-      </div>
-    </div>
-  </div> 
-</div>
+    </div> 
+  </div>
 
 

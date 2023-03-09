@@ -45,18 +45,18 @@ export class StatisticPerformanceSaleComponent implements OnInit, AfterViewInit 
           return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + (value + 1) + '</div>';
         }
       },
-      { text: 'Tên sale', editable: false, datafield: 'fullName', width: '16%' },
-      { text: 'Đơn giao', editable: false, datafield: 'donGiao', width: '16%' },
-      { text: 'Đơn xử lý', editable: false, datafield: 'donHoanThanh', width: '16%' },
+      { text: 'Tên sale', editable: false, datafield: 'fullName'},
+      { text: 'Đơn giao', editable: false, datafield: 'donGiao', width: '15%' },
+      { text: 'Đơn xử lý', editable: false, datafield: 'donHoanThanh', width: '15%' },
       {
-        text: 'Tỉ lệ đơn xử lý', editable: false, datafield: 'percentDonHoanThanh', width: '16%',
+        text: 'Tỉ lệ đơn xử lý', editable: false, datafield: 'percentDonHoanThanh', width: '15%',
         cellsrenderer: (row: number, column: any, value: string): string => {
           return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + value + '%</div>';
         }
       },
-      { text: 'Đơn thành công', editable: false, datafield: 'donThanhCong', width: '16%' },
+      { text: 'Đơn thành công', editable: false, datafield: 'donThanhCong', width: '15%' },
       {
-        text: 'Tỉ lệ đơn thành công', editable: false, datafield: 'percentDonThanhCong', width: '16%',
+        text: 'Tỉ lệ đơn thành công', editable: false, datafield: 'percentDonThanhCong', width: '15%',
         cellsrenderer: (row: number, column: any, value: string): string => {
           return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + value + '%</div>';
         }
