@@ -47,15 +47,15 @@
           </div>
           <div class="row">
             <div class="col-12 col-sm-12 text-center">
-              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}">Mới <br> Số đơn: {{countList[0]}} <br> Tỷ lệ: {{percentList[0]}}%</button>
-              <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}">Đã tiếp nhận <br> Số đơn: {{countList[1]}} <br>Tỷ lệ: {{percentList[1]}}%</button>
-              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}">Đang xử lý <br> Số đơn: {{countList[2]}} <br>Tỷ lệ: {{percentList[2]}}%</button>
-              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}">KNM L1 <br> Số đơn: {{countList[3]}} <br>Tỷ lệ: {{percentList[3]}}%</button>
-              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}">KNM L2 <br> Số đơn: {{countList[4]}} <br>Tỷ lệ: {{percentList[4]}}%</button>
-              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}">KNM L3 <br> Số đơn: {{countList[5]}} <br>Tỷ lệ: {{percentList[5]}}%</button>
-              <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}">Thất bại <br> Số đơn: {{countList[6]}} <br>Tỷ lệ: {{percentList[6]}}%</button>
-              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}">Thành công <br> Số đơn: {{countList[7]}} <br>Tỷ lệ: {{percentList[7]}}%</button>
-              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}" [hidden]="this.info.role==='user'">Đã in đơn <br>Số đơn: {{countList[8]}} <br>Tỷ lệ: {{percentList[8]}}%</button>
+              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}">Mới <br> {{countList[0]}} <br>  {{percentList[0]}}%</button>
+              <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}">Đã tiếp nhận <br> {{countList[1]}} <br> {{percentList[1]}}%</button>
+              <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}">Đang xử lý <br> {{countList[2]}} <br> {{percentList[2]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}">KNM L1 <br> {{countList[3]}} <br> {{percentList[3]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}">KNM L2 <br> {{countList[4]}} <br> {{percentList[4]}}%</button>
+              <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}">KNM L3 <br> {{countList[5]}} <br> {{percentList[5]}}%</button>
+              <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}">Thất bại <br> {{countList[6]}} <br> {{percentList[6]}}%</button>
+              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}">Thành công <br> {{countList[7]}} <br> {{percentList[7]}}%</button>
+              <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}" [hidden]="this.info.role==='user'">Đã in đơn <br> {{countList[8]}} <br> {{percentList[8]}}%</button>
             </div>
           </div>
         </div>

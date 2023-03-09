@@ -99,7 +99,7 @@ public class DataController extends BaseController<Data>{
         return dataService.statisticDataByDateAndStatus(startDate, endDate, shopCode);
     }
 
-    @GetMapping("statisticquantitydatabydateandstatus")
+    @GetMapping("stcquantity")
     public BaseResponse statisticQuantityDataByDateAndStatus(@RequestParam String startDate, @RequestParam String endDate){
         return dataService.statisticQuantityDataByDateAndStatus(startDate, endDate);
     }

@@ -149,7 +149,7 @@ export class StatisticPerformanceSaleComponent implements OnInit, AfterViewInit 
     date.endDate = date.endDate.replace("23:59:59", "00:00:00");
     let startDate = moment(date.startDate).format('YYYYMMDD') + '000000';
     let endDate = moment(date.endDate).format('YYYYMMDD') + '235959';
-    this.dmService.getOption(null, this.REQUEST_URL, "/statisticperformancesale?startDate=" + startDate + '&endDate=' + endDate).subscribe(
+    this.dmService.getOption(null, this.REQUEST_URL, "/stcproductivity?startDate=" + startDate + '&endDate=' + endDate).subscribe(
       (res: HttpResponse<any>) => {
         setTimeout(() => {
           this.listEntity = res.body.RESULT;
@@ -164,7 +164,7 @@ export class StatisticPerformanceSaleComponent implements OnInit, AfterViewInit 
       }
     );
 
-    this.dmService.getOption(null, "/api/v1/data", "/statisticquantitydatabydateandstatus?startDate=" + startDate + '&endDate=' + endDate).subscribe(
+    this.dmService.getOption(null, "/api/v1/data", "/stcquantity?startDate=" + startDate + '&endDate=' + endDate).subscribe(
       (res: HttpResponse<any>) => {
         let list = res.body.RESULT
         this.totalData = 0;
@@ -177,11 +177,8 @@ export class StatisticPerformanceSaleComponent implements OnInit, AfterViewInit 
         })
         list.forEach(item => {
           this.countList[item.status] = item.count;
-          this.percentList[item.status] = Number(((item.count/this.totalData)*100).toFixed(4))
         })
-        for(let i =0; i<this.countList.length; i++){
-          console.log(this.totalData);
-        }
+        this.percentList = this.countList.map(item => Number(((item/this.totalData)*100).toFixed(4))) 
         this.percentSuccessData = ((this.successData/this.totalData) * 100).toFixed(2)
       },
       () => {
