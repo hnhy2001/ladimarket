@@ -57,8 +57,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
         columns = {@ColumnResult(name = "count", type = Integer.class),
                 @ColumnResult(name = "status", type = Integer.class)}))
 
-
-
+@NamedNativeQuery(name = "Data.statisticQuantityDataByDateAndStatus",
+        query = "SELECT COUNT(id) as count, status  from `data` WHERE date <= :endDate and date >= :startDate GROUP BY status ",
+        resultSetMapping = "Mapping.StatisticDataByDateAndStatusDto")
 
 @Entity
 @Table(name = "data")

@@ -57,4 +57,7 @@ public interface DataRepository extends BaseRepository<Data> {
     @Query(nativeQuery = true)
     List<StatisticDataByDateAndStatusDto> statisticDataByDateAndStatus(Long startDate, Long endDate, String shopCode);
 
+    @Query(nativeQuery = true)
+    List<StatisticDataByDateAndStatusDto> statisticQuantityDataByDateAndStatus(Long startDate, Long endDate);
+
 }

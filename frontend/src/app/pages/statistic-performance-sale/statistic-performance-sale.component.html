@@ -17,7 +17,32 @@
             [alwaysShowCalendars]="true"
             (ngModelChange)="loadData()"/>
           </div>
-
+          <div class="col-12 col-sm-12 d-flex justify-content-around">
+            <div class="card col-sm-2" style="height: 80px;">
+              <div class = "card-header" style="height: 40px; width: 100%;" style="background-color:gray;"></div>
+              <div class="card-body" style="font-weight: 900;">
+                  Tổng đơn: {{totalData}} <br>
+              </div>
+            </div>
+            <div class="card col-sm-2" style="height: 80px;">
+              <div class = "card-header" style="height: 40px; width: 100%;" style="background-color: rgb(56, 94, 221);"></div>
+              <div class="card-body" style="font-weight: 900;">
+                  Đơn thành công: {{successData}} <br>
+                  Tỷ lệ: {{percentSuccessData}}%
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 text-center">
+            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===0}">Mới <br> Số đơn: {{countList[0]}} <br> Tỷ lệ: {{percentList[0]}}%</button>
+            <button type="" class="btn btn-outline-info btn-sm" [ngClass]="{'btn-selected': statusDto ===1}">Đã tiếp nhận <br> Số đơn: {{countList[1]}} <br>Tỷ lệ: {{percentList[1]}}%</button>
+            <button type="" class="btn btn-outline-primary btn-sm" [ngClass]="{'btn-selected': statusDto ===2}">Đang xử lý <br> Số đơn: {{countList[2]}} <br>Tỷ lệ: {{percentList[2]}}%</button>
+            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===3}">KNM L1 <br> Số đơn: {{countList[3]}} <br>Tỷ lệ: {{percentList[3]}}%</button>
+            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===4}">KNM L2 <br> Số đơn: {{countList[4]}} <br>Tỷ lệ: {{percentList[4]}}%</button>
+            <button type="" class="btn btn-outline-warning btn-sm" [ngClass]="{'btn-selected': statusDto ===5}">KNM L3 <br> Số đơn: {{countList[5]}} <br>Tỷ lệ: {{percentList[5]}}%</button>
+            <button type="" class="btn btn-outline-danger btn-sm" [ngClass]="{'btn-selected': statusDto ===6}">Thất bại <br> Số đơn: {{countList[6]}} <br>Tỷ lệ: {{percentList[6]}}%</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===7}">Thành công <br> Số đơn: {{countList[7]}} <br>Tỷ lệ: {{percentList[7]}}%</button>
+            <button type="" class="btn btn-outline-success btn-sm" [ngClass]="{'btn-selected': statusDto ===8}" [hidden]="this.info.role==='user'">Đã in đơn <br>Số đơn: {{countList[8]}} <br>Tỷ lệ: {{percentList[8]}}%</button>
+          </div>
         </div>
       </div>
       <div class="card-body">

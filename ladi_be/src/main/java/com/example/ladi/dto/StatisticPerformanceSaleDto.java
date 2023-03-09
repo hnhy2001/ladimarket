@@ -14,4 +14,15 @@ public class StatisticPerformanceSaleDto {
     private int donGiao;
     private int donHoanThanh;
     private int donThanhCong;
+    private String percentDonHoanThanh;
+    private String percentDonThanhCong;
+
+    public StatisticPerformanceSaleDto(String fullName, int donGiao, int donHoanThanh, int donThanhCong) {
+        this.fullName = fullName;
+        this.donGiao = donGiao;
+        this.donHoanThanh = donHoanThanh;
+        this.donThanhCong = donThanhCong;
+        this.percentDonHoanThanh = "100";
+        this.percentDonThanhCong = "100";
+    }
 }

@@ -6,6 +6,7 @@ import com.example.ladi.controller.request.CheckOutRequest;
 import com.example.ladi.controller.request.CheckWorkActiveRequest;
 import com.example.ladi.controller.request.CreateWorkRequest;
 import com.example.ladi.dto.AccountDto;
+import com.example.ladi.dto.StatisticPerformanceSaleDto;
 import com.example.ladi.dto.StatisticUtmByDateDto;
 import com.example.ladi.dto.WorkDto;
 import com.example.ladi.model.Account;
@@ -18,11 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkService {
@@ -146,7 +149,7 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         Long startDate = work.getTimeIn();
         Long endDate = date;
         int donGiao = customDataRepository.checkOut("0,1,2,3,4,5,6,7,8", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
-        int donHoanThanh = customDataRepository.checkOut("1,2,3,4,5,6,7,8", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
+        int donHoanThanh = customDataRepository.checkOut("2,3,4,5,6,7,8", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donXuLy = customDataRepository.checkOut("2", String.valueOf(startDate), String.valueOf(endDate), account, shopCode).size();
         int donThanhCong = customDataRepository.checkOut("7,8", String.valueOf(startDate), String.valueOf(endDate), account, null).size();
         work.setDonGiao(donGiao);
@@ -182,7 +185,16 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
 
     @Override
     public BaseResponse statisticPerformanceSale(String startDate, String endDate) {
-        return new BaseResponse(200, "OK", workRepository.statisticPerformanceSale(Long.parseLong(startDate), Long.parseLong(endDate)));
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        List<StatisticPerformanceSaleDto> statisticPerformanceSaleDto = workRepository.statisticPerformanceSale(Long.parseLong(startDate), Long.parseLong(endDate));
+        List<StatisticPerformanceSaleDto> resultList = statisticPerformanceSaleDto.stream().map((item) -> {
+            item.setPercentDonThanhCong(df.format((item.getDonThanhCong()/(item.getDonHoanThanh()*1.0))*100));
+            item.setPercentDonHoanThanh(df.format((item.getDonHoanThanh()/(item.getDonGiao()*1.0))*100));
+            return item;
+        }).collect(Collectors.toList());
+
+        return new BaseResponse(200, "OK", resultList);
     }
 
     private String getJwtFromRequest(String bearerToken) {
