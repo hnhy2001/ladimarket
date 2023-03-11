@@ -123,8 +123,8 @@ export class DataComponent implements OnInit, AfterViewInit{
     data:any = [];
     // date
     dateRange: TimePeriod = {
-        startDate: dayjs().subtract(6, 'days'),
-        endDate: dayjs().add(1, 'days')
+        startDate: dayjs(),
+        endDate: dayjs()
       };;
     date: object;
     ranges: DateRanges = {
@@ -184,12 +184,19 @@ export class DataComponent implements OnInit, AfterViewInit{
         this.dataAdapter = new jqx.dataAdapter(this.source);
 
         this.info = this.localStorage.retrieve("authenticationToken");
+
+        if(this.info && this.info.role === 'user') {
+            this.dateRange = {
+                startDate: dayjs().subtract(6, 'days'),
+                endDate: dayjs().add(1, 'days')
+              };;
+        }
     }
 
     ngOnInit(){
         const interval = setInterval(() => {
             this.loadData()
-        }, 60000);
+        }, 300000);
 
         this.route.queryParams
         .subscribe(params => {

@@ -37,7 +37,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
           return '<div style="position: relative;top: 50%;left: 4px;transform: translateY(-50%);">' + (value + 1) + '</div>';
         }
       },
-      { text: 'Sản phẩm', editable: false, datafield: 'formcolor' },
+      { text: 'Sản phẩm', editable: false, datafield: 'product' },
       { text: 'Tên KH', editable: false, datafield: 'name', width: '10%' },
       { text: 'SĐT', editable: false, datafield: 'phone', width: '10%' },
       { text: 'Ngày', editable: false, datafield: 'ngay', width: '10%' },
@@ -118,7 +118,7 @@ export class GiaoViecPopUpComponent implements OnInit, OnDestroy, AfterViewInit 
           { name: 'street', type: 'string' },
           { name: 'status', type: 'number' },
           { name: 'date', type: 'date', format: "DD/MM/YYYY" },
-          { name: 'formcolor', type: 'string' },
+          { name: 'product', type: 'string' },
           { name: 'ngay', type: 'string' },
           { name: 'shopCode', type:'string'}
         ],

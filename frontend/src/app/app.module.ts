@@ -42,6 +42,7 @@ import { ThemSuaXoaCostComponent } from "./shared/popup/them-sua-xoa-cost/them-s
 import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
 import { ThemSuaXoaConfigComponent } from "./shared/popup/them-sua-xoa-config/them-sua-xoa-config.component";
 import { ThemSuaXoaCostMarketingComponent } from "./shared/popup/them-sua-xoa-cost-mkt/them-sua-xoa-cost-mkt.component";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { ThemSuaXoaCostMarketingComponent } from "./shared/popup/them-sua-xoa-co
     NgSelectModule,
     jqxGridModule,
     jqxPivotGridModule,
-    NgxDaterangepickerMd
+    NgxDaterangepickerMd,
+    NgxSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true }

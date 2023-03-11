@@ -110,6 +110,7 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
     
     @Override
     public BaseResponse assignWork(AssignJobRequest assignJobRequest) {
+        ArrayList<Data> datas = new ArrayList<>();
         for (DataRequest data : assignJobRequest.getDataList()){
             Account account = accountRepository.findAllById(data.getNhanVienId());
             Data dataResult = modelMapper.map(data, Data.class);
@@ -124,8 +125,10 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
                     dataResult.setCost(Double.parseDouble(config.getValue()));
                 }
             }
-            dataRepository.save(dataResult);
+            datas.add(dataResult);
+
         }
+        dataRepository.saveAll(datas);
         return new BaseResponse(200, "Success!", null);
     }
 
