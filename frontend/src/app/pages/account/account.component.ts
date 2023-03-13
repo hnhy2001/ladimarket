@@ -121,7 +121,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
                 this.listEntity = res.body;
                 setTimeout(() => {
                     this.source.localdata = res.body.RESULT;
-                    console.log(this.source);
                     this.dataAdapter = new jqx.dataAdapter(this.source);
                     this.myGrid.clearselection();
                 }, 100);
@@ -205,7 +204,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }
     public onRowSelect(event: any): void {
         this.selectedEntity = event.args.row;
-        console.log(this.selectedEntity);
     }
     public onRowdblclick(event:any):void{
         this.selectedEntity = event.args.row.bounddata;
