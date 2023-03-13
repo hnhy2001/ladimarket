@@ -29,6 +29,7 @@ import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal
 import { ConfigComponent } from 'app/pages/config/config.component';
 import { CostMarketingComponent } from 'app/pages/cost-mkt/cost-mkt.component';
 import { StatisticPerformanceSaleComponent } from 'app/pages/statistic-performance-sale/statistic-performance-sale.component';
+import { WarehouseComponent } from 'app/pages/warehouse/warehouse.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { StatisticPerformanceSaleComponent } from 'app/pages/statistic-performan
     StatiscalRevenueComponent,
     ConfigComponent,
     CostMarketingComponent,
-    StatisticPerformanceSaleComponent
+    StatisticPerformanceSaleComponent,
+    WarehouseComponent
   ]
 })
 

@@ -18,6 +18,7 @@ import { StatiscalRevenueComponent } from 'app/pages/statiscal-revenue/statiscal
 import { ConfigComponent } from 'app/pages/config/config.component';
 import { CostMarketingComponent } from 'app/pages/cost-mkt/cost-mkt.component';
 import { StatisticPerformanceSaleComponent } from 'app/pages/statistic-performance-sale/statistic-performance-sale.component';
+import { WarehouseComponent } from 'app/pages/warehouse/warehouse.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -39,5 +40,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'config', component: ConfigComponent },
     { path: 'cost-marketing', component: CostMarketingComponent },
     { path: 'statistic-performance-sale', component: StatisticPerformanceSaleComponent },
-
+    { path: 'warehouse', component: WarehouseComponent },
+    
 ];
