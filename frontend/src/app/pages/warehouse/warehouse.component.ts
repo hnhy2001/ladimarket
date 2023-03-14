@@ -35,7 +35,7 @@ export class WarehouseComponent implements OnInit, AfterViewInit {
             { text: 'code', editable: false, datafield: 'code', 'width': '17%' },
             { text: 'Tên kho', editable: false, datafield: 'name', 'width': '17%' },
             { text: 'Địa chỉ', editable: false, datafield: 'address', 'width': '30%' },
-            { text: 'Sản phẩm kho', editable: false, datafield: 'configShop', 'width': '15%' },
+            { text: 'Cấu hình shop', editable: false, datafield: 'configShop', 'width': '15%' },
             { text: 'SĐT', editable: false, datafield:'phoneNumber',  'width': '17%' },
         ];
 

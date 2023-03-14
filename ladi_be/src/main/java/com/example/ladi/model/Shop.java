@@ -30,4 +30,7 @@ public class Shop extends BaseEntity{
 
     @Column(name = "note")
     private String note;
+
+    @Column(name = "default_warehouse")
+    private String defaultWarehouse;
 }

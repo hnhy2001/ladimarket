@@ -21,6 +21,9 @@ export class ThemSuaXoaWarehouseComponent implements OnInit {
   address: any;
   configShop: any;
   phoneNumber : any;
+  listShop:any = [];
+  REQUEST_URL_SHOP = '/api/v1/shop'
+  listSelect:any = [];
   REQUEST_URL = '/api/v1/warehouse';
   constructor(
     private activeModal: NgbActiveModal,
@@ -29,11 +32,20 @@ export class ThemSuaXoaWarehouseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dmService.getOption(null, this.REQUEST_URL_SHOP, "?status=1").subscribe(
+      (res: HttpResponse<any>) => {
+          this.listShop = res.body.RESULT;
+      },
+      () => {
+          console.error();
+      }
+  );
     this.code = this.data.code,
     this.name = this.data.name,
     this.address = this.data.address,
     this.configShop = this.data.configShop,
-    this.phoneNumber = this.data.phoneNumber
+    this.phoneNumber = this.data.phoneNumber,
+    this.listSelect = this.data.configShop?this.data.configShop.split(","):[];
   }
 
   create() {
@@ -43,8 +55,8 @@ export class ThemSuaXoaWarehouseComponent implements OnInit {
         code : this.code,
         name : this.name,
         address: this.address,
-        configShop : this.configShop,
-        phoneNumber : this.phoneNumber
+        phoneNumber : this.phoneNumber,
+        configShop: this.listSelect.toString()
       }
       if(!this.data){
           this.dmService.postOption(entity, this.REQUEST_URL, "/create").subscribe(

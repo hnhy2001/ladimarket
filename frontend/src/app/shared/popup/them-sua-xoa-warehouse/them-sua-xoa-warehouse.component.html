@@ -24,9 +24,10 @@
     </div>
 
     <div class="form-group form-outline mb-1">
-      <label>Sản phẩm shop</label>
-      <input type="text" name="Họ và tên" [(ngModel)]="configShop" placeholder=" Shop"
-        class="form-control form-control-lg" style="height:2.5rem ;">
+      <label>Danh sách shop</label>
+      <ng-select [(ngModel)]="listSelect" name="listSelect" [multiple]="true" [clearable]="true" placeholder="Danh sách shop">
+        <ng-option *ngFor="let obj of listShop" [value]="obj.code">{{obj.code}} - {{obj.name}}</ng-option>
+      </ng-select>
     </div>
 
     <div class="form-group form-outline mb-1">
