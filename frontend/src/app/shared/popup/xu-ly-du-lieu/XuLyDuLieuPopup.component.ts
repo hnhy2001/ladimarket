@@ -41,7 +41,6 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
     this.dmService.getOption(null, this.REQUEST_PRODUCT_URL, "?status=1&shopCode="+this.data.shopCode).subscribe(
         (res: HttpResponse<any>) => {
             this.listProduct = res.body.RESULT;
-            console.log(this.data);
             this.selectedProductEntity = this.data.productDto;
         },
         () => {
@@ -104,7 +103,13 @@ export class XuLyDuLieuPopupComponent implements OnInit,AfterViewInit {
   }
 
   onChangeProduct(event:any){
-    this.data.price = event.giaBan;
+    if(event){
+      this.data.price = event.giaBan;
+    }
+    else {
+      this.data.price = "";
+    }
+    
   }
 
 
