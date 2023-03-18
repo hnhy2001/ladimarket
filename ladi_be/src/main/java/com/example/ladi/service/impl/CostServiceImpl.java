@@ -97,7 +97,6 @@ public class CostServiceImpl extends BaseServiceImpl<Cost> implements CostServic
         return new BaseResponse(200, "OK", null);
     }
 
-    @Scheduled(cron = "0 1 00 * * ?", zone = "Asia/Saigon")
     public BaseResponse createCostTransport(){
         Config config = configRepository.findAllByCode("CPVC");
         LocalDateTime currentDate = LocalDateTime.now();

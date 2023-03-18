@@ -26,8 +26,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
                 @ColumnResult(name = "utmName", type = String.class),
                 @ColumnResult(name = "count", type = int.class)}))
 
+//@NamedNativeQuery(name = "Data.thongKeTopUtmTheoThoiGian",
+//        query = "SELECT utm_medium as utmName, COUNT(id) as count From `data` WHERE date_only <= :endDate AND  date_only >= :startDate GROUP BY utm_medium ORDER BY count DESC",
+//        resultSetMapping = "Mapping.KetQuaThongKeTopUtmDto")
 @NamedNativeQuery(name = "Data.thongKeTopUtmTheoThoiGian",
-        query = "SELECT utm_medium as utmName, COUNT(id) as count From `data` WHERE date_only <= :endDate AND  date_only >= :startDate GROUP BY utm_medium ORDER BY count DESC",
+        query = "SELECT a.username as utmName, COUNT(*) as count From `data` d,utm_medium um,account a  WHERE d.utm_medium = um.code AND um.nhanvienid = a.id AND date_only <= :endDate AND  date_only >= :startDate GROUP BY a.username ORDER BY count DESC",
         resultSetMapping = "Mapping.KetQuaThongKeTopUtmDto")
 @SqlResultSetMapping(name = "Mapping.KetQuaThongKeTopUtmDto", classes = @ConstructorResult(targetClass = KetQuaThongKeTopUtmDto.class,
         columns = {

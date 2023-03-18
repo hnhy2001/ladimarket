@@ -92,6 +92,9 @@ public class DataServiceImpl extends BaseServiceImpl<Data> implements DataServic
         data.setDateOnly(dateOnly);
         data.setDateChangedOnly(dateOnly);
         data.setShopCode(shopCode);
+        if(data.getUtm_medium() == null || data.getUtm_medium().equals("")){
+            data.setUtm_medium("UNDEFINE");
+        }
         List<Work> workList = customWorkRepository.finWorkByConditions(null, null, null, shopCode, 1);
         DataDto dataDto = new DataDto();
         if (!workList.isEmpty()){
