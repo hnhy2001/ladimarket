@@ -39,7 +39,6 @@ public class CustomDataRepositoryImpl implements CustomDataRepository{
             filter.and(qData.account.eq(account));
         }
         List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
-        System.out.println(dataList);
         return dataList;
     }
 
@@ -62,7 +61,6 @@ public class CustomDataRepositoryImpl implements CustomDataRepository{
             filter.and(qData.account.eq(account));
         }
         List<Data> dataList = queryData.from(qData).where(filter).orderBy(qData.id.desc()).fetch();
-        System.out.println(dataList);
         return dataList;
     }
 
