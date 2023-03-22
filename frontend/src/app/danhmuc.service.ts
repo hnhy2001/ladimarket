@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
 export class DanhMucService {
   // public resourceUrl = 'https://dhftech.store';
 
-  public resourceUrl = 'http://localhost:8080';
+  public resourceUrl = 'http://103.75.185.204:8080';
+
+  // public resourceUrl = 'http://localhost:8080';
 
   constructor(protected http: HttpClient, ) {
   }
